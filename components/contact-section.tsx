@@ -27,7 +27,7 @@ export function ContactSection() {
   }
 
   return (
-    <section className="py-24 bg-gradient-to-b from-black to-secondary relative overflow-hidden" id="contact">
+    <section className="py-24 bg-black relative overflow-hidden" id="contact">
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent animate-pulse" />
 
       <div className="container mx-auto px-4 relative z-10">

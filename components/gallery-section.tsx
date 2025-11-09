@@ -1,45 +1,36 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { X } from "lucide-react"
+import { X, ArrowRight } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
 
 const galleryImages = [
   {
-    src: "/images/gallery-1.jpg",
-    alt: "Modern paver driveway installation Jacksonville",
-    query: "modern luxury paver driveway installation residential Florida",
-    category: "Driveways",
+    src: "/images/driveway-service.jpg",
+    alt: "Modern paver driveway installation",
+    category: "Driveway",
   },
   {
-    src: "/images/gallery-2.jpg",
+    src: "/images/patio-service.jpg",
     alt: "Beautiful patio with paver stones",
-    query: "luxury outdoor patio with premium paver stones furniture Florida",
-    category: "Patios",
+    category: "Patio",
   },
   {
-    src: "/images/gallery-3.jpg",
-    alt: "Pool deck paver installation",
-    query: "pool deck area with premium paver stones around swimming pool",
-    category: "Pool Areas",
-  },
-  {
-    src: "/images/gallery-4.jpg",
+    src: "/images/walkway-service.jpg",
     alt: "Paver walkway through garden",
-    query: "elegant paver walkway path through residential garden",
-    category: "Walkways",
+    category: "Walkway",
   },
   {
-    src: "/images/gallery-5.jpg",
+    src: "/images/pool-service.jpg",
+    alt: "Pool deck paver installation",
+    category: "Pool Deck",
+  },
+  {
+    src: "/images/outdoor-kitchen-service.jpg",
     alt: "Outdoor kitchen with paver flooring",
-    query: "luxury outdoor kitchen with premium paver stone flooring grill",
-    category: "Outdoor Kitchens",
-  },
-  {
-    src: "/images/gallery-6.jpg",
-    alt: "Before and after paver repair",
-    query: "paver driveway restoration before and after comparison",
-    category: "Repairs",
+    category: "Outdoor Kitchen",
   },
 ]
 
@@ -47,6 +38,7 @@ export function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [visibleImages, setVisibleImages] = useState<number[]>([])
   const sectionRef = useRef<HTMLDivElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -104,7 +96,6 @@ export function GallerySection() {
                 alt={image.alt}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
-                query={image.query}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -115,6 +106,18 @@ export function GallerySection() {
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center mt-16">
+          <Link href="/portfolio">
+            <button className="group relative px-8 py-4 bg-gradient-to-r from-primary/10 to-primary/5 backdrop-blur-sm border border-primary/20 rounded-full overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(244,196,48,0.15)]">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              <div className="relative flex items-center gap-3">
+                <span className="text-lg font-semibold text-white">{t.viewPortfolio}</span>
+                <ArrowRight className="h-5 w-5 text-primary transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -135,7 +138,6 @@ export function GallerySection() {
               alt={galleryImages[selectedImage].alt}
               fill
               className="object-contain"
-              query={galleryImages[selectedImage].query}
             />
           </div>
         </div>

@@ -12,8 +12,7 @@ const portfolioProjects = [
     location: "Jacksonville, FL",
     description: "Complete driveway transformation with premium travertine pavers and custom border design.",
     image: "/images/portfolio-driveway-1.jpg",
-    query: "luxury modern estate driveway with travertine pavers border design Florida",
-    category: "Driveways",
+    category: "Driveway",
     year: "2024",
   },
   {
@@ -21,8 +20,7 @@ const portfolioProjects = [
     location: "Ponte Vedra Beach, FL",
     description: "2,500 sq ft outdoor living space featuring multi-level patio with built-in seating.",
     image: "/images/portfolio-patio-1.jpg",
-    query: "waterfront luxury patio with premium pavers outdoor furniture seating",
-    category: "Patios",
+    category: "Patio",
     year: "2024",
   },
   {
@@ -30,8 +28,7 @@ const portfolioProjects = [
     location: "St. Augustine, FL",
     description: "Cool-touch pavers around custom pool with integrated spa and sun shelf.",
     image: "/images/portfolio-pool-1.jpg",
-    query: "resort style pool deck with premium pavers spa tropical landscaping",
-    category: "Pool Areas",
+    category: "Pool Area",
     year: "2023",
   },
   {
@@ -39,8 +36,7 @@ const portfolioProjects = [
     location: "Jacksonville Beach, FL",
     description: "15,000 sq ft plaza restoration including cleaning, releveling, and sealing.",
     image: "/images/portfolio-commercial-1.jpg",
-    query: "commercial plaza restoration with paver stones outdoor seating",
-    category: "Repairs",
+    category: "Repair",
     year: "2024",
   },
   {
@@ -48,8 +44,7 @@ const portfolioProjects = [
     location: "Nocatee, FL",
     description: "Curved walkway design with mixed paver patterns connecting front entrance to backyard.",
     image: "/images/portfolio-walkway-1.jpg",
-    query: "curved mediterranean walkway path with mixed pattern pavers garden",
-    category: "Walkways",
+    category: "Walkway",
     year: "2023",
   },
   {
@@ -57,8 +52,7 @@ const portfolioProjects = [
     location: "Jacksonville, FL",
     description: "Professional-grade outdoor kitchen with heat-resistant pavers and prep station area.",
     image: "/images/portfolio-kitchen-1.jpg",
-    query: "professional outdoor kitchen with premium pavers grill bar counter",
-    category: "Outdoor Kitchens",
+    category: "Outdoor Kitchen",
     year: "2024",
   },
   {
@@ -66,8 +60,7 @@ const portfolioProjects = [
     location: "St. Augustine, FL",
     description: "Period-appropriate paver selection for 1920s Spanish colonial home courtyard.",
     image: "/images/portfolio-courtyard-1.jpg",
-    query: "historic spanish colonial courtyard with traditional paver stones fountain",
-    category: "Patios",
+    category: "Patio",
     year: "2023",
   },
   {
@@ -75,8 +68,7 @@ const portfolioProjects = [
     location: "Orange Park, FL",
     description: "Expansive patio with fire pit, outdoor bar, and lake views.",
     image: "/images/portfolio-entertainment-1.jpg",
-    query: "lakeside entertainment patio with fire pit outdoor bar premium pavers",
-    category: "Patios",
+    category: "Patio",
     year: "2024",
   },
   {
@@ -84,13 +76,60 @@ const portfolioProjects = [
     location: "Jacksonville, FL",
     description: "Sleek modern design with geometric paver patterns and accent lighting.",
     image: "/images/portfolio-entry-1.jpg",
-    query: "contemporary modern front entry with geometric paver pattern lighting",
-    category: "Walkways",
+    category: "Walkway",
+    year: "2024",
+  },
+  {
+    title: "Luxury Residential Driveway",
+    location: "Jacksonville, FL",
+    description: "Elegant curved driveway design with premium paver materials and professional installation.",
+    image: "/images/gallery-1.jpg",
+    category: "Driveway",
+    year: "2024",
+  },
+  {
+    title: "Backyard Retreat Patio",
+    location: "Jacksonville, FL",
+    description: "Custom patio installation creating the perfect outdoor entertainment space for family gatherings.",
+    image: "/images/gallery-2.jpg",
+    category: "Patio",
+    year: "2024",
+  },
+  {
+    title: "Tropical Pool Deck Paradise",
+    location: "Jacksonville, FL",
+    description: "Beautiful pool area transformation with slip-resistant pavers and tropical landscaping integration.",
+    image: "/images/gallery-3.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    title: "Garden Path Walkway",
+    location: "Jacksonville, FL",
+    description: "Charming walkway design that connects different areas of the property with style and functionality.",
+    image: "/images/gallery-4.jpg",
+    category: "Walkway",
+    year: "2023",
+  },
+  {
+    title: "Gourmet Outdoor Kitchen",
+    location: "Jacksonville, FL",
+    description: "Complete outdoor kitchen installation with durable heat-resistant pavers and custom layout.",
+    image: "/images/gallery-5.jpg",
+    category: "Outdoor Kitchen",
+    year: "2024",
+  },
+  {
+    title: "Professional Paver Repair",
+    location: "Jacksonville, FL",
+    description: "Expert repair and restoration bringing damaged pavers back to their original beauty.",
+    image: "/images/gallery-6.jpg",
+    category: "Repair",
     year: "2024",
   },
 ]
 
-const categories = ["All", "Driveways", "Patios", "Pool Areas", "Walkways", "Outdoor Kitchens", "Repairs"]
+const categories = ["All", "Driveway", "Patio", "Pool Area", "Walkway", "Outdoor Kitchen", "Repair"]
 
 export default function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -206,7 +245,6 @@ export default function PortfolioPage() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      query={project.query}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
@@ -258,7 +296,6 @@ export default function PortfolioPage() {
                 alt={filteredProjects[selectedProject].title}
                 fill
                 className="object-contain"
-                query={filteredProjects[selectedProject].query}
               />
             </div>
 
