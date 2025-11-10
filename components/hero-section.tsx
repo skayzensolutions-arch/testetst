@@ -46,23 +46,23 @@ export function HeroSection() {
           {t.heroSubtitle}
         </p>
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 delay-500 ${
+          className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 md:mb-0 transition-all duration-1000 delay-500 ${
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
           }`}
         >
-          <a href="#contact">
+          <a href="#contact" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-7 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow"
+              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-7 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow"
             >
               {t.getFreeEstimate}
             </Button>
           </a>
-          <a href="tel:9044373853">
+          <a href="tel:9044373853" className="w-full sm:w-auto">
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/5 text-white border-2 border-white/30 hover:bg-white/10 hover:border-white text-lg px-8 py-7 backdrop-blur-sm font-semibold transition-all hover:scale-105"
+              className="w-full sm:w-auto bg-white/5 text-white border-2 border-white/30 hover:bg-white/10 hover:border-white text-lg px-8 py-7 backdrop-blur-sm font-semibold transition-all hover:scale-105"
             >
               <Phone className="mr-2 h-5 w-5" />
               {t.callUsNow}

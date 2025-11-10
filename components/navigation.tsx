@@ -11,7 +11,6 @@ import type { Language } from "@/lib/translations"
 
 const navLinks = [
   { name: "Services", href: "/#services", key: "services" },
-  { name: "Gallery", href: "/#gallery", key: "gallery" },
   { name: "Portfolio", href: "/portfolio", key: "portfolio" },
   { name: "Why Us", href: "/#why-us", key: "whyUs" },
   { name: "Contact", href: "/#contact", key: "contact" },

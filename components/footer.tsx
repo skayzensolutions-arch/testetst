@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Instagram, Phone, MapPin } from "lucide-react"
+import { Instagram, Phone, MapPin, Facebook } from "lucide-react"
 
 export function Footer() {
   return (
@@ -26,17 +26,17 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/#services" className="text-muted-foreground hover:text-primary transition-colors">
                   Services
                 </a>
               </li>
               <li>
-                <a href="#gallery" className="text-muted-foreground hover:text-primary transition-colors">
-                  Gallery
+                <a href="/portfolio" className="text-muted-foreground hover:text-primary transition-colors">
+                  Portfolio
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="/#contact" className="text-muted-foreground hover:text-primary transition-colors">
                   Contact
                 </a>
               </li>
@@ -58,15 +58,26 @@ export function Footer() {
                 <MapPin className="h-4 w-4" />
                 Jacksonville, FL
               </div>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Instagram className="h-4 w-4" />
-                Follow us on Instagram
-              </a>
+              <div className="flex items-center gap-4 mt-4">
+                <a
+                  href="https://www.instagram.com/skylightpaver/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                >
+                  <Instagram className="h-5 w-5" />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61583859682007"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                >
+                  <Facebook className="h-5 w-5" />
+                  <span>Facebook</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -76,7 +87,15 @@ export function Footer() {
             Licensed & Insured | Satisfaction Guaranteed | Local Florida Experts
           </p>
           <p className="text-muted-foreground/70 text-sm">
-            © {new Date().getFullYear()} Skylight Paver Solutions LLC. All rights reserved.
+            © {new Date().getFullYear()} Skylight Paver Solutions LLC. All rights reserved. | Created by{" "}
+            <a
+              href="https://skayzen.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 transition-colors"
+            >
+              skayzen.com
+            </a>
           </p>
         </div>
       </div>

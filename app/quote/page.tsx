@@ -162,7 +162,7 @@ export default function QuotePage() {
                         <select
                           value={formData.service}
                           onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                          className="w-full bg-background/50 border border-border rounded-md px-3 py-2 text-white"
+                          className="w-full bg-white text-black border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                           required
                         >
                           <option value="">Service Interested In</option>
