@@ -80,33 +80,32 @@ export function ServicesSection() {
         </div>
 
         <div className="max-w-5xl mx-auto relative">
-          {/* Navigation Buttons */}
           <Button
             onClick={goToPrev}
             variant="outline"
             size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-14 w-14 rounded-full bg-black/80 backdrop-blur-sm border-2 border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
+            className="absolute left-2 md:left-4 bottom-4 md:top-1/2 md:-translate-y-1/2 z-20 h-12 w-12 md:h-14 md:w-14 rounded-full bg-black/80 backdrop-blur-sm border-2 border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
           >
-            <ChevronLeft className="h-8 w-8 text-primary" />
+            <ChevronLeft className="h-6 w-6 md:h-8 md:w-8 text-primary" />
           </Button>
 
           <Button
             onClick={goToNext}
             variant="outline"
             size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-14 w-14 rounded-full bg-black/80 backdrop-blur-sm border-2 border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
+            className="absolute right-2 md:right-4 bottom-4 md:top-1/2 md:-translate-y-1/2 z-20 h-12 w-12 md:h-14 md:w-14 rounded-full bg-black/80 backdrop-blur-sm border-2 border-primary/50 hover:border-primary hover:bg-primary/20 transition-all duration-300 hover:scale-110"
           >
-            <ChevronRight className="h-8 w-8 text-primary" />
+            <ChevronRight className="h-6 w-6 md:h-8 md:w-8 text-primary" />
           </Button>
 
           {/* Service Card Carousel */}
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden pb-20 md:pb-0">
             <div
               className="flex transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {services.map((service, index) => (
-                <div key={index} className="w-full flex-shrink-0 px-4">
+                <div key={index} className="w-full flex-shrink-0 px-2 md:px-4">
                   <Card className="bg-card/50 backdrop-blur-sm border-2 border-border overflow-hidden group">
                     <CardContent className="p-0">
                       <div className="grid md:grid-cols-2 gap-0">
@@ -121,11 +120,11 @@ export function ServicesSection() {
                         </div>
 
                         {/* Content Side */}
-                        <div className="p-8 md:p-12 flex flex-col justify-center">
-                          <h3 className="text-4xl md:text-5xl font-bold mb-6 text-white group-hover:text-primary transition-colors duration-300">
+                        <div className="p-6 md:p-12 flex flex-col justify-center">
+                          <h3 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 text-white group-hover:text-primary transition-colors duration-300">
                             {t[service.titleKey as keyof typeof t]}
                           </h3>
-                          <p className="text-muted-foreground leading-relaxed text-lg mb-8">
+                          <p className="text-muted-foreground leading-relaxed text-base md:text-lg mb-6 md:mb-8">
                             {t[service.descKey as keyof typeof t]}
                           </p>
 
