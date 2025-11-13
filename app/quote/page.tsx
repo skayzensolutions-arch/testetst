@@ -8,6 +8,7 @@ import { Phone, MapPin, CheckCircle } from "lucide-react"
 import { useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { sendQuoteEmail } from "./actions"
 
 export default function QuotePage() {
   const [formData, setFormData] = useState({
@@ -18,11 +19,39 @@ export default function QuotePage() {
     service: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Form submitted:", formData)
-    // Handle form submission
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      const result = await sendQuoteEmail(formData)
+
+      if (result.success) {
+        setSubmitStatus("success")
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          service: "",
+          message: "",
+        })
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitStatus("idle"), 5000)
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch (error) {
+      console.error("[v0] Error submitting quote:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -118,11 +147,27 @@ export default function QuotePage() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="bg-card/30 backdrop-blur-sm border border-border rounded-lg p-8 hover:border-primary/50 transition-colors">
+                    {submitStatus === "success" && (
+                      <div className="mb-6 p-4 bg-primary/10 border border-primary rounded-lg">
+                        <p className="text-primary font-semibold">
+                          ✓ Quote request sent successfully! We'll get back to you within 24 hours.
+                        </p>
+                      </div>
+                    )}
+
+                    {submitStatus === "error" && (
+                      <div className="mb-6 p-4 bg-red-500/10 border border-red-500 rounded-lg">
+                        <p className="text-red-500 font-semibold">
+                          Failed to send quote request. Please call us directly at (904) 437-3853.
+                        </p>
+                      </div>
+                    )}
+
                     <div className="space-y-4">
                       <div>
                         <Input
                           type="text"
-                          placeholder="Your Name"
+                          placeholder="Full Name"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
@@ -152,7 +197,7 @@ export default function QuotePage() {
                       <div>
                         <Input
                           type="text"
-                          placeholder="Property Address"
+                          placeholder="Property Address (Optional)"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                           className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
@@ -165,7 +210,7 @@ export default function QuotePage() {
                           className="w-full bg-white text-black border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                           required
                         >
-                          <option value="">Service Interested In</option>
+                          <option value="">Select a project type</option>
                           <option value="driveway">Driveway</option>
                           <option value="patio">Patio</option>
                           <option value="pool">Pool Area</option>
@@ -186,9 +231,10 @@ export default function QuotePage() {
                       <Button
                         type="submit"
                         size="lg"
-                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 shadow-lg hover:shadow-primary/20 transition-all hover:scale-105"
+                        disabled={isSubmitting}
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 shadow-lg hover:shadow-primary/20 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Request Your Free Quote
+                        {isSubmitting ? "Sending..." : "Request Your Free Quote"}
                       </Button>
                     </div>
                   </div>

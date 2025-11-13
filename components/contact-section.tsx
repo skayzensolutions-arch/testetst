@@ -123,15 +123,6 @@ export function ContactSection() {
                     />
                   </div>
                   <div>
-                    <Input
-                      type="text"
-                      placeholder={t.propertyAddress}
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
-                    />
-                  </div>
-                  <div>
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}

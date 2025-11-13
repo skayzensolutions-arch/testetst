@@ -1,12 +1,54 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, X } from "lucide-react"
+import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const portfolioProjects = [
+  {
+    title: "Modern Driveway Installation",
+    location: "Jacksonville, FL",
+    description: "Premium paver driveway with clean lines and professional finish that enhances curb appeal.",
+    image: "/images/driveway-service.jpg",
+    category: "Driveway",
+    year: "2024",
+  },
+  {
+    title: "Elegant Patio Design",
+    location: "Jacksonville, FL",
+    description: "Beautiful patio space featuring high-quality paver stones perfect for outdoor entertaining.",
+    image: "/images/patio-service.jpg",
+    category: "Patio",
+    year: "2024",
+  },
+  {
+    title: "Custom Walkway Project",
+    location: "Jacksonville, FL",
+    description: "Stunning paver walkway through garden creating an inviting path to your outdoor spaces.",
+    image: "/images/walkway-service.jpg",
+    category: "Walkway",
+    year: "2024",
+  },
+  {
+    title: "Pool Deck Transformation",
+    location: "Jacksonville, FL",
+    description: "Complete pool deck installation with slip-resistant pavers for safety and style.",
+    image: "/images/pool-service.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    title: "Outdoor Kitchen Haven",
+    location: "Jacksonville, FL",
+    description: "Premium outdoor kitchen with durable paver flooring designed for cooking and entertaining.",
+    image: "/images/outdoor-kitchen-service.jpg",
+    category: "Outdoor Kitchen",
+    year: "2024",
+  },
   {
     title: "Modern Estate Driveway",
     location: "Jacksonville, FL",
@@ -32,10 +74,11 @@ const portfolioProjects = [
     year: "2023",
   },
   {
-    title: "Commercial Plaza Restoration",
+    title: "Professional Paver Repair & Restoration",
     location: "Jacksonville Beach, FL",
-    description: "15,000 sq ft plaza restoration including cleaning, releveling, and sealing.",
-    image: "/images/portfolio-commercial-1.jpg",
+    description:
+      "Expert repair and restoration bringing damaged pavers back to their original beauty with complete releveling.",
+    image: "/images/portfolio-repair-before-after.jpg",
     category: "Repair",
     year: "2024",
   },
@@ -48,34 +91,10 @@ const portfolioProjects = [
     year: "2023",
   },
   {
-    title: "Chef's Outdoor Kitchen",
-    location: "Jacksonville, FL",
-    description: "Professional-grade outdoor kitchen with heat-resistant pavers and prep station area.",
-    image: "/images/portfolio-kitchen-1.jpg",
-    category: "Outdoor Kitchen",
-    year: "2024",
-  },
-  {
-    title: "Historic Home Courtyard",
-    location: "St. Augustine, FL",
-    description: "Period-appropriate paver selection for 1920s Spanish colonial home courtyard.",
-    image: "/images/portfolio-courtyard-1.jpg",
-    category: "Patio",
-    year: "2023",
-  },
-  {
-    title: "Lakeside Entertainment Area",
-    location: "Orange Park, FL",
-    description: "Expansive patio with fire pit, outdoor bar, and lake views.",
-    image: "/images/portfolio-entertainment-1.jpg",
-    category: "Patio",
-    year: "2024",
-  },
-  {
     title: "Contemporary Front Entry",
     location: "Jacksonville, FL",
     description: "Sleek modern design with geometric paver patterns and accent lighting.",
-    image: "/images/portfolio-entry-1.jpg",
+    image: "/images/gallery-1.jpg",
     category: "Walkway",
     year: "2024",
   },
@@ -83,7 +102,7 @@ const portfolioProjects = [
     title: "Luxury Residential Driveway",
     location: "Jacksonville, FL",
     description: "Elegant curved driveway design with premium paver materials and professional installation.",
-    image: "/images/gallery-1.jpg",
+    image: "/images/gallery-2.jpg",
     category: "Driveway",
     year: "2024",
   },
@@ -91,7 +110,7 @@ const portfolioProjects = [
     title: "Backyard Retreat Patio",
     location: "Jacksonville, FL",
     description: "Custom patio installation creating the perfect outdoor entertainment space for family gatherings.",
-    image: "/images/gallery-2.jpg",
+    image: "/images/gallery-3.jpg",
     category: "Patio",
     year: "2024",
   },
@@ -99,7 +118,7 @@ const portfolioProjects = [
     title: "Tropical Pool Deck Paradise",
     location: "Jacksonville, FL",
     description: "Beautiful pool area transformation with slip-resistant pavers and tropical landscaping integration.",
-    image: "/images/gallery-3.jpg",
+    image: "/images/gallery-4.jpg",
     category: "Pool Area",
     year: "2024",
   },
@@ -107,7 +126,7 @@ const portfolioProjects = [
     title: "Garden Path Walkway",
     location: "Jacksonville, FL",
     description: "Charming walkway design that connects different areas of the property with style and functionality.",
-    image: "/images/gallery-4.jpg",
+    image: "/images/gallery-5.jpg",
     category: "Walkway",
     year: "2023",
   },
@@ -115,16 +134,8 @@ const portfolioProjects = [
     title: "Gourmet Outdoor Kitchen",
     location: "Jacksonville, FL",
     description: "Complete outdoor kitchen installation with durable heat-resistant pavers and custom layout.",
-    image: "/images/gallery-5.jpg",
-    category: "Outdoor Kitchen",
-    year: "2024",
-  },
-  {
-    title: "Professional Paver Repair",
-    location: "Jacksonville, FL",
-    description: "Expert repair and restoration bringing damaged pavers back to their original beauty.",
     image: "/images/gallery-6.jpg",
-    category: "Repair",
+    category: "Outdoor Kitchen",
     year: "2024",
   },
 ]
@@ -174,6 +185,20 @@ export default function PortfolioPage() {
       document.body.style.overflow = "unset"
     }
   }, [selectedProject])
+
+  const handlePrevious = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (selectedProject !== null) {
+      setSelectedProject((prev) => (prev! > 0 ? prev! - 1 : filteredProjects.length - 1))
+    }
+  }
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (selectedProject !== null) {
+      setSelectedProject((prev) => (prev! < filteredProjects.length - 1 ? prev! + 1 : 0))
+    }
+  }
 
   return (
     <div className="min-h-screen bg-black">
@@ -289,6 +314,20 @@ export default function PortfolioPage() {
             <X className="h-8 w-8" />
           </button>
 
+          <button
+            onClick={handlePrevious}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 backdrop-blur-sm border border-primary/30 text-white p-4 rounded-full hover:bg-primary hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(244,196,48,0.5)]"
+          >
+            <ChevronLeft className="h-8 w-8" />
+          </button>
+
+          <button
+            onClick={handleNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 backdrop-blur-sm border border-primary/30 text-white p-4 rounded-full hover:bg-primary hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(244,196,48,0.5)]"
+          >
+            <ChevronRight className="h-8 w-8" />
+          </button>
+
           <div className="max-w-6xl w-full">
             <div className="relative aspect-video mb-6">
               <Image
@@ -306,6 +345,9 @@ export default function PortfolioPage() {
               </p>
               <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
                 {filteredProjects[selectedProject].description}
+              </p>
+              <p className="text-muted-foreground mt-4">
+                {selectedProject + 1} / {filteredProjects.length}
               </p>
             </div>
           </div>
