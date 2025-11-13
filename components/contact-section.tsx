@@ -1,30 +1,10 @@
 "use client"
-
-import type React from "react"
-
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Phone, MapPin } from "lucide-react"
-import { useState } from "react"
 import { useLanguage } from "@/lib/language-context"
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    service: "",
-    message: "",
-  })
   const { t } = useLanguage()
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("[v0] Form submitted:", formData)
-    // Handle form submission
-  }
 
   return (
     <section className="py-24 bg-black relative overflow-hidden" id="contact">
@@ -67,7 +47,6 @@ export function ContactSection() {
                 </div>
               </div>
 
-              {/* Trust badges */}
               <div className="bg-card/30 backdrop-blur-sm border border-border rounded-lg p-6">
                 <p className="text-center text-muted-foreground leading-relaxed">
                   <span className="text-primary font-semibold">{t.licensedInsured}</span>
@@ -89,44 +68,50 @@ export function ContactSection() {
               </a>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form action="https://formsubmit.co/lopes@skylightpaver.com" method="POST" className="space-y-6">
+              {/* FormSubmit Configuration */}
+              <input type="hidden" name="_subject" value="New Contact Form - Skylight Paver Solutions" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input
+                type="hidden"
+                name="_autoresponse"
+                value="Thank you for contacting Skylight Paver Solutions! We'll get back to you within 24 hours."
+              />
+
               <div className="bg-card/30 backdrop-blur-sm border border-border rounded-lg p-8 hover:border-primary/50 transition-colors">
                 <div className="space-y-4">
                   <div>
-                    <Input
+                    <input
                       type="text"
+                      name="name"
                       placeholder={t.fullName}
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                      className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                       required
                     />
                   </div>
                   <div>
-                    <Input
+                    <input
                       type="email"
+                      name="email"
                       placeholder={t.email}
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                      className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                       required
                     />
                   </div>
                   <div>
-                    <Input
+                    <input
                       type="tel"
+                      name="phone"
                       placeholder={t.phone}
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                      className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                       required
                     />
                   </div>
                   <div>
                     <select
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full bg-background/50 border border-border rounded-md px-3 py-2 text-white"
+                      name="service"
+                      className="w-full bg-white text-black border border-border rounded-md px-4 py-3"
                       required
                     >
                       <option value="">{t.selectProject}</option>
@@ -140,20 +125,18 @@ export function ContactSection() {
                     </select>
                   </div>
                   <div>
-                    <Textarea
+                    <textarea
+                      name="message"
                       placeholder={t.message}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="bg-background/50 border-border text-white placeholder:text-muted-foreground min-h-32"
-                    />
+                      className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3 min-h-32"
+                    ></textarea>
                   </div>
-                  <Button
+                  <button
                     type="submit"
-                    size="lg"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 shadow-lg hover:shadow-primary/20 transition-all hover:scale-105"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 rounded-md shadow-lg hover:shadow-primary/20 transition-all hover:scale-105"
                   >
                     {t.submit}
-                  </Button>
+                  </button>
                 </div>
               </div>
             </form>

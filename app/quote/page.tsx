@@ -1,7 +1,3 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Phone, MapPin, CheckCircle } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -88,62 +84,77 @@ export default function QuotePage() {
                   </div>
 
                   <a href="tel:9044373853" className="block">
-                    <Button
-                      size="lg"
+                    <button
+                      type="button"
                       className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow"
                     >
                       <Phone className="mr-3 h-6 w-6" />
                       Call Us Now
-                    </Button>
+                    </button>
                   </a>
                 </div>
 
-                <form action="https://formsubmit.co/lopes@skylightpaver.com" method="POST" className="space-y-6">
-                  <input type="hidden" name="_subject" value="New Quote Request - Skylight Paver Solutions" />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_template" value="table" />
-
+                <div className="space-y-6">
                   <div className="bg-card/30 backdrop-blur-sm border border-border rounded-lg p-8 hover:border-primary/50 transition-colors">
-                    <div className="space-y-4">
+                    <form action="https://formsubmit.co/lopes@skylightpaver.com" method="POST" className="space-y-4">
+                      {/* FormSubmit Configuration */}
+                      <input type="hidden" name="_subject" value="New Quote Request - Skylight Paver Solutions" />
+                      <input type="hidden" name="_captcha" value="false" />
+                      <input type="hidden" name="_template" value="table" />
+                      <input
+                        type="hidden"
+                        name="_autoresponse"
+                        value="Thank you for contacting Skylight Paver Solutions! We'll get back to you within 24 hours."
+                      />
+
+                      {/* Form Fields */}
                       <div>
-                        <Input
+                        <input
                           type="text"
                           name="name"
                           placeholder="Full Name"
-                          className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                          className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                           required
                         />
                       </div>
+
                       <div>
-                        <Input
+                        <input
                           type="email"
                           name="email"
                           placeholder="Email Address"
-                          className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                          className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                           required
                         />
                       </div>
+
                       <div>
-                        <Input
+                        <input
                           type="tel"
                           name="phone"
                           placeholder="Phone Number"
-                          className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                          className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                           required
                         />
                       </div>
+
                       <div>
-                        <Input
+                        <input
                           type="text"
                           name="address"
                           placeholder="Property Address (Optional)"
-                          className="bg-background/50 border-border text-white placeholder:text-muted-foreground"
+                          className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
                         />
                       </div>
+
                       <div>
+                        <label htmlFor="service" className="block text-white text-sm font-medium mb-2">
+                          Project Type
+                        </label>
                         <select
+                          id="service"
                           name="service"
-                          className="w-full bg-white text-black border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full bg-white text-black border border-border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
                           required
                         >
                           <option value="">Select a project type</option>
@@ -156,22 +167,29 @@ export default function QuotePage() {
                           <option value="Pressure Washing & Sealing">Pressure Washing & Sealing</option>
                         </select>
                       </div>
+
                       <div>
-                        <Textarea
+                        <label htmlFor="message" className="block text-white text-sm font-medium mb-2">
+                          Project Details
+                        </label>
+                        <textarea
+                          id="message"
                           name="message"
                           placeholder="Tell us about your project..."
-                          className="bg-background/50 border-border text-white placeholder:text-muted-foreground min-h-32"
-                        />
+                          rows={4}
+                          className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
+                        ></textarea>
                       </div>
+
                       <button
                         type="submit"
                         className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg py-6 rounded-md shadow-lg hover:shadow-primary/20 transition-all hover:scale-105"
                       >
                         Request Your Free Quote
                       </button>
-                    </div>
+                    </form>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
