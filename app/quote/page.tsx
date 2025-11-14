@@ -1,4 +1,4 @@
-import { Phone, MapPin, CheckCircle } from "lucide-react"
+import { Phone, MapPin, CheckCircle } from 'lucide-react'
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 
@@ -86,9 +86,9 @@ export default function QuotePage() {
                   <a href="tel:9044373853" className="block">
                     <button
                       type="button"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow"
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow flex items-center justify-center gap-3"
                     >
-                      <Phone className="mr-3 h-6 w-6" />
+                      <Phone className="h-6 w-6" />
                       Call Us Now
                     </button>
                   </a>
@@ -101,6 +101,7 @@ export default function QuotePage() {
                       <input type="hidden" name="_subject" value="New Quote Request - Skylight Paver Solutions" />
                       <input type="hidden" name="_captcha" value="false" />
                       <input type="hidden" name="_template" value="table" />
+                      <input type="hidden" name="_next" value="https://skylightpaver.com" />
                       <input
                         type="hidden"
                         name="_autoresponse"
@@ -154,17 +155,34 @@ export default function QuotePage() {
                         <select
                           id="service"
                           name="service"
-                          className="w-full bg-white text-black border border-border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full bg-secondary border border-border text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary appearance-none cursor-pointer"
+                          style={{ colorScheme: "dark" }}
                           required
                         >
-                          <option value="">Select a project type</option>
-                          <option value="Driveway">Driveway</option>
-                          <option value="Patio">Patio</option>
-                          <option value="Pool Area">Pool Area</option>
-                          <option value="Walkway/Sidewalk">Walkway/Sidewalk</option>
-                          <option value="Outdoor Kitchen">Outdoor Kitchen</option>
-                          <option value="Repair">Repair</option>
-                          <option value="Pressure Washing & Sealing">Pressure Washing & Sealing</option>
+                          <option value="" className="bg-secondary text-white">
+                            Select a project type
+                          </option>
+                          <option value="Driveway" className="bg-secondary text-white">
+                            Driveway
+                          </option>
+                          <option value="Patio" className="bg-secondary text-white">
+                            Patio
+                          </option>
+                          <option value="Pool Area" className="bg-secondary text-white">
+                            Pool Area
+                          </option>
+                          <option value="Walkway/Sidewalk" className="bg-secondary text-white">
+                            Walkway/Sidewalk
+                          </option>
+                          <option value="Outdoor Kitchen" className="bg-secondary text-white">
+                            Outdoor Kitchen
+                          </option>
+                          <option value="Repair" className="bg-secondary text-white">
+                            Repair
+                          </option>
+                          <option value="Pressure Washing & Sealing" className="bg-secondary text-white">
+                            Pressure Washing & Sealing
+                          </option>
                         </select>
                       </div>
 

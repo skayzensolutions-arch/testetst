@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Phone, MapPin } from "lucide-react"
+import { Phone, MapPin } from 'lucide-react'
 import { useLanguage } from "@/lib/language-context"
 
 export function ContactSection() {
@@ -60,9 +60,9 @@ export function ContactSection() {
               <a href="tel:9044373853" className="block">
                 <Button
                   size="lg"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow inline-flex items-center justify-center gap-3"
                 >
-                  <Phone className="mr-3 h-6 w-6" />
+                  <Phone className="h-6 w-6" />
                   {t.callUsNow}
                 </Button>
               </a>
@@ -73,6 +73,7 @@ export function ContactSection() {
               <input type="hidden" name="_subject" value="New Contact Form - Skylight Paver Solutions" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value="https://skylightpaver.com" />
               <input
                 type="hidden"
                 name="_autoresponse"
@@ -109,23 +110,56 @@ export function ContactSection() {
                     />
                   </div>
                   <div>
+                    <input
+                      type="text"
+                      name="address"
+                      placeholder="Property Address (Optional)"
+                      className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="service" className="block text-white text-sm font-medium mb-2">
+                      {t.projectType || "Project Type"}
+                    </label>
                     <select
+                      id="service"
                       name="service"
-                      className="w-full bg-white text-black border border-border rounded-md px-4 py-3"
+                      className="w-full bg-secondary border border-border text-white rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary appearance-none cursor-pointer"
+                      style={{ colorScheme: "dark" }}
                       required
                     >
-                      <option value="">{t.selectProject}</option>
-                      <option value="driveway">{t.driveways}</option>
-                      <option value="patio">{t.patios}</option>
-                      <option value="pool">{t.poolDecks}</option>
-                      <option value="walkway">{t.walkways}</option>
-                      <option value="outdoor-kitchen">{t.outdoorKitchens}</option>
-                      <option value="repair">{t.repair}</option>
-                      <option value="pressure-washing">{t.pressureWashing}</option>
+                      <option value="" className="bg-secondary text-white">
+                        {t.selectProject}
+                      </option>
+                      <option value="driveway" className="bg-secondary text-white">
+                        {t.driveways}
+                      </option>
+                      <option value="patio" className="bg-secondary text-white">
+                        {t.patios}
+                      </option>
+                      <option value="pool" className="bg-secondary text-white">
+                        {t.poolDecks}
+                      </option>
+                      <option value="walkway" className="bg-secondary text-white">
+                        {t.walkways}
+                      </option>
+                      <option value="outdoor-kitchen" className="bg-secondary text-white">
+                        {t.outdoorKitchens}
+                      </option>
+                      <option value="repair" className="bg-secondary text-white">
+                        {t.repair}
+                      </option>
+                      <option value="pressure-washing" className="bg-secondary text-white">
+                        {t.pressureWashing}
+                      </option>
                     </select>
                   </div>
                   <div>
+                    <label htmlFor="message" className="block text-white text-sm font-medium mb-2">
+                      {t.projectDetails || "Project Details"}
+                    </label>
                     <textarea
+                      id="message"
                       name="message"
                       placeholder={t.message}
                       className="w-full bg-background/50 border border-border text-white placeholder:text-muted-foreground rounded-md px-4 py-3 min-h-32"

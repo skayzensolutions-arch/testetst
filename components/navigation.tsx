@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Phone, Menu, X, Globe } from "lucide-react"
+import { Phone, Menu, X, Globe } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/lib/language-context"
 import type { Language } from "@/lib/translations"
@@ -32,7 +32,7 @@ export function Navigation() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-primary/10 transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-primary/10 transition-all duration-300" role="banner">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -43,17 +43,19 @@ export function Navigation() {
                 width={240}
                 height={80}
                 className="h-14 w-auto transition-transform duration-300 hover:scale-105"
+                priority={true}
+                quality={90}
               />
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-8" aria-label="Main navigation">
               {navLinks.map((link, index) =>
                 link.href.startsWith("/") && !link.href.startsWith("/#") ? (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-white/80 hover:text-primary font-medium transition-all duration-300 hover:scale-110 relative group"
+                    className="text-gray-200 hover:text-primary font-medium transition-all duration-300 hover:scale-110 relative group"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {t[link.key as keyof typeof t]}
@@ -63,7 +65,7 @@ export function Navigation() {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-white/80 hover:text-primary font-medium transition-all duration-300 hover:scale-110 relative group"
+                    className="text-gray-200 hover:text-primary font-medium transition-all duration-300 hover:scale-110 relative group"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {t[link.key as keyof typeof t]}
@@ -81,7 +83,8 @@ export function Navigation() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="relative text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-full h-10 w-10 group"
+                    className="relative text-gray-200 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-full h-10 w-10 group"
+                    aria-label="Change language"
                   >
                     <Globe className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
                     <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary rounded-full text-[10px] flex items-center justify-center font-bold">
@@ -112,6 +115,7 @@ export function Navigation() {
                 <Button
                   size="lg"
                   className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 animate-pulse-glow"
+                  aria-label="Call us at 904-437-3853"
                 >
                   <Phone className="mr-2 h-5 w-5" />
                   (904) 437-3853
@@ -124,6 +128,8 @@ export function Navigation() {
                 size="icon"
                 className="lg:hidden text-white hover:bg-white/10 transition-all duration-300"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMenuOpen}
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -144,13 +150,13 @@ export function Navigation() {
             isMenuOpen ? "translate-y-0" : "-translate-y-full"
           }`}
         >
-          <nav className="container mx-auto px-4 py-8 flex flex-col gap-4">
+          <nav className="container mx-auto px-4 py-8 flex flex-col gap-4" aria-label="Mobile navigation">
             {navLinks.map((link) =>
               link.href.startsWith("/") && !link.href.startsWith("/#") ? (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-white hover:text-primary text-lg font-medium py-3 transition-all duration-300 hover:translate-x-2"
+                  className="text-gray-200 hover:text-primary text-lg font-medium py-3 transition-all duration-300 hover:translate-x-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {t[link.key as keyof typeof t]}
@@ -159,7 +165,7 @@ export function Navigation() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-white hover:text-primary text-lg font-medium py-3 transition-all duration-300 hover:translate-x-2"
+                  className="text-gray-200 hover:text-primary text-lg font-medium py-3 transition-all duration-300 hover:translate-x-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {t[link.key as keyof typeof t]}

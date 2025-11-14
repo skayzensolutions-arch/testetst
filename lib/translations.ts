@@ -10,7 +10,8 @@ export const translations = {
 
     // Hero
     heroTitle: "The Way Outdoor Living Should Be",
-    heroSubtitle: "Beautiful. Durable. Built to Last — Serving Jacksonville and Surrounding Florida Areas",
+    heroSubtitle:
+      "Premium Paver Installations — Beautiful, Durable, Built to Last. Serving Jacksonville & Surrounding Florida Areas",
     getFreeEstimate: "Get Your Free Estimate",
     callUsNow: "Call Us Now",
 
@@ -89,7 +90,8 @@ export const translations = {
 
     // Hero
     heroTitle: "La Forma en que Debería Ser la Vida al Aire Libre",
-    heroSubtitle: "Hermoso. Duradero. Construido para Durar — Sirviendo a Jacksonville y Áreas Circundantes de Florida",
+    heroSubtitle:
+      "Instalaciones Premium de Pavimento — Hermosas, Durables, Construidas para Durar. Sirviendo a Jacksonville y Áreas Circundantes de Florida",
     getFreeEstimate: "Obtén Tu Presupuesto Gratis",
     callUsNow: "Llámanos Ahora",
 
@@ -170,7 +172,8 @@ export const translations = {
 
     // Hero
     heroTitle: "O Jeito que a Vida ao Ar Livre Deveria Ser",
-    heroSubtitle: "Bonito. Durável. Construído para Durar — Servindo Jacksonville e Áreas Circundantes da Flórida",
+    heroSubtitle:
+      "Instalações Premium de Pavimentação — Bonitas, Duráveis, Construídas para Durar. Servindo Jacksonville e Áreas Circundantes da Flórida",
     getFreeEstimate: "Obtenha Seu Orçamento Grátis",
     callUsNow: "Ligue Agora",
 
