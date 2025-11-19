@@ -5,40 +5,42 @@ import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import { X, ArrowRight } from 'lucide-react'
 import { useLanguage } from "@/lib/language-context"
+import { createBrowserClient } from '@supabase/ssr'
 
-const galleryImages = [
-  {
-    src: "/images/pool-deck-1.jpg",
-    alt: "Beautiful pool deck with paver installation",
-    category: "Pool Deck",
-  },
-  {
-    src: "/images/pool-deck-2.jpg",
-    alt: "Custom pool deck with multi-color pavers",
-    category: "Pool Deck",
-  },
-  {
-    src: "/images/driveway-1.jpg",
-    alt: "Modern driveway with retaining wall pavers",
-    category: "Driveway",
-  },
-  {
-    src: "/images/pool-deck-3.jpg",
-    alt: "Pool deck with accent paver patterns",
-    category: "Pool Deck",
-  },
-  {
-    src: "/images/pool-deck-4.jpg",
-    alt: "Custom shaped pool with paver deck",
-    category: "Pool Deck",
-  },
-]
+interface PortfolioProject {
+  id: number
+  title: string
+  image: string
+  category: string
+}
 
 export function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const [visibleImages, setVisibleImages] = useState<number[]>([])
+  const [galleryImages, setGalleryImages] = useState<PortfolioProject[]>([])
   const sectionRef = useRef<HTMLDivElement>(null)
   const { t } = useLanguage()
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      )
+
+      const { data, error } = await supabase
+        .from('portfolio_projects')
+        .select('id, title, image, category')
+        .order('position', { ascending: true })
+        .limit(5)
+
+      if (data && !error) {
+        setGalleryImages(data)
+      }
+    }
+
+    fetchProjects()
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,7 +64,7 @@ export function GallerySection() {
     }
 
     return () => observer.disconnect()
-  }, [])
+  }, [galleryImages])
 
   useEffect(() => {
     if (selectedImage !== null) {
@@ -85,15 +87,15 @@ export function GallerySection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {galleryImages.map((image, index) => (
             <div
-              key={index}
+              key={image.id}
               className={`relative group cursor-pointer overflow-hidden rounded-lg aspect-square transition-all duration-700 ${
                 visibleImages.includes(index) ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
               onClick={() => setSelectedImage(index)}
             >
               <Image
-                src={image.src || "/placeholder.svg"}
-                alt={image.alt}
+                src={image.image || "/placeholder.svg"}
+                alt={image.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
@@ -134,8 +136,8 @@ export function GallerySection() {
           </button>
           <div className="relative max-w-6xl max-h-[90vh] w-full h-full">
             <Image
-              src={galleryImages[selectedImage].src || "/placeholder.svg"}
-              alt={galleryImages[selectedImage].alt}
+              src={galleryImages[selectedImage].image || "/placeholder.svg"}
+              alt={galleryImages[selectedImage].title}
               fill
               className="object-contain"
             />
