@@ -68,12 +68,20 @@ export function ContactSection() {
               </a>
             </div>
 
-            <form action="https://formsubmit.co/lopes@skylightpaver.com" method="POST" className="space-y-6">
+            <form 
+              action="https://formsubmit.co/lopes@skylightpaver.com" 
+              method="POST" 
+              className="space-y-6"
+              onSubmit={(e) => {
+                console.log("[v0] Form submitting to FormSubmit.co")
+                // Allow default form submission to proceed
+              }}
+            >
               {/* FormSubmit Configuration */}
               <input type="hidden" name="_subject" value="New Contact Form - Skylight Paver Solutions" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_next" value="https://skylightpaver.com" />
+              <input type="hidden" name="_next" value="https://skylightpaver.com/?submitted=true" />
               <input
                 type="hidden"
                 name="_autoresponse"

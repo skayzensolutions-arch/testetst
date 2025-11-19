@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Instagram, Phone, MapPin, Facebook } from 'lucide-react'
+import { Instagram, Phone, MapPin, Facebook, Mail } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -56,6 +56,14 @@ export function Footer() {
               >
                 <Phone className="h-4 w-4" />
                 (904) 437-3853
+              </a>
+              <a
+                href="mailto:lopes@skylightpaver.com"
+                className="flex items-center gap-2 text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+                aria-label="Email us at lopes@skylightpaver.com"
+              >
+                <Mail className="h-4 w-4" />
+                lopes@skylightpaver.com
               </a>
               <div className="flex items-center gap-2 text-gray-300">
                 <MapPin className="h-4 w-4" />
