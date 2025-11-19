@@ -53,11 +53,11 @@ export const metadata: Metadata = {
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured paver contractors serving Jacksonville & surrounding Florida areas.',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
-        alt: 'Skylight Paver Solutions Logo',
-        type: 'image/png',
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Skylight Paver Solutions - Expert Paver Installation in Jacksonville, FL',
+        type: 'image/jpeg',
       },
     ],
   },
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     creator: '@skylightpaver',
     title: 'Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL',
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured.',
-    images: ['/logo.png'],
+    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
