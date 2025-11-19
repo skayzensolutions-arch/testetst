@@ -9,7 +9,7 @@ export function Footer() {
           {/* Logo and Company Info */}
           <div>
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Skylight Paver Solutions"
               width={200}
               height={67}

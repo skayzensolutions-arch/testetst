@@ -38,7 +38,7 @@ export function Navigation() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Image
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Skylight Paver Solutions"
                 width={240}
                 height={80}

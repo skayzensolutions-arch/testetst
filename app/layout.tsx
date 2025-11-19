@@ -21,14 +21,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-16x16.jpg', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.jpg', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.jpg', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#F4C430' },
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   manifest: '/site.webmanifest',
@@ -57,10 +53,10 @@ export const metadata: Metadata = {
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured paver contractors serving Jacksonville & surrounding Florida areas.',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Skylight Paver Solutions - Professional Paver Installation',
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'Skylight Paver Solutions Logo',
         type: 'image/png',
       },
     ],
@@ -71,7 +67,7 @@ export const metadata: Metadata = {
     creator: '@skylightpaver',
     title: 'Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL',
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured.',
-    images: ['/og-image.jpg'],
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
