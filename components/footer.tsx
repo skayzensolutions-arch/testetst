@@ -9,7 +9,7 @@ export function Footer() {
           {/* Logo and Company Info */}
           <div>
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagem-jxYKH0Sj1Ex8XGcQHz1DswMTp0jx5A.png"
+              src="/logo.jpg"
               alt="Skylight Paver Solutions"
               width={200}
               height={67}
