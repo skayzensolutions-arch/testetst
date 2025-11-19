@@ -3,34 +3,34 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { X, ArrowRight } from "lucide-react"
+import { X, ArrowRight } from 'lucide-react'
 import { useLanguage } from "@/lib/language-context"
 
 const galleryImages = [
   {
-    src: "/images/driveway-service.jpg",
-    alt: "Modern paver driveway installation",
-    category: "Driveway",
-  },
-  {
-    src: "/images/patio-service.jpg",
-    alt: "Beautiful patio with paver stones",
-    category: "Patio",
-  },
-  {
-    src: "/images/walkway-service.jpg",
-    alt: "Paver walkway through garden",
-    category: "Walkway",
-  },
-  {
-    src: "/images/pool-service.jpg",
-    alt: "Pool deck paver installation",
+    src: "/images/pool-deck-1.jpg",
+    alt: "Beautiful pool deck with paver installation",
     category: "Pool Deck",
   },
   {
-    src: "/images/outdoor-kitchen-service.jpg",
-    alt: "Outdoor kitchen with paver flooring",
-    category: "Outdoor Kitchen",
+    src: "/images/pool-deck-2.jpg",
+    alt: "Custom pool deck with multi-color pavers",
+    category: "Pool Deck",
+  },
+  {
+    src: "/images/driveway-1.jpg",
+    alt: "Modern driveway with retaining wall pavers",
+    category: "Driveway",
+  },
+  {
+    src: "/images/pool-deck-3.jpg",
+    alt: "Pool deck with accent paver patterns",
+    category: "Pool Deck",
+  },
+  {
+    src: "/images/pool-deck-4.jpg",
+    alt: "Custom shaped pool with paver deck",
+    category: "Pool Deck",
   },
 ]
 

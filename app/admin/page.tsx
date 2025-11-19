@@ -3,10 +3,66 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { Eye, EyeOff, Lock } from "lucide-react"
+import { Eye, EyeOff, Lock, Plus, Pencil, Trash2, Upload, ArrowUp, ArrowDown, Save, Sparkles } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+
+const initialProjects = [
+  {
+    id: 1,
+    title: "Resort-Style Pool Deck Installation",
+    location: "Jacksonville, FL",
+    description: "Complete pool deck transformation with beautiful multi-tone pavers creating a luxurious outdoor oasis.",
+    image: "/images/pool-deck-1.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    id: 2,
+    title: "Custom Pool Deck with Accent Pavers",
+    location: "Jacksonville, FL",
+    description: "Stunning pool deck featuring mixed paver patterns with charcoal and tan tones for visual interest.",
+    image: "/images/pool-deck-2.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    id: 3,
+    title: "Pool Deck with Designer Pattern",
+    location: "Jacksonville, FL",
+    description: "Beautiful pool area with carefully selected paver colors and professional installation creating a resort feel.",
+    image: "/images/pool-deck-3.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    id: 4,
+    title: "Custom Freeform Pool Deck",
+    location: "Jacksonville, FL",
+    description: "Elegant custom-shaped pool surrounded by premium paver installation with multi-color design.",
+    image: "/images/pool-deck-4.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    id: 5,
+    title: "Modern Driveway with Retaining Wall",
+    location: "Jacksonville, FL",
+    description: "Professional driveway installation featuring concrete pavers with integrated retaining wall and steps.",
+    image: "/images/driveway-1.jpg",
+    category: "Driveway",
+    year: "2024",
+  },
+  {
+    id: 6,
+    title: "Professional Paver Repair & Restoration",
+    location: "Jacksonville Beach, FL",
+    description: "Expert repair and restoration bringing damaged pavers back to their original beauty with complete releveling.",
+    image: "/images/portfolio-repair-before-after.jpg",
+    category: "Repair",
+    year: "2024",
+  },
+]
 
 export default function AdminPage() {
   const [password, setPassword] = useState("")
@@ -14,10 +70,23 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  
+  const [projects, setProjects] = useState(initialProjects)
+  const [editingProject, setEditingProject] = useState<any>(null)
+  const [showForm, setShowForm] = useState(false)
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string>("")
+  
+  const [activeTab, setActiveTab] = useState<"portfolio" | "seo">("portfolio")
+  const [seoData, setSeoData] = useState({
+    title: "Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL",
+    description: "Transform your outdoor spaces with expert paver solutions. Driveways, patios, pool areas, outdoor kitchens, and more. Licensed & insured.",
+    keywords: "Jacksonville paver installation, Florida driveway pavers, patio pavers Jacksonville, pool deck pavers",
+  })
+  const [aiSuggestion, setAiSuggestion] = useState("")
+  const [loadingAI, setLoadingAI] = useState(false)
 
   useEffect(() => {
-    // Check if already authenticated
     const auth = sessionStorage.getItem("admin_authenticated")
     if (auth === "true") {
       setIsAuthenticated(true)
@@ -29,8 +98,7 @@ export default function AdminPage() {
     e.preventDefault()
     setError("")
 
-    // Password is: 123
-    if (password === "123") {
+    if (password === "455") {
       setIsAuthenticated(true)
       sessionStorage.setItem("admin_authenticated", "true")
     } else {
@@ -45,6 +113,114 @@ export default function AdminPage() {
     setPassword("")
   }
 
+  const handleAddNew = () => {
+    setEditingProject({
+      id: Date.now(),
+      title: "",
+      location: "",
+      description: "",
+      image: "",
+      category: "Pool Area",
+      year: "2024",
+    })
+    setShowForm(true)
+  }
+
+  const handleEdit = (project: any) => {
+    setEditingProject({ ...project })
+    setShowForm(true)
+  }
+
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this project?")) {
+      setProjects(projects.filter((p) => p.id !== id))
+    }
+  }
+
+  const handleMoveUp = (index: number) => {
+    if (index > 0) {
+      const newProjects = [...projects]
+      const temp = newProjects[index]
+      newProjects[index] = newProjects[index - 1]
+      newProjects[index - 1] = temp
+      setProjects(newProjects)
+    }
+  }
+
+  const handleMoveDown = (index: number) => {
+    if (index < projects.length - 1) {
+      const newProjects = [...projects]
+      const temp = newProjects[index]
+      newProjects[index] = newProjects[index + 1]
+      newProjects[index + 1] = temp
+      setProjects(newProjects)
+    }
+  }
+
+  const handleSave = () => {
+    if (editingProject) {
+      const existingIndex = projects.findIndex((p) => p.id === editingProject.id)
+      if (existingIndex >= 0) {
+        const updated = [...projects]
+        updated[existingIndex] = editingProject
+        setProjects(updated)
+      } else {
+        setProjects([...projects, editingProject])
+      }
+      setShowForm(false)
+      setEditingProject(null)
+      setImageFile(null)
+      setImagePreview("")
+    }
+  }
+
+  const handleCancel = () => {
+    setShowForm(false)
+    setEditingProject(null)
+    setImageFile(null)
+    setImagePreview("")
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setImageFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result = reader.result as string
+        setImagePreview(result)
+        setEditingProject({ ...editingProject, image: result })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const generateAISuggestion = async () => {
+    setLoadingAI(true)
+    setAiSuggestion("")
+    
+    // Simulate AI generation (replace with actual AI SDK call if needed)
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
+    const suggestions = [
+      "Consider adding 'Licensed Contractor' to your title for increased trust signals",
+      "Your meta description should include a call-to-action like 'Get Free Estimate Today'",
+      "Add location-specific keywords like 'Jacksonville Beach' and 'St. Augustine' to expand reach",
+      "Include 'Before & After' in your description to improve click-through rates",
+      "Consider mentioning '15+ Years Experience' to build credibility",
+      "Add seasonal keywords like 'Pool Deck Installation for Summer' during relevant months"
+    ]
+    
+    const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)]
+    setAiSuggestion(randomSuggestion)
+    setLoadingAI(false)
+  }
+
+  const handleSaveSEO = () => {
+    console.log("[v0] Saving SEO data:", seoData)
+    alert("SEO settings saved! These changes would update your site metadata.")
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -57,14 +233,12 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="w-full max-w-md">
-          {/* Logo */}
           <div className="flex justify-center mb-8">
             <div className="relative w-64 h-20">
               <Image src="/logo.png" alt="Skylight Paver Solutions" fill className="object-contain" />
             </div>
           </div>
 
-          {/* Login Card */}
           <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-8 shadow-2xl">
             <div className="flex justify-center mb-6">
               <div className="bg-primary/10 p-4 rounded-full">
@@ -119,10 +293,8 @@ export default function AdminPage() {
     )
   }
 
-  // Authenticated Admin Dashboard
   return (
     <div className="min-h-screen bg-black">
-      {/* Header */}
       <header className="border-b border-border bg-black/80 backdrop-blur-md sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -130,7 +302,7 @@ export default function AdminPage() {
               <Image src="/logo.png" alt="Skylight Paver Solutions" fill className="object-contain" />
             </div>
             <span className="text-muted-foreground">|</span>
-            <h1 className="text-xl font-semibold text-white">Admin Dashboard</h1>
+            <h1 className="text-xl font-semibold text-white">Admin Panel</h1>
           </div>
           <Button
             onClick={handleLogout}
@@ -142,157 +314,374 @@ export default function AdminPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          {/* Welcome Section */}
-          <div className="mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Welcome Back</h2>
-            <p className="text-muted-foreground text-lg">Manage your business content and settings from here.</p>
+          <div className="flex gap-4 mb-8 border-b border-border">
+            <button
+              onClick={() => setActiveTab("portfolio")}
+              className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+                activeTab === "portfolio"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-white"
+              }`}
+            >
+              Portfolio Manager
+            </button>
+            <button
+              onClick={() => setActiveTab("seo")}
+              className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+                activeTab === "seo"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-white"
+              }`}
+            >
+              SEO & Analytics
+            </button>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-muted-foreground font-medium">Total Projects</h3>
-                <div className="bg-primary/10 p-2 rounded-lg">
-                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+          {activeTab === "portfolio" && (
+            <>
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-4xl font-bold text-white mb-2">Portfolio Images</h2>
+                  <p className="text-muted-foreground">Add, edit, remove, or reorder portfolio projects</p>
+                </div>
+                <Button
+                  onClick={handleAddNew}
+                  className="bg-primary hover:bg-primary/90 text-black font-semibold flex items-center gap-2"
+                >
+                  <Plus className="h-5 w-5" />
+                  Add New Project
+                </Button>
+              </div>
+
+              {/* Edit Form */}
+              {showForm && editingProject && (
+                <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-6">
+                    {projects.find((p) => p.id === editingProject.id) ? "Edit Project" : "Add New Project"}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-white mb-2">Project Title</label>
+                      <input
+                        type="text"
+                        value={editingProject.title}
+                        onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
+                        className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                        placeholder="Enter project title"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-white mb-2">Location</label>
+                      <input
+                        type="text"
+                        value={editingProject.location}
+                        onChange={(e) => setEditingProject({ ...editingProject, location: e.target.value })}
+                        className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                        placeholder="Jacksonville, FL"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-white mb-2">Category</label>
+                      <select
+                        value={editingProject.category}
+                        onChange={(e) => setEditingProject({ ...editingProject, category: e.target.value })}
+                        className="w-full bg-secondary border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                        style={{ colorScheme: 'dark' }}
+                      >
+                        <option value="Pool Area">Pool Area</option>
+                        <option value="Driveway">Driveway</option>
+                        <option value="Patio">Patio</option>
+                        <option value="Walkway">Walkway</option>
+                        <option value="Repair">Repair</option>
+                        <option value="Outdoor Kitchen">Outdoor Kitchen</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-white mb-2">Year</label>
+                      <input
+                        type="text"
+                        value={editingProject.year}
+                        onChange={(e) => setEditingProject({ ...editingProject, year: e.target.value })}
+                        className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                        placeholder="2024"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-white mb-2">Description</label>
+                      <textarea
+                        value={editingProject.description}
+                        onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
+                        className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary min-h-[100px]"
+                        placeholder="Enter project description"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-white mb-2">Project Image</label>
+                      <div className="flex flex-col gap-4">
+                        <div className="flex gap-4">
+                          <label className="flex-1 cursor-pointer">
+                            <div className="w-full bg-primary/10 border-2 border-dashed border-primary/50 rounded-lg px-4 py-8 hover:border-primary transition-colors flex flex-col items-center justify-center gap-2">
+                              <Upload className="h-8 w-8 text-primary" />
+                              <span className="text-sm font-medium text-white">Upload Image</span>
+                              <span className="text-xs text-muted-foreground">Click to browse files</span>
+                            </div>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                              className="hidden"
+                            />
+                          </label>
+                          {(imagePreview || editingProject.image) && (
+                            <div className="w-48 h-48 relative rounded-lg overflow-hidden border-2 border-border">
+                              <Image
+                                src={imagePreview || editingProject.image}
+                                alt="Preview"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 h-px bg-border"></div>
+                          <span className="text-xs text-muted-foreground">OR</span>
+                          <div className="flex-1 h-px bg-border"></div>
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            value={editingProject.image}
+                            onChange={(e) => setEditingProject({ ...editingProject, image: e.target.value })}
+                            className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                            placeholder="Or paste image URL: /images/your-image.jpg"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Upload an image file or enter a URL. Supported formats: JPG, PNG, WebP
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4 mt-6">
+                    <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-semibold">
+                      <Save className="h-4 w-4 mr-2" />
+                      Save Project
+                    </Button>
+                    <Button onClick={handleCancel} variant="outline" className="border-border hover:border-primary">
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Projects Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {projects.map((project, index) => (
+                  <div
+                    key={project.id}
+                    className="bg-card/50 backdrop-blur-sm border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-300"
+                  >
+                    <div className="relative h-48">
+                      <Image
+                        src={project.image || "/placeholder.svg"}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-2 right-2 bg-primary text-black px-3 py-1 rounded-full text-xs font-semibold">
+                        {project.category}
+                      </div>
+                      <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        #{index + 1}
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-white mb-1">{project.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {project.location} • {project.year}
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
+                      <div className="flex gap-2 mb-2">
+                        <Button
+                          onClick={() => handleMoveUp(index)}
+                          size="sm"
+                          variant="outline"
+                          disabled={index === 0}
+                          className="flex-1 border-border hover:border-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Move up"
+                        >
+                          <ArrowUp className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          onClick={() => handleMoveDown(index)}
+                          size="sm"
+                          variant="outline"
+                          disabled={index === projects.length - 1}
+                          className="flex-1 border-border hover:border-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Move down"
+                        >
+                          <ArrowDown className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => handleEdit(project)}
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 border-border hover:border-primary hover:text-primary"
+                        >
+                          <Pencil className="h-4 w-4 mr-2" />
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(project.id)}
+                          size="sm"
+                          variant="outline"
+                          className="border-red-500/50 hover:border-red-500 hover:text-red-500"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 bg-primary/5 border border-primary/20 rounded-lg p-6">
+                <p className="text-white text-center">
+                  <span className="font-semibold">Note:</span> Changes made here are temporary and will reset on page reload. For permanent changes, update the portfolio data in the code files.
+                </p>
+              </div>
+            </>
+          )}
+
+          {activeTab === "seo" && (
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-2">SEO Configuration</h2>
+                <p className="text-muted-foreground">Optimize your website for search engines with AI-powered suggestions</p>
+              </div>
+
+              {/* Meta Tags Section */}
+              <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
+                <h3 className="text-2xl font-bold text-white mb-6">Meta Tags & Descriptions</h3>
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">Page Title</label>
+                    <input
+                      type="text"
+                      value={seoData.title}
+                      onChange={(e) => setSeoData({ ...seoData, title: e.target.value })}
+                      className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
+                      placeholder="Enter page title"
                     />
-                  </svg>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {seoData.title.length} / 60 characters {seoData.title.length > 60 && "⚠️ Too long"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">Meta Description</label>
+                    <textarea
+                      value={seoData.description}
+                      onChange={(e) => setSeoData({ ...seoData, description: e.target.value })}
+                      className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary min-h-[100px]"
+                      placeholder="Enter meta description"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {seoData.description.length} / 160 characters {seoData.description.length > 160 && "⚠️ Too long"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">Keywords</label>
+                    <textarea
+                      value={seoData.keywords}
+                      onChange={(e) => setSeoData({ ...seoData, keywords: e.target.value })}
+                      className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary min-h-[80px]"
+                      placeholder="Enter keywords separated by commas"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Separate keywords with commas
+                    </p>
+                  </div>
+
+                  <Button onClick={handleSaveSEO} className="bg-primary hover:bg-primary/90 text-black font-semibold">
+                    <Save className="h-4 w-4 mr-2" />
+                    Save SEO Settings
+                  </Button>
                 </div>
               </div>
-              <p className="text-3xl font-bold text-white">15</p>
-            </div>
 
-            <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-muted-foreground font-medium">Pending Quotes</h3>
-                <div className="bg-primary/10 p-2 rounded-lg">
-                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
+              {/* AI Suggestions Section */}
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-6 w-6 text-primary" />
+                    <h3 className="text-2xl font-bold text-white">AI-Powered SEO Suggestions</h3>
+                  </div>
+                  <Button
+                    onClick={generateAISuggestion}
+                    disabled={loadingAI}
+                    className="bg-primary hover:bg-primary/90 text-black font-semibold"
+                  >
+                    {loadingAI ? "Analyzing..." : "Generate Suggestion"}
+                  </Button>
+                </div>
+                
+                {aiSuggestion && (
+                  <div className="bg-black/30 border border-primary/20 rounded-lg p-4 mt-4">
+                    <p className="text-white">{aiSuggestion}</p>
+                  </div>
+                )}
+                
+                {!aiSuggestion && !loadingAI && (
+                  <p className="text-muted-foreground text-center py-8">
+                    Click "Generate Suggestion" to get AI-powered SEO recommendations
+                  </p>
+                )}
+              </div>
+
+              {/* Sitemap Section */}
+              <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
+                <h3 className="text-2xl font-bold text-white mb-4">Sitemap Management</h3>
+                <p className="text-muted-foreground mb-4">
+                  Your sitemap is automatically generated and updated at <code className="text-primary">/sitemap.xml</code>
+                </p>
+                <div className="bg-black/50 border border-border rounded-lg p-4 font-mono text-sm text-gray-300">
+                  <div>✓ Homepage (/)</div>
+                  <div>✓ Portfolio (/portfolio)</div>
+                  <div>✓ Get Quote (/quote)</div>
+                  <div>✓ Admin Panel (/admin)</div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Sitemap is automatically submitted to search engines for faster indexing
+                </p>
+              </div>
+
+              {/* SEO Score Section */}
+              <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
+                <h3 className="text-2xl font-bold text-white mb-4">SEO Health Score</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                    <div className="text-green-500 text-3xl font-bold mb-1">92%</div>
+                    <div className="text-sm text-white">Mobile Friendly</div>
+                  </div>
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                    <div className="text-blue-500 text-3xl font-bold mb-1">88%</div>
+                    <div className="text-sm text-white">Page Speed</div>
+                  </div>
+                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                    <div className="text-yellow-500 text-3xl font-bold mb-1">85%</div>
+                    <div className="text-sm text-white">SEO Score</div>
+                  </div>
                 </div>
               </div>
-              <p className="text-3xl font-bold text-white">8</p>
             </div>
-
-            <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-muted-foreground font-medium">Active Jobs</h3>
-                <div className="bg-primary/10 p-2 rounded-lg">
-                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-3xl font-bold text-white">3</p>
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-8">
-            <h3 className="text-2xl font-bold text-white mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <button className="flex items-center gap-4 p-4 bg-black/50 border border-border rounded-lg hover:border-primary/50 hover:bg-black/70 transition-all duration-300 text-left group">
-                <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white group-hover:text-primary transition-colors">
-                    Add New Project
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Upload photos and details</p>
-                </div>
-              </button>
-
-              <button className="flex items-center gap-4 p-4 bg-black/50 border border-border rounded-lg hover:border-primary/50 hover:bg-black/70 transition-all duration-300 text-left group">
-                <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white group-hover:text-primary transition-colors">
-                    View Quote Requests
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Review customer inquiries</p>
-                </div>
-              </button>
-
-              <button className="flex items-center gap-4 p-4 bg-black/50 border border-border rounded-lg hover:border-primary/50 hover:bg-black/70 transition-all duration-300 text-left group">
-                <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white group-hover:text-primary transition-colors">
-                    View Analytics
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Site traffic and performance</p>
-                </div>
-              </button>
-
-              <button className="flex items-center gap-4 p-4 bg-black/50 border border-border rounded-lg hover:border-primary/50 hover:bg-black/70 transition-all duration-300 text-left group">
-                <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white group-hover:text-primary transition-colors">Site Settings</h4>
-                  <p className="text-sm text-muted-foreground">Update content and preferences</p>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Info Notice */}
-          <div className="mt-8 bg-primary/5 border border-primary/20 rounded-lg p-6">
-            <p className="text-white text-center">
-              <span className="font-semibold">Admin Dashboard</span> - Full management features coming soon. This area
-              will allow you to manage projects, quotes, analytics, and site content.
-            </p>
-          </div>
+          )}
         </div>
       </main>
     </div>

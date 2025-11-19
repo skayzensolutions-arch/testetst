@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
-import { MaintenanceGate } from "@/components/maintenance-gate"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"], display: 'swap' })
@@ -84,9 +83,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={`font-sans antialiased`}>
-        <MaintenanceGate>
-          <LanguageProvider>{children}</LanguageProvider>
-        </MaintenanceGate>
+        <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>
     </html>

@@ -5,73 +5,49 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
 const portfolioProjects = [
   {
-    title: "Modern Driveway Installation",
+    title: "Resort-Style Pool Deck Installation",
     location: "Jacksonville, FL",
-    description: "Premium paver driveway with clean lines and professional finish that enhances curb appeal.",
-    image: "/images/driveway-service.jpg",
-    category: "Driveway",
-    year: "2024",
-  },
-  {
-    title: "Elegant Patio Design",
-    location: "Jacksonville, FL",
-    description: "Beautiful patio space featuring high-quality paver stones perfect for outdoor entertaining.",
-    image: "/images/patio-service.jpg",
-    category: "Patio",
-    year: "2024",
-  },
-  {
-    title: "Custom Walkway Project",
-    location: "Jacksonville, FL",
-    description: "Stunning paver walkway through garden creating an inviting path to your outdoor spaces.",
-    image: "/images/walkway-service.jpg",
-    category: "Walkway",
-    year: "2024",
-  },
-  {
-    title: "Pool Deck Transformation",
-    location: "Jacksonville, FL",
-    description: "Complete pool deck installation with slip-resistant pavers for safety and style.",
-    image: "/images/pool-service.jpg",
+    description: "Complete pool deck transformation with beautiful multi-tone pavers creating a luxurious outdoor oasis.",
+    image: "/images/pool-deck-1.jpg",
     category: "Pool Area",
     year: "2024",
   },
   {
-    title: "Outdoor Kitchen Haven",
+    title: "Custom Pool Deck with Accent Pavers",
     location: "Jacksonville, FL",
-    description: "Premium outdoor kitchen with durable paver flooring designed for cooking and entertaining.",
-    image: "/images/outdoor-kitchen-service.jpg",
-    category: "Outdoor Kitchen",
+    description: "Stunning pool deck featuring mixed paver patterns with charcoal and tan tones for visual interest.",
+    image: "/images/pool-deck-2.jpg",
+    category: "Pool Area",
     year: "2024",
   },
   {
-    title: "Modern Estate Driveway",
+    title: "Pool Deck with Designer Pattern",
     location: "Jacksonville, FL",
-    description: "Complete driveway transformation with premium travertine pavers and custom border design.",
-    image: "/images/portfolio-driveway-1.jpg",
+    description: "Beautiful pool area with carefully selected paver colors and professional installation creating a resort feel.",
+    image: "/images/pool-deck-3.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    title: "Custom Freeform Pool Deck",
+    location: "Jacksonville, FL",
+    description: "Elegant custom-shaped pool surrounded by premium paver installation with multi-color design.",
+    image: "/images/pool-deck-4.jpg",
+    category: "Pool Area",
+    year: "2024",
+  },
+  {
+    title: "Modern Driveway with Retaining Wall",
+    location: "Jacksonville, FL",
+    description: "Professional driveway installation featuring concrete pavers with integrated retaining wall and steps.",
+    image: "/images/driveway-1.jpg",
     category: "Driveway",
     year: "2024",
-  },
-  {
-    title: "Waterfront Patio Oasis",
-    location: "Ponte Vedra Beach, FL",
-    description: "2,500 sq ft outdoor living space featuring multi-level patio with built-in seating.",
-    image: "/images/portfolio-patio-1.jpg",
-    category: "Patio",
-    year: "2024",
-  },
-  {
-    title: "Resort-Style Pool Deck",
-    location: "St. Augustine, FL",
-    description: "Cool-touch pavers around custom pool with integrated spa and sun shelf.",
-    image: "/images/portfolio-pool-1.jpg",
-    category: "Pool Area",
-    year: "2023",
   },
   {
     title: "Professional Paver Repair & Restoration",
@@ -82,65 +58,9 @@ const portfolioProjects = [
     category: "Repair",
     year: "2024",
   },
-  {
-    title: "Mediterranean Garden Walkway",
-    location: "Nocatee, FL",
-    description: "Curved walkway design with mixed paver patterns connecting front entrance to backyard.",
-    image: "/images/portfolio-walkway-1.jpg",
-    category: "Walkway",
-    year: "2023",
-  },
-  {
-    title: "Contemporary Front Entry",
-    location: "Jacksonville, FL",
-    description: "Sleek modern design with geometric paver patterns and accent lighting.",
-    image: "/images/gallery-1.jpg",
-    category: "Walkway",
-    year: "2024",
-  },
-  {
-    title: "Luxury Residential Driveway",
-    location: "Jacksonville, FL",
-    description: "Elegant curved driveway design with premium paver materials and professional installation.",
-    image: "/images/gallery-2.jpg",
-    category: "Driveway",
-    year: "2024",
-  },
-  {
-    title: "Backyard Retreat Patio",
-    location: "Jacksonville, FL",
-    description: "Custom patio installation creating the perfect outdoor entertainment space for family gatherings.",
-    image: "/images/gallery-3.jpg",
-    category: "Patio",
-    year: "2024",
-  },
-  {
-    title: "Tropical Pool Deck Paradise",
-    location: "Jacksonville, FL",
-    description: "Beautiful pool area transformation with slip-resistant pavers and tropical landscaping integration.",
-    image: "/images/gallery-4.jpg",
-    category: "Pool Area",
-    year: "2024",
-  },
-  {
-    title: "Garden Path Walkway",
-    location: "Jacksonville, FL",
-    description: "Charming walkway design that connects different areas of the property with style and functionality.",
-    image: "/images/gallery-5.jpg",
-    category: "Walkway",
-    year: "2023",
-  },
-  {
-    title: "Gourmet Outdoor Kitchen",
-    location: "Jacksonville, FL",
-    description: "Complete outdoor kitchen installation with durable heat-resistant pavers and custom layout.",
-    image: "/images/gallery-6.jpg",
-    category: "Outdoor Kitchen",
-    year: "2024",
-  },
 ]
 
-const categories = ["All", "Driveway", "Patio", "Pool Area", "Walkway", "Outdoor Kitchen", "Repair"]
+const categories = ["All", "Pool Area", "Driveway", "Repair"]
 
 export default function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
