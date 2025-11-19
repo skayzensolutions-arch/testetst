@@ -217,7 +217,6 @@ export default function AdminPage() {
   }
 
   const handleSaveSEO = () => {
-    console.log("[v0] Saving SEO data:", seoData)
     alert("SEO settings saved! These changes would update your site metadata.")
   }
 
