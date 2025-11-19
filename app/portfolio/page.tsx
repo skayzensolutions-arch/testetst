@@ -7,58 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-
-const portfolioProjects = [
-  {
-    title: "Resort-Style Pool Deck Installation",
-    location: "Jacksonville, FL",
-    description: "Complete pool deck transformation with beautiful multi-tone pavers creating a luxurious outdoor oasis.",
-    image: "/images/pool-deck-1.jpg",
-    category: "Pool Area",
-    year: "2024",
-  },
-  {
-    title: "Custom Pool Deck with Accent Pavers",
-    location: "Jacksonville, FL",
-    description: "Stunning pool deck featuring mixed paver patterns with charcoal and tan tones for visual interest.",
-    image: "/images/pool-deck-2.jpg",
-    category: "Pool Area",
-    year: "2024",
-  },
-  {
-    title: "Pool Deck with Designer Pattern",
-    location: "Jacksonville, FL",
-    description: "Beautiful pool area with carefully selected paver colors and professional installation creating a resort feel.",
-    image: "/images/pool-deck-3.jpg",
-    category: "Pool Area",
-    year: "2024",
-  },
-  {
-    title: "Custom Freeform Pool Deck",
-    location: "Jacksonville, FL",
-    description: "Elegant custom-shaped pool surrounded by premium paver installation with multi-color design.",
-    image: "/images/pool-deck-4.jpg",
-    category: "Pool Area",
-    year: "2024",
-  },
-  {
-    title: "Modern Driveway with Retaining Wall",
-    location: "Jacksonville, FL",
-    description: "Professional driveway installation featuring concrete pavers with integrated retaining wall and steps.",
-    image: "/images/driveway-1.jpg",
-    category: "Driveway",
-    year: "2024",
-  },
-  {
-    title: "Professional Paver Repair & Restoration",
-    location: "Jacksonville Beach, FL",
-    description:
-      "Expert repair and restoration bringing damaged pavers back to their original beauty with complete releveling.",
-    image: "/images/portfolio-repair-before-after.jpg",
-    category: "Repair",
-    year: "2024",
-  },
-]
+import { createBrowserClient } from '@supabase/ssr'
 
 const categories = ["All", "Pool Area", "Driveway", "Repair"]
 
@@ -66,7 +15,32 @@ export default function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [visibleProjects, setVisibleProjects] = useState<number[]>([])
+  const [portfolioProjects, setPortfolioProjects] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const sectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      )
+
+      const { data, error } = await supabase
+        .from('portfolio_projects')
+        .select('*')
+        .order('position', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching portfolio:', error)
+      } else {
+        setPortfolioProjects(data || [])
+      }
+      setLoading(false)
+    }
+
+    fetchProjects()
+  }, [])
 
   const filteredProjects =
     selectedCategory === "All"
@@ -173,51 +147,62 @@ export default function PortfolioPage() {
       {/* Portfolio Grid */}
       <section ref={sectionRef} className="pb-24 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <div
-                key={index}
-                className={`group cursor-pointer transition-all duration-700 ${
-                  visibleProjects.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                onClick={() => setSelectedProject(index)}
-              >
-                <div className="relative overflow-hidden rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300">
-                  {/* Image */}
-                  <div className="relative h-80 overflow-hidden">
-                    <Image
-                      src={project.image || "/placeholder.svg"}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+              <p className="mt-4 text-muted-foreground">Loading portfolio...</p>
+            </div>
+          ) : portfolioProjects.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-xl">No projects yet. Add some from the admin panel!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className={`group cursor-pointer transition-all duration-700 ${
+                    visibleProjects.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
+                  onClick={() => setSelectedProject(index)}
+                >
+                  <div className="relative overflow-hidden rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300">
+                    {/* Image */}
+                    <div className="relative h-80 overflow-hidden">
+                      <Image
+                        src={project.image || "/placeholder.svg"}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4 bg-primary text-black px-4 py-2 rounded-full text-sm font-semibold">
-                      {project.category}
+                      {/* Category Badge */}
+                      <div className="absolute top-4 right-4 bg-primary text-black px-4 py-2 rounded-full text-sm font-semibold">
+                        {project.category}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-primary transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-3 flex items-center gap-2">
-                      <span>{project.location}</span>
-                      <span>•</span>
-                      <span>{project.year}</span>
-                    </p>
-                    <p className="text-muted-foreground leading-relaxed">{project.description}</p>
-                  </div>
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-primary transition-colors duration-300">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-3 flex items-center gap-2">
+                        <span>{project.location}</span>
+                        <span>•</span>
+                        <span>{project.year}</span>
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                    </div>
 
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

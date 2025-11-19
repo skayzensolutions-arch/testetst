@@ -4,8 +4,9 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Eye, EyeOff, Lock, Plus, Pencil, Trash2, Upload, ArrowUp, ArrowDown, Save, Sparkles } from 'lucide-react'
+import { Eye, EyeOff, Lock, Plus, Pencil, Trash2, Upload, ArrowUp, ArrowDown, Save, Sparkles, Loader2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import { getSupabaseBrowserClient } from "@/lib/supabase-client"
 
 const initialProjects = [
   {
@@ -71,11 +72,12 @@ export default function AdminPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(true)
   
-  const [projects, setProjects] = useState(initialProjects)
+  const [projects, setProjects] = useState<any[]>([])
   const [editingProject, setEditingProject] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>("")
+  const [analyzingImage, setAnalyzingImage] = useState(false)
   
   const [activeTab, setActiveTab] = useState<"portfolio" | "seo">("portfolio")
   const [seoData, setSeoData] = useState({
@@ -93,6 +95,12 @@ export default function AdminPage() {
     }
     setLoading(false)
   }, [])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadProjects()
+    }
+  }, [isAuthenticated])
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -131,42 +139,90 @@ export default function AdminPage() {
     setShowForm(true)
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this project?")) {
-      setProjects(projects.filter((p) => p.id !== id))
-    }
-  }
+      const supabase = getSupabaseBrowserClient()
+      
+      const { error } = await supabase.from("portfolio_projects").delete().eq("id", id)
 
-  const handleMoveUp = (index: number) => {
-    if (index > 0) {
-      const newProjects = [...projects]
-      const temp = newProjects[index]
-      newProjects[index] = newProjects[index - 1]
-      newProjects[index - 1] = temp
-      setProjects(newProjects)
-    }
-  }
-
-  const handleMoveDown = (index: number) => {
-    if (index < projects.length - 1) {
-      const newProjects = [...projects]
-      const temp = newProjects[index]
-      newProjects[index] = newProjects[index + 1]
-      newProjects[index + 1] = temp
-      setProjects(newProjects)
-    }
-  }
-
-  const handleSave = () => {
-    if (editingProject) {
-      const existingIndex = projects.findIndex((p) => p.id === editingProject.id)
-      if (existingIndex >= 0) {
-        const updated = [...projects]
-        updated[existingIndex] = editingProject
-        setProjects(updated)
-      } else {
-        setProjects([...projects, editingProject])
+      if (error) {
+        console.error("Error deleting project:", error)
+        alert("Failed to delete project. Please try again.")
+        return
       }
+
+      await loadProjects()
+    }
+  }
+
+  const handleMoveUp = async (index: number) => {
+    if (index > 0) {
+      const supabase = getSupabaseBrowserClient()
+      const project1 = projects[index]
+      const project2 = projects[index - 1]
+
+      await supabase.from("portfolio_projects").update({ position: index - 1 }).eq("id", project1.id)
+      await supabase.from("portfolio_projects").update({ position: index }).eq("id", project2.id)
+
+      await loadProjects()
+    }
+  }
+
+  const handleMoveDown = async (index: number) => {
+    if (index < projects.length - 1) {
+      const supabase = getSupabaseBrowserClient()
+      const project1 = projects[index]
+      const project2 = projects[index + 1]
+
+      await supabase.from("portfolio_projects").update({ position: index + 1 }).eq("id", project1.id)
+      await supabase.from("portfolio_projects").update({ position: index }).eq("id", project2.id)
+
+      await loadProjects()
+    }
+  }
+
+  const handleSave = async () => {
+    if (editingProject) {
+      const supabase = getSupabaseBrowserClient()
+      
+      if (editingProject.id && projects.find((p) => p.id === editingProject.id)) {
+        const { error } = await supabase
+          .from("portfolio_projects")
+          .update({
+            title: editingProject.title,
+            location: editingProject.location,
+            description: editingProject.description,
+            image: editingProject.image,
+            category: editingProject.category,
+            year: editingProject.year,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", editingProject.id)
+
+        if (error) {
+          console.error("Error updating project:", error)
+          alert("Failed to save project. Please try again.")
+          return
+        }
+      } else {
+        const { error } = await supabase.from("portfolio_projects").insert({
+          title: editingProject.title,
+          location: editingProject.location,
+          description: editingProject.description,
+          image: editingProject.image,
+          category: editingProject.category,
+          year: editingProject.year,
+          position: projects.length,
+        })
+
+        if (error) {
+          console.error("Error creating project:", error)
+          alert("Failed to save project. Please try again.")
+          return
+        }
+      }
+
+      await loadProjects()
       setShowForm(false)
       setEditingProject(null)
       setImageFile(null)
@@ -181,17 +237,64 @@ export default function AdminPage() {
     setImagePreview("")
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setImageFile(file)
       const reader = new FileReader()
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const result = reader.result as string
         setImagePreview(result)
-        setEditingProject({ ...editingProject, image: result })
+        
+        // Upload the image to Vercel Blob
+        const formData = new FormData()
+        formData.append('file', file)
+        
+        try {
+          const response = await fetch('/api/upload-image', {
+            method: 'POST',
+            body: formData,
+          })
+          
+          if (response.ok) {
+            const { url } = await response.json()
+            setEditingProject({ ...editingProject, image: url })
+            
+            // Now analyze the image using the permanent URL
+            await analyzeImage(url)
+          } else {
+            alert('Failed to upload image. Please try again.')
+          }
+        } catch (error) {
+          console.error('Error uploading image:', error)
+          alert('Failed to upload image. Please try again.')
+        }
       }
       reader.readAsDataURL(file)
+    }
+  }
+
+  const analyzeImage = async (imageUrl: string) => {
+    setAnalyzingImage(true)
+    try {
+      const response = await fetch("/api/analyze-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl }),
+      })
+
+      if (response.ok) {
+        const analysis = await response.json()
+        setEditingProject((prev: any) => ({
+          ...prev,
+          title: analysis.title || prev.title,
+          description: analysis.description || prev.description,
+        }))
+      }
+    } catch (error) {
+      console.error("Error analyzing image:", error)
+    } finally {
+      setAnalyzingImage(false)
     }
   }
 
@@ -199,7 +302,6 @@ export default function AdminPage() {
     setLoadingAI(true)
     setAiSuggestion("")
     
-    // Simulate AI generation (replace with actual AI SDK call if needed)
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     const suggestions = [
@@ -218,6 +320,21 @@ export default function AdminPage() {
 
   const handleSaveSEO = () => {
     alert("SEO settings saved! These changes would update your site metadata.")
+  }
+
+  const loadProjects = async () => {
+    const supabase = getSupabaseBrowserClient()
+    const { data, error } = await supabase
+      .from("portfolio_projects")
+      .select("*")
+      .order("position", { ascending: true })
+
+    if (error) {
+      console.error("Error loading projects:", error)
+      return
+    }
+
+    setProjects(data || [])
   }
 
   if (loading) {
@@ -354,15 +471,25 @@ export default function AdminPage() {
                 </Button>
               </div>
 
-              {/* Edit Form */}
               {showForm && editingProject && (
                 <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">
-                    {projects.find((p) => p.id === editingProject.id) ? "Edit Project" : "Add New Project"}
-                  </h3>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-2xl font-bold text-white">
+                      {projects.find((p) => p.id === editingProject.id) ? "Edit Project" : "Add New Project"}
+                    </h3>
+                    {analyzingImage && (
+                      <div className="flex items-center gap-2 text-primary">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <span className="text-sm font-medium">AI Analyzing Image...</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-white mb-2">Project Title</label>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        Project Title
+                        {analyzingImage && <span className="text-primary ml-2">(AI generating...)</span>}
+                      </label>
                       <input
                         type="text"
                         value={editingProject.title}
@@ -408,7 +535,10 @@ export default function AdminPage() {
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-white mb-2">Description</label>
+                      <label className="block text-sm font-medium text-white mb-2">
+                        Description
+                        {analyzingImage && <span className="text-primary ml-2">(AI generating...)</span>}
+                      </label>
                       <textarea
                         value={editingProject.description}
                         onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
@@ -476,7 +606,6 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* Projects Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map((project, index) => (
                   <div
@@ -551,7 +680,7 @@ export default function AdminPage() {
 
               <div className="mt-8 bg-primary/5 border border-primary/20 rounded-lg p-6">
                 <p className="text-white text-center">
-                  <span className="font-semibold">Note:</span> Changes made here are temporary and will reset on page reload. For permanent changes, update the portfolio data in the code files.
+                  <span className="font-semibold">✓ All changes are automatically saved to the database</span> and will persist permanently.
                 </p>
               </div>
             </>
@@ -564,7 +693,6 @@ export default function AdminPage() {
                 <p className="text-muted-foreground">Optimize your website for search engines with AI-powered suggestions</p>
               </div>
 
-              {/* Meta Tags Section */}
               <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
                 <h3 className="text-2xl font-bold text-white mb-6">Meta Tags & Descriptions</h3>
                 <div className="space-y-6">
@@ -615,7 +743,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* AI Suggestions Section */}
               <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -644,7 +771,6 @@ export default function AdminPage() {
                 )}
               </div>
 
-              {/* Sitemap Section */}
               <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
                 <h3 className="text-2xl font-bold text-white mb-4">Sitemap Management</h3>
                 <p className="text-muted-foreground mb-4">
@@ -661,7 +787,6 @@ export default function AdminPage() {
                 </p>
               </div>
 
-              {/* SEO Score Section */}
               <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
                 <h3 className="text-2xl font-bold text-white mb-4">SEO Health Score</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
