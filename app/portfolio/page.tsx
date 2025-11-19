@@ -34,6 +34,10 @@ export default function PortfolioPage() {
       if (error) {
         console.error('Error fetching portfolio:', error)
       } else {
+        console.log('[v0] Portfolio projects loaded:', data)
+        data?.forEach(project => {
+          console.log('[v0] Project image path:', project.image)
+        })
         setPortfolioProjects(data || [])
       }
       setLoading(false)
@@ -49,28 +53,14 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     setVisibleProjects([])
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            filteredProjects.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleProjects((prev) => [...prev, index])
-              }, index * 60)
-            })
-            observer.disconnect()
-          }
-        })
-      },
-      { threshold: 0.1 },
-    )
+    
+    // Immediately make all projects visible after category change
+    const timer = setTimeout(() => {
+      setVisibleProjects(filteredProjects.map((_, index) => index))
+    }, 50)
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [selectedCategory])
+    return () => clearTimeout(timer)
+  }, [selectedCategory, filteredProjects.length])
 
   useEffect(() => {
     if (selectedProject !== null) {
@@ -168,12 +158,16 @@ export default function PortfolioPage() {
                 >
                   <div className="relative overflow-hidden rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300">
                     {/* Image */}
-                    <div className="relative h-80 overflow-hidden">
-                      <Image
+                    <div className="relative h-80 overflow-hidden bg-black/50">
+                      <img
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onError={(e) => {
+                          console.error('[v0] Image failed to load:', project.image)
+                          e.currentTarget.src = '/paver-project.jpg'
+                        }}
+                        onLoad={() => console.log('[v0] Image loaded successfully:', project.image)}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
@@ -234,12 +228,15 @@ export default function PortfolioPage() {
           </button>
 
           <div className="max-w-6xl w-full">
-            <div className="relative aspect-video mb-6">
-              <Image
+            <div className="relative aspect-video mb-6 bg-black">
+              <img
                 src={filteredProjects[selectedProject].image || "/placeholder.svg"}
                 alt={filteredProjects[selectedProject].title}
-                fill
-                className="object-contain"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  console.error('[v0] Lightbox image failed to load:', filteredProjects[selectedProject].image)
+                  e.currentTarget.src = '/paver-project.jpg'
+                }}
               />
             </div>
 

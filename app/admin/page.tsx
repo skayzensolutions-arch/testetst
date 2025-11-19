@@ -66,6 +66,7 @@ const initialProjects = [
 ]
 
 export default function AdminPage() {
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -106,11 +107,12 @@ export default function AdminPage() {
     e.preventDefault()
     setError("")
 
-    if (password === "455") {
+    if (username === "skylight_admin" && password === "SkyP@v3r2024!Secure") {
       setIsAuthenticated(true)
       sessionStorage.setItem("admin_authenticated", "true")
     } else {
-      setError("Incorrect password. Please try again.")
+      setError("Invalid credentials. Please try again.")
+      setUsername("")
       setPassword("")
     }
   }
@@ -363,9 +365,25 @@ export default function AdminPage() {
             </div>
 
             <h1 className="text-3xl font-bold text-white text-center mb-2">Admin Access</h1>
-            <p className="text-muted-foreground text-center mb-8">Enter your password to continue</p>
+            <p className="text-muted-foreground text-center mb-8">Enter your credentials to continue</p>
 
             <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-white mb-2">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-black/50 border border-border rounded-lg px-4 py-3 text-white placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                  placeholder="Enter username"
+                  autoComplete="username"
+                  required
+                />
+              </div>
+
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
                   Password
