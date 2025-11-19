@@ -53,7 +53,8 @@ export const metadata: Metadata = {
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured paver contractors serving Jacksonville & surrounding Florida areas.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: 'https://skylightpaver.com/og-image.jpg',
+        secureUrl: 'https://skylightpaver.com/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Skylight Paver Solutions - Expert Paver Installation in Jacksonville, FL',
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
     creator: '@skylightpaver',
     title: 'Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL',
     description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured.',
-    images: ['/og-image.jpg'],
+    images: ['https://skylightpaver.com/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -101,6 +102,11 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#F4C430" />
         <meta name="theme-color" content="#F4C430" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)" />
+        <meta property="og:image" content="https://skylightpaver.com/og-image.jpg" />
+        <meta property="og:image:secure_url" content="https://skylightpaver.com/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpeg" />
       </head>
       <body className={`font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>

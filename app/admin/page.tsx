@@ -242,11 +242,18 @@ export default function AdminPage() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB. Please choose a smaller image.')
+        return
+      }
+
       setImageFile(file)
       const reader = new FileReader()
       reader.onloadend = async () => {
         const result = reader.result as string
         setImagePreview(result)
+        
+        console.log('[v0] Starting image upload...', file.name)
         
         // Upload the image to Vercel Blob
         const formData = new FormData()
@@ -258,18 +265,21 @@ export default function AdminPage() {
             body: formData,
           })
           
+          const data = await response.json()
+          
           if (response.ok) {
-            const { url } = await response.json()
-            setEditingProject({ ...editingProject, image: url })
+            console.log('[v0] Image upload successful:', data.url)
+            setEditingProject({ ...editingProject, image: data.url })
             
-            // Now analyze the image using the permanent URL
-            await analyzeImage(url)
+            console.log('[v0] Starting AI image analysis...')
+            await analyzeImage(data.url)
           } else {
-            alert('Failed to upload image. Please try again.')
+            console.error('[v0] Upload failed:', data.error)
+            alert(`Failed to upload image: ${data.error || 'Please try again.'}`)
           }
-        } catch (error) {
-          console.error('Error uploading image:', error)
-          alert('Failed to upload image. Please try again.')
+        } catch (error: any) {
+          console.error('[v0] Error uploading image:', error)
+          alert(`Error uploading image: ${error.message || 'Please try again.'}`)
         }
       }
       reader.readAsDataURL(file)
@@ -279,6 +289,8 @@ export default function AdminPage() {
   const analyzeImage = async (imageUrl: string) => {
     setAnalyzingImage(true)
     try {
+      console.log('[v0] Sending image to AI for analysis...', imageUrl)
+      
       const response = await fetch("/api/analyze-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -287,14 +299,20 @@ export default function AdminPage() {
 
       if (response.ok) {
         const analysis = await response.json()
+        console.log('[v0] AI analysis complete:', analysis)
+        
         setEditingProject((prev: any) => ({
           ...prev,
           title: analysis.title || prev.title,
           description: analysis.description || prev.description,
         }))
+        
+        alert('✨ AI has generated a title and description! You can edit them before saving.')
+      } else {
+        console.error('[v0] AI analysis failed:', await response.text())
       }
     } catch (error) {
-      console.error("Error analyzing image:", error)
+      console.error("[v0] Error analyzing image:", error)
     } finally {
       setAnalyzingImage(false)
     }
