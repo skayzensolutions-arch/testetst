@@ -1,88 +1,95 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"], display: 'swap' })
-const _geistMono = Geist_Mono({ subsets: ["latin"], display: 'swap' })
+const _geist = Geist({ subsets: ["latin"], display: "swap" })
+const _geistMono = Geist_Mono({ subsets: ["latin"], display: "swap" })
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: '#F4C430',
+  themeColor: "#F4C430",
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://skylightpaver.com'),
+  metadataBase: new URL("https://skylightpaver.com"),
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/logo.png", sizes: "192x192", type: "image/png" },
     ],
-    apple: [
-      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: "/logo.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico",
   },
-  manifest: '/site.webmanifest',
-  title: "Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL",
+  manifest: "/site.webmanifest",
+  title: {
+    default: "Skylight Paver Solutions | #1 Paver Contractor in Jacksonville, FL",
+    template: "%s | Skylight Paver Solutions Jacksonville",
+  },
   description:
-    "Transform your outdoor spaces with expert paver solutions. Driveways, patios, pool areas, outdoor kitchens, and more. Licensed & insured. Serving Jacksonville & surrounding Florida areas. Call (904) 437-3853 for a free estimate.",
+    "Top-rated paver installation in Jacksonville, FL. Expert driveway pavers, patio pavers, pool decks & outdoor living spaces. Licensed, insured & 5-star rated. Serving Jacksonville Beach, St. Augustine, Ponte Vedra & all Duval County. Free estimates: (904) 437-3853",
   keywords:
-    "Jacksonville paver installation, Florida driveway pavers, patio pavers Jacksonville, pool deck pavers, outdoor kitchen pavers, paver repair Jacksonville, pressure washing pavers Florida, paver contractors Jacksonville",
+    "Jacksonville paver installation, paver contractor Jacksonville FL, driveway pavers Jacksonville, patio pavers Jacksonville Beach, pool deck pavers Jacksonville, Jacksonville paver repair, outdoor kitchen Jacksonville, paver sealing Jacksonville, Jacksonville Beach pavers, St Augustine pavers, Ponte Vedra paver contractor, Duval County pavers, Jacksonville driveway installation, paver companies near me Jacksonville",
   authors: [{ name: "Skylight Paver Solutions", url: "https://skylightpaver.com" }],
-  generator: "v0.app",
+  generator: "Next.js",
   applicationName: "Skylight Paver Solutions",
-  referrer: 'origin-when-cross-origin',
-  creator: "Skayzen",
+  referrer: "origin-when-cross-origin",
+  creator: "Skylight Paver Solutions",
   publisher: "Skylight Paver Solutions",
+  category: "Home Improvement",
+  classification: "Paver Installation & Hardscaping",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://skylightpaver.com',
-    siteName: 'Skylight Paver Solutions',
-    title: 'Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL',
-    description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured paver contractors serving Jacksonville & surrounding Florida areas.',
+    type: "website",
+    locale: "en_US",
+    url: "https://skylightpaver.com",
+    siteName: "Skylight Paver Solutions",
+    title: "Skylight Paver Solutions | #1 Paver Contractor in Jacksonville, FL",
+    description:
+      "Top-rated paver installation in Jacksonville. Expert driveways, patios, pool decks. Licensed, insured & 5-star rated. Serving Jacksonville Beach, St. Augustine, Ponte Vedra. Free estimates: (904) 437-3853",
     images: [
       {
-        url: 'https://skylightpaver.com/og-image.jpg',
-        secureUrl: 'https://skylightpaver.com/og-image.jpg',
+        url: "https://skylightpaver.com/og-image.jpg",
+        secureUrl: "https://skylightpaver.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: 'Skylight Paver Solutions - Expert Paver Installation in Jacksonville, FL',
-        type: 'image/jpeg',
+        alt: "Skylight Paver Solutions - #1 Paver Contractor in Jacksonville, FL",
+        type: "image/jpeg",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@skylightpaver',
-    creator: '@skylightpaver',
-    title: 'Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL',
-    description: 'Transform your outdoor spaces with expert paver solutions. Licensed & insured.',
-    images: ['https://skylightpaver.com/og-image.jpg'],
+    card: "summary_large_image",
+    site: "@skylightpaver",
+    creator: "@skylightpaver",
+    title: "Skylight Paver Solutions | #1 Paver Contractor Jacksonville",
+    description:
+      "Top-rated paver installation in Jacksonville. Licensed, insured & 5-star rated. Free estimates: (904) 437-3853",
+    images: ["https://skylightpaver.com/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
+  alternates: {
+    canonical: "https://skylightpaver.com",
   },
 }
 
@@ -91,6 +98,137 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://skylightpaver.com/#organization",
+        name: "Skylight Paver Solutions",
+        image: "https://skylightpaver.com/logo.png",
+        logo: "https://skylightpaver.com/logo.png",
+        url: "https://skylightpaver.com",
+        telephone: "(904) 437-3853",
+        email: "lopes@skylightpaver.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "",
+          addressLocality: "Jacksonville",
+          addressRegion: "FL",
+          postalCode: "",
+          addressCountry: "US",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: 30.3322,
+          longitude: -81.6557,
+        },
+        areaServed: [
+          {
+            "@type": "City",
+            name: "Jacksonville",
+            containedIn: {
+              "@type": "State",
+              name: "Florida",
+            },
+          },
+          {
+            "@type": "City",
+            name: "Jacksonville Beach",
+          },
+          {
+            "@type": "City",
+            name: "St. Augustine",
+          },
+          {
+            "@type": "City",
+            name: "Ponte Vedra",
+          },
+          {
+            "@type": "AdministrativeArea",
+            name: "Duval County",
+          },
+        ],
+        priceRange: "$$",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "07:00",
+            closes: "18:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "08:00",
+            closes: "16:00",
+          },
+        ],
+        sameAs: ["https://www.facebook.com/skylightpaver", "https://www.instagram.com/skylightpaver"],
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://skylightpaver.com/#service",
+        name: "Skylight Paver Solutions",
+        description:
+          "Expert paver installation and hardscaping services in Jacksonville, FL. Specializing in driveways, patios, pool decks, and outdoor living spaces.",
+        provider: {
+          "@id": "https://skylightpaver.com/#organization",
+        },
+        areaServed: "Jacksonville, FL",
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Paver Services",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Driveway Paver Installation",
+                description: "Professional driveway paver installation in Jacksonville",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Patio Paver Installation",
+                description: "Custom patio paver design and installation",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Pool Deck Pavers",
+                description: "Beautiful pool deck paver installation",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Paver Repair & Restoration",
+                description: "Expert paver repair and restoration services",
+              },
+            },
+          ],
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://skylightpaver.com/#website",
+        url: "https://skylightpaver.com",
+        name: "Skylight Paver Solutions",
+        description: "Top-rated paver contractor in Jacksonville, FL",
+        publisher: {
+          "@id": "https://skylightpaver.com/#organization",
+        },
+        inLanguage: "en-US",
+      },
+    ],
+  }
+
   return (
     <html lang="en">
       <head>
@@ -107,6 +245,11 @@ export default function RootLayout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/jpeg" />
+        <meta name="geo.region" content="US-FL" />
+        <meta name="geo.placename" content="Jacksonville" />
+        <meta name="geo.position" content="30.3322;-81.6557" />
+        <meta name="ICBM" content="30.3322, -81.6557" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </head>
       <body className={`font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>

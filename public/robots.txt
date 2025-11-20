@@ -1,0 +1,7 @@
+# robots.txt for skylightpaver.com
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://skylightpaver.com/sitemap.xml
