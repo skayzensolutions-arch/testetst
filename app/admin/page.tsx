@@ -4,7 +4,20 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Eye, EyeOff, Lock, Plus, Pencil, Trash2, Upload, ArrowUp, ArrowDown, Save, Sparkles, Loader2 } from 'lucide-react'
+import {
+  Eye,
+  EyeOff,
+  Lock,
+  Plus,
+  Pencil,
+  Trash2,
+  Upload,
+  ArrowUp,
+  ArrowDown,
+  Save,
+  Sparkles,
+  Loader2,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getSupabaseBrowserClient } from "@/lib/supabase-client"
 
@@ -13,7 +26,8 @@ const initialProjects = [
     id: 1,
     title: "Resort-Style Pool Deck Installation",
     location: "Jacksonville, FL",
-    description: "Complete pool deck transformation with beautiful multi-tone pavers creating a luxurious outdoor oasis.",
+    description:
+      "Complete pool deck transformation with beautiful multi-tone pavers creating a luxurious outdoor oasis.",
     image: "/images/pool-deck-1.jpg",
     category: "Pool Area",
     year: "2024",
@@ -31,7 +45,8 @@ const initialProjects = [
     id: 3,
     title: "Pool Deck with Designer Pattern",
     location: "Jacksonville, FL",
-    description: "Beautiful pool area with carefully selected paver colors and professional installation creating a resort feel.",
+    description:
+      "Beautiful pool area with carefully selected paver colors and professional installation creating a resort feel.",
     image: "/images/pool-deck-3.jpg",
     category: "Pool Area",
     year: "2024",
@@ -49,7 +64,8 @@ const initialProjects = [
     id: 5,
     title: "Modern Driveway with Retaining Wall",
     location: "Jacksonville, FL",
-    description: "Professional driveway installation featuring concrete pavers with integrated retaining wall and steps.",
+    description:
+      "Professional driveway installation featuring concrete pavers with integrated retaining wall and steps.",
     image: "/images/driveway-1.jpg",
     category: "Driveway",
     year: "2024",
@@ -58,7 +74,8 @@ const initialProjects = [
     id: 6,
     title: "Professional Paver Repair & Restoration",
     location: "Jacksonville Beach, FL",
-    description: "Expert repair and restoration bringing damaged pavers back to their original beauty with complete releveling.",
+    description:
+      "Expert repair and restoration bringing damaged pavers back to their original beauty with complete releveling.",
     image: "/images/portfolio-repair-before-after.jpg",
     category: "Repair",
     year: "2024",
@@ -72,18 +89,19 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(true)
-  
+
   const [projects, setProjects] = useState<any[]>([])
   const [editingProject, setEditingProject] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>("")
   const [analyzingImage, setAnalyzingImage] = useState(false)
-  
+
   const [activeTab, setActiveTab] = useState<"portfolio" | "seo">("portfolio")
   const [seoData, setSeoData] = useState({
     title: "Skylight Paver Solutions | Expert Paver Installation in Jacksonville, FL",
-    description: "Transform your outdoor spaces with expert paver solutions. Driveways, patios, pool areas, outdoor kitchens, and more. Licensed & insured.",
+    description:
+      "Transform your outdoor spaces with expert paver solutions. Driveways, patios, pool areas, outdoor kitchens, and more. Licensed & insured.",
     keywords: "Jacksonville paver installation, Florida driveway pavers, patio pavers Jacksonville, pool deck pavers",
   })
   const [aiSuggestion, setAiSuggestion] = useState("")
@@ -144,7 +162,7 @@ export default function AdminPage() {
   const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this project?")) {
       const supabase = getSupabaseBrowserClient()
-      
+
       const { error } = await supabase.from("portfolio_projects").delete().eq("id", id)
 
       if (error) {
@@ -163,7 +181,10 @@ export default function AdminPage() {
       const project1 = projects[index]
       const project2 = projects[index - 1]
 
-      await supabase.from("portfolio_projects").update({ position: index - 1 }).eq("id", project1.id)
+      await supabase
+        .from("portfolio_projects")
+        .update({ position: index - 1 })
+        .eq("id", project1.id)
       await supabase.from("portfolio_projects").update({ position: index }).eq("id", project2.id)
 
       await loadProjects()
@@ -176,7 +197,10 @@ export default function AdminPage() {
       const project1 = projects[index]
       const project2 = projects[index + 1]
 
-      await supabase.from("portfolio_projects").update({ position: index + 1 }).eq("id", project1.id)
+      await supabase
+        .from("portfolio_projects")
+        .update({ position: index + 1 })
+        .eq("id", project1.id)
       await supabase.from("portfolio_projects").update({ position: index }).eq("id", project2.id)
 
       await loadProjects()
@@ -185,8 +209,10 @@ export default function AdminPage() {
 
   const handleSave = async () => {
     if (editingProject) {
+      console.log("[v0] Saving project with image URL:", editingProject.image)
+
       const supabase = getSupabaseBrowserClient()
-      
+
       if (editingProject.id && projects.find((p) => p.id === editingProject.id)) {
         const { error } = await supabase
           .from("portfolio_projects")
@@ -202,10 +228,12 @@ export default function AdminPage() {
           .eq("id", editingProject.id)
 
         if (error) {
-          console.error("Error updating project:", error)
+          console.error("[v0] Error updating project:", error)
           alert("Failed to save project. Please try again.")
           return
         }
+
+        console.log("[v0] Project updated successfully")
       } else {
         const { error } = await supabase.from("portfolio_projects").insert({
           title: editingProject.title,
@@ -243,7 +271,7 @@ export default function AdminPage() {
     const file = e.target.files?.[0]
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        alert('File size must be less than 10MB. Please choose a smaller image.')
+        alert("File size must be less than 10MB. Please choose a smaller image.")
         return
       }
 
@@ -252,34 +280,33 @@ export default function AdminPage() {
       reader.onloadend = async () => {
         const result = reader.result as string
         setImagePreview(result)
-        
-        console.log('[v0] Starting image upload...', file.name)
-        
-        // Upload the image to Vercel Blob
+
+        console.log("[v0] Starting image upload...", file.name)
+
         const formData = new FormData()
-        formData.append('file', file)
-        
+        formData.append("file", file)
+
         try {
-          const response = await fetch('/api/upload-image', {
-            method: 'POST',
+          const response = await fetch("/api/upload-image", {
+            method: "POST",
             body: formData,
           })
-          
+
           const data = await response.json()
-          
+
           if (response.ok) {
-            console.log('[v0] Image upload successful:', data.url)
-            setEditingProject({ ...editingProject, image: data.url })
-            
-            console.log('[v0] Starting AI image analysis...')
+            console.log("[v0] Image upload successful:", data.url)
+            setEditingProject((prev: any) => ({ ...prev, image: data.url }))
+
+            console.log("[v0] Starting AI image analysis...")
             await analyzeImage(data.url)
           } else {
-            console.error('[v0] Upload failed:', data.error)
-            alert(`Failed to upload image: ${data.error || 'Please try again.'}`)
+            console.error("[v0] Upload failed:", data.error)
+            alert(`Failed to upload image: ${data.error || "Please try again."}`)
           }
         } catch (error: any) {
-          console.error('[v0] Error uploading image:', error)
-          alert(`Error uploading image: ${error.message || 'Please try again.'}`)
+          console.error("[v0] Error uploading image:", error)
+          alert(`Error uploading image: ${error.message || "Please try again."}`)
         }
       }
       reader.readAsDataURL(file)
@@ -289,8 +316,8 @@ export default function AdminPage() {
   const analyzeImage = async (imageUrl: string) => {
     setAnalyzingImage(true)
     try {
-      console.log('[v0] Sending image to AI for analysis...', imageUrl)
-      
+      console.log("[v0] Sending image to AI for analysis...", imageUrl)
+
       const response = await fetch("/api/analyze-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -299,17 +326,17 @@ export default function AdminPage() {
 
       if (response.ok) {
         const analysis = await response.json()
-        console.log('[v0] AI analysis complete:', analysis)
-        
+        console.log("[v0] AI analysis complete:", analysis)
+
         setEditingProject((prev: any) => ({
           ...prev,
           title: analysis.title || prev.title,
           description: analysis.description || prev.description,
         }))
-        
-        alert('✨ AI has generated a title and description! You can edit them before saving.')
+
+        alert("✨ AI has generated a title and description! You can edit them before saving.")
       } else {
-        console.error('[v0] AI analysis failed:', await response.text())
+        console.error("[v0] AI analysis failed:", await response.text())
       }
     } catch (error) {
       console.error("[v0] Error analyzing image:", error)
@@ -321,18 +348,18 @@ export default function AdminPage() {
   const generateAISuggestion = async () => {
     setLoadingAI(true)
     setAiSuggestion("")
-    
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
     const suggestions = [
       "Consider adding 'Licensed Contractor' to your title for increased trust signals",
       "Your meta description should include a call-to-action like 'Get Free Estimate Today'",
       "Add location-specific keywords like 'Jacksonville Beach' and 'St. Augustine' to expand reach",
       "Include 'Before & After' in your description to improve click-through rates",
       "Consider mentioning '15+ Years Experience' to build credibility",
-      "Add seasonal keywords like 'Pool Deck Installation for Summer' during relevant months"
+      "Add seasonal keywords like 'Pool Deck Installation for Summer' during relevant months",
     ]
-    
+
     const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)]
     setAiSuggestion(randomSuggestion)
     setLoadingAI(false)
@@ -344,10 +371,7 @@ export default function AdminPage() {
 
   const loadProjects = async () => {
     const supabase = getSupabaseBrowserClient()
-    const { data, error } = await supabase
-      .from("portfolio_projects")
-      .select("*")
-      .order("position", { ascending: true })
+    const { data, error } = await supabase.from("portfolio_projects").select("*").order("position", { ascending: true })
 
     if (error) {
       console.error("Error loading projects:", error)
@@ -550,7 +574,7 @@ export default function AdminPage() {
                         value={editingProject.category}
                         onChange={(e) => setEditingProject({ ...editingProject, category: e.target.value })}
                         className="w-full bg-secondary border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary"
-                        style={{ colorScheme: 'dark' }}
+                        style={{ colorScheme: "dark" }}
                       >
                         <option value="Pool Area">Pool Area</option>
                         <option value="Driveway">Driveway</option>
@@ -592,12 +616,7 @@ export default function AdminPage() {
                               <span className="text-sm font-medium text-white">Upload Image</span>
                               <span className="text-xs text-muted-foreground">Click to browse files</span>
                             </div>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleImageUpload}
-                              className="hidden"
-                            />
+                            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                           </label>
                           {(imagePreview || editingProject.image) && (
                             <div className="w-48 h-48 relative rounded-lg overflow-hidden border-2 border-border">
@@ -635,7 +654,11 @@ export default function AdminPage() {
                       <Save className="h-4 w-4 mr-2" />
                       Save Project
                     </Button>
-                    <Button onClick={handleCancel} variant="outline" className="border-border hover:border-primary">
+                    <Button
+                      onClick={handleCancel}
+                      variant="outline"
+                      className="border-border hover:border-primary bg-transparent"
+                    >
                       Cancel
                     </Button>
                   </div>
@@ -716,7 +739,8 @@ export default function AdminPage() {
 
               <div className="mt-8 bg-primary/5 border border-primary/20 rounded-lg p-6">
                 <p className="text-white text-center">
-                  <span className="font-semibold">✓ All changes are automatically saved to the database</span> and will persist permanently.
+                  <span className="font-semibold">✓ All changes are automatically saved to the database</span> and will
+                  persist permanently.
                 </p>
               </div>
             </>
@@ -726,7 +750,9 @@ export default function AdminPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-4xl font-bold text-white mb-2">SEO Configuration</h2>
-                <p className="text-muted-foreground">Optimize your website for search engines with AI-powered suggestions</p>
+                <p className="text-muted-foreground">
+                  Optimize your website for search engines with AI-powered suggestions
+                </p>
               </div>
 
               <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
@@ -767,9 +793,7 @@ export default function AdminPage() {
                       className="w-full bg-black/50 border border-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary min-h-[80px]"
                       placeholder="Enter keywords separated by commas"
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Separate keywords with commas
-                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Separate keywords with commas</p>
                   </div>
 
                   <Button onClick={handleSaveSEO} className="bg-primary hover:bg-primary/90 text-black font-semibold">
@@ -793,13 +817,13 @@ export default function AdminPage() {
                     {loadingAI ? "Analyzing..." : "Generate Suggestion"}
                   </Button>
                 </div>
-                
+
                 {aiSuggestion && (
                   <div className="bg-black/30 border border-primary/20 rounded-lg p-4 mt-4">
                     <p className="text-white">{aiSuggestion}</p>
                   </div>
                 )}
-                
+
                 {!aiSuggestion && !loadingAI && (
                   <p className="text-muted-foreground text-center py-8">
                     Click "Generate Suggestion" to get AI-powered SEO recommendations
@@ -810,7 +834,8 @@ export default function AdminPage() {
               <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6">
                 <h3 className="text-2xl font-bold text-white mb-4">Sitemap Management</h3>
                 <p className="text-muted-foreground mb-4">
-                  Your sitemap is automatically generated and updated at <code className="text-primary">/sitemap.xml</code>
+                  Your sitemap is automatically generated and updated at{" "}
+                  <code className="text-primary">/sitemap.xml</code>
                 </p>
                 <div className="bg-black/50 border border-border rounded-lg p-4 font-mono text-sm text-gray-300">
                   <div>✓ Homepage (/)</div>
