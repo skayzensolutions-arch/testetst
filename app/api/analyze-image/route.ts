@@ -8,8 +8,10 @@ export async function POST(request: Request) {
       return Response.json({ error: "Image URL is required" }, { status: 400 })
     }
 
+    console.log("[v0] Analyzing image with AI:", imageUrl)
+
     const { text } = await generateText({
-      model: "openai/gpt-4o",
+      model: "openai/gpt-4o-mini",
       messages: [
         {
           role: "user",
@@ -27,6 +29,8 @@ export async function POST(request: Request) {
       ],
     })
 
+    console.log("[v0] AI analysis result:", text)
+
     // Parse the AI response
     const analysisMatch = text.match(/\{[\s\S]*"title"[\s\S]*"description"[\s\S]*\}/)
     if (analysisMatch) {
@@ -39,11 +43,19 @@ export async function POST(request: Request) {
       title: "Professional Paver Installation",
       description: "High-quality paver work showcasing expert craftsmanship and attention to detail.",
     })
-  } catch (error) {
-    console.error("Error analyzing image:", error)
+  } catch (error: any) {
+    console.error("[v0] Error analyzing image:", error)
+
     return Response.json(
-      { error: "Failed to analyze image" },
-      { status: 500 }
+      {
+        error: "Failed to analyze image",
+        details: error?.message || String(error),
+        fallback: {
+          title: "Beautiful Paver Installation",
+          description: "Premium paver installation featuring quality craftsmanship and professional design.",
+        },
+      },
+      { status: 500 },
     )
   }
 }

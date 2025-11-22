@@ -3,11 +3,10 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Folder } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from "@supabase/ssr"
 
 const categories = ["All", "Pool Area", "Driveway", "Repair"]
 
@@ -16,35 +15,60 @@ export default function PortfolioPage() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [visibleProjects, setVisibleProjects] = useState<number[]>([])
   const [portfolioProjects, setPortfolioProjects] = useState<any[]>([])
+  const [projectImages, setProjectImages] = useState<{ [key: number]: any[] }>({})
   const [loading, setLoading] = useState(true)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchProjects = async () => {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       )
 
       const { data, error } = await supabase
-        .from('portfolio_projects')
-        .select('*')
-        .order('position', { ascending: true })
+        .from("portfolio_projects")
+        .select("*")
+        .order("position", { ascending: true })
 
       if (error) {
-        console.error('Error fetching portfolio:', error)
+        console.error("Error fetching portfolio:", error)
       } else {
-        console.log('[v0] Portfolio projects loaded:', data)
-        data?.forEach(project => {
-          console.log('[v0] Project image path:', project.image)
-        })
+        console.log("[v0] Portfolio projects loaded:", data)
         setPortfolioProjects(data || [])
+
+        if (data) {
+          for (const project of data) {
+            await fetchProjectImages(project.id)
+          }
+        }
       }
       setLoading(false)
     }
 
     fetchProjects()
   }, [])
+
+  const fetchProjectImages = async (projectId: number) => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    )
+
+    const { data, error } = await supabase
+      .from("portfolio_images")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("position", { ascending: true })
+
+    if (!error && data) {
+      setProjectImages((prev) => ({
+        ...prev,
+        [projectId]: data,
+      }))
+    }
+  }
 
   const filteredProjects =
     selectedCategory === "All"
@@ -53,8 +77,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     setVisibleProjects([])
-    
-    // Immediately make all projects visible after category change
+
     const timer = setTimeout(() => {
       setVisibleProjects(filteredProjects.map((_, index) => index))
     }, 50)
@@ -65,6 +88,7 @@ export default function PortfolioPage() {
   useEffect(() => {
     if (selectedProject !== null) {
       document.body.style.overflow = "hidden"
+      setCurrentImageIndex(0)
     } else {
       document.body.style.overflow = "unset"
     }
@@ -73,20 +97,37 @@ export default function PortfolioPage() {
   const handlePrevious = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (selectedProject !== null) {
-      setSelectedProject((prev) => (prev! > 0 ? prev! - 1 : filteredProjects.length - 1))
+      const currentProject = filteredProjects[selectedProject]
+      const images = projectImages[currentProject.id] || []
+
+      if (images.length > 0 && currentImageIndex > 0) {
+        setCurrentImageIndex((prev) => prev - 1)
+      } else {
+        const newProjectIndex = selectedProject > 0 ? selectedProject - 1 : filteredProjects.length - 1
+        setSelectedProject(newProjectIndex)
+        setCurrentImageIndex(0)
+      }
     }
   }
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (selectedProject !== null) {
-      setSelectedProject((prev) => (prev! < filteredProjects.length - 1 ? prev! + 1 : 0))
+      const currentProject = filteredProjects[selectedProject]
+      const images = projectImages[currentProject.id] || []
+
+      if (images.length > 0 && currentImageIndex < images.length - 1) {
+        setCurrentImageIndex((prev) => prev + 1)
+      } else {
+        const newProjectIndex = selectedProject < filteredProjects.length - 1 ? selectedProject + 1 : 0
+        setSelectedProject(newProjectIndex)
+        setCurrentImageIndex(0)
+      }
     }
   }
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
@@ -103,7 +144,6 @@ export default function PortfolioPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="pt-32 pb-16 px-4">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">Our Portfolio</h1>
@@ -113,7 +153,6 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* Category Filter */}
       <section className="pb-12 px-4">
         <div className="container mx-auto">
           <div className="flex flex-wrap justify-center gap-3">
@@ -134,7 +173,6 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* Portfolio Grid */}
       <section ref={sectionRef} className="pb-24 px-4">
         <div className="container mx-auto">
           {loading ? (
@@ -148,59 +186,68 @@ export default function PortfolioPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project, index) => (
-                <div
-                  key={project.id}
-                  className={`group cursor-pointer transition-all duration-700 ${
-                    visibleProjects.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                  }`}
-                  onClick={() => setSelectedProject(index)}
-                >
-                  <div className="relative overflow-hidden rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300">
-                    {/* Image */}
-                    <div className="relative h-80 overflow-hidden bg-black/50">
-                      <img
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        onError={(e) => {
-                          console.error('[v0] Image failed to load:', project.image)
-                          e.currentTarget.src = '/paver-project.jpg'
-                        }}
-                        onLoad={() => console.log('[v0] Image loaded successfully:', project.image)}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+              {filteredProjects.map((project, index) => {
+                const images = projectImages[project.id] || []
+                const displayImage = images.length > 0 ? images[0].image_url : project.image
+                const hasMultipleImages = images.length > 1
 
-                      {/* Category Badge */}
-                      <div className="absolute top-4 right-4 bg-primary text-black px-4 py-2 rounded-full text-sm font-semibold">
-                        {project.category}
+                return (
+                  <div
+                    key={project.id}
+                    className={`group cursor-pointer transition-all duration-700 ${
+                      visibleProjects.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    }`}
+                    onClick={() => setSelectedProject(index)}
+                  >
+                    <div className="relative overflow-hidden rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300">
+                      <div className="relative h-80 overflow-hidden bg-black/50">
+                        <img
+                          src={displayImage || "/placeholder.svg"}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          onError={(e) => {
+                            console.error("[v0] Image failed to load:", displayImage)
+                            e.currentTarget.src = "/paver-project.jpg"
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+
+                        {hasMultipleImages && (
+                          <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md rounded-lg px-4 py-2 border border-primary/50 group-hover:border-primary group-hover:bg-black/90 transition-all duration-300 shadow-[0_0_20px_rgba(244,196,48,0.2)] flex items-center gap-2">
+                            <Folder className="h-5 w-5 text-primary" />
+                            <div className="text-left">
+                              <p className="text-white font-bold text-sm">{images.length} Photos</p>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="absolute top-4 right-4 bg-primary text-black px-4 py-2 rounded-full text-sm font-semibold">
+                          {project.category}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-primary transition-colors duration-300">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-3 flex items-center gap-2">
-                        <span>{project.location}</span>
-                        <span>•</span>
-                        <span>{project.year}</span>
-                      </p>
-                      <p className="text-muted-foreground leading-relaxed">{project.description}</p>
-                    </div>
+                      <div className="p-6">
+                        <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-primary transition-colors duration-300">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm mb-3 flex items-center gap-2">
+                          <span>{project.location}</span>
+                          <span>•</span>
+                          <span>{project.year}</span>
+                        </p>
+                        <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                      </div>
 
-                    {/* Shimmer effect */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* Lightbox */}
       {selectedProject !== null && (
         <div
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fade-in"
@@ -228,35 +275,77 @@ export default function PortfolioPage() {
           </button>
 
           <div className="max-w-6xl w-full">
-            <div className="relative aspect-video mb-6 bg-black">
-              <img
-                src={filteredProjects[selectedProject].image || "/placeholder.svg"}
-                alt={filteredProjects[selectedProject].title}
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  console.error('[v0] Lightbox image failed to load:', filteredProjects[selectedProject].image)
-                  e.currentTarget.src = '/paver-project.jpg'
-                }}
-              />
-            </div>
+            {(() => {
+              const currentProject = filteredProjects[selectedProject]
+              const images = projectImages[currentProject.id] || []
+              const displayImage = images.length > 0 ? images[currentImageIndex].image_url : currentProject.image
 
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-white mb-2">{filteredProjects[selectedProject].title}</h2>
-              <p className="text-muted-foreground mb-4">
-                {filteredProjects[selectedProject].location} • {filteredProjects[selectedProject].year}
-              </p>
-              <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
-                {filteredProjects[selectedProject].description}
-              </p>
-              <p className="text-muted-foreground mt-4">
-                {selectedProject + 1} / {filteredProjects.length}
-              </p>
-            </div>
+              return (
+                <>
+                  <div className="relative aspect-video mb-6 bg-black">
+                    <img
+                      src={displayImage || "/placeholder.svg"}
+                      alt={currentProject.title}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        console.error("[v0] Lightbox image failed to load:", displayImage)
+                        e.currentTarget.src = "/paver-project.jpg"
+                      }}
+                    />
+                  </div>
+
+                  {images.length > 1 && (
+                    <div className="flex gap-2 justify-center mb-6 overflow-x-auto pb-2">
+                      {images.map((img: any, idx: number) => (
+                        <button
+                          key={idx}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setCurrentImageIndex(idx)
+                          }}
+                          className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                            idx === currentImageIndex
+                              ? "border-primary scale-110"
+                              : "border-border hover:border-primary/50"
+                          }`}
+                        >
+                          <img
+                            src={img.image_url || "/placeholder.svg"}
+                            alt={`Thumbnail ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="text-center">
+                    <h2 className="text-3xl font-bold text-white mb-2">{currentProject.title}</h2>
+                    <p className="text-muted-foreground mb-4">
+                      {currentProject.location} • {currentProject.year}
+                      {images.length > 1 && (
+                        <>
+                          {" • "}
+                          <span>
+                            Image {currentImageIndex + 1} of {images.length}
+                          </span>
+                        </>
+                      )}
+                    </p>
+                    <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
+                      {currentProject.description}
+                    </p>
+                    <p className="text-muted-foreground mt-4">
+                      Project {selectedProject + 1} / {filteredProjects.length}
+                    </p>
+                  </div>
+                </>
+              )
+            })()}
           </div>
         </div>
       )}
 
-      {/* CTA Section */}
       <section className="py-24 px-4 border-t border-border">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Ready to Start Your Project?</h2>

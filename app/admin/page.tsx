@@ -93,9 +93,11 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<any[]>([])
   const [editingProject, setEditingProject] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
+  const [projectImages, setProjectImages] = useState<any[]>([])
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>("")
   const [analyzingImage, setAnalyzingImage] = useState(false)
+  const [uploadingImages, setUploadingImages] = useState(false)
 
   const [activeTab, setActiveTab] = useState<"portfolio" | "seo">("portfolio")
   const [seoData, setSeoData] = useState({
@@ -152,15 +154,35 @@ export default function AdminPage() {
       year: "2024",
     })
     setShowForm(true)
+    setProjectImages([]) // Clear previous images
   }
 
-  const handleEdit = (project: any) => {
+  const handleEdit = async (project: any) => {
     setEditingProject({ ...project })
     setShowForm(true)
+
+    await loadProjectImages(project.id)
+  }
+
+  const loadProjectImages = async (projectId: number) => {
+    const supabase = getSupabaseBrowserClient()
+    const { data, error } = await supabase
+      .from("portfolio_images")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("position", { ascending: true })
+
+    if (error) {
+      console.error("[v0] Error loading project images:", error)
+      setProjectImages([])
+    } else {
+      console.log("[v0] Loaded images for project:", data)
+      setProjectImages(data || [])
+    }
   }
 
   const handleDelete = async (id: number) => {
-    if (confirm("Are you sure you want to delete this project?")) {
+    if (confirm("Are you sure you want to delete this project? This will also delete all associated images.")) {
       const supabase = getSupabaseBrowserClient()
 
       const { error } = await supabase.from("portfolio_projects").delete().eq("id", id)
@@ -209,7 +231,7 @@ export default function AdminPage() {
 
   const handleSave = async () => {
     if (editingProject) {
-      console.log("[v0] Saving project with image URL:", editingProject.image)
+      console.log("[v0] Saving project...")
 
       const supabase = getSupabaseBrowserClient()
 
@@ -220,7 +242,7 @@ export default function AdminPage() {
             title: editingProject.title,
             location: editingProject.location,
             description: editingProject.description,
-            image: editingProject.image,
+            image: projectImages.length > 0 ? projectImages[0].image_url : editingProject.image,
             category: editingProject.category,
             year: editingProject.year,
             updated_at: new Date().toISOString(),
@@ -235,26 +257,42 @@ export default function AdminPage() {
 
         console.log("[v0] Project updated successfully")
       } else {
-        const { error } = await supabase.from("portfolio_projects").insert({
-          title: editingProject.title,
-          location: editingProject.location,
-          description: editingProject.description,
-          image: editingProject.image,
-          category: editingProject.category,
-          year: editingProject.year,
-          position: projects.length,
-        })
+        const { data, error } = await supabase
+          .from("portfolio_projects")
+          .insert({
+            title: editingProject.title,
+            location: editingProject.location,
+            description: editingProject.description,
+            image: projectImages.length > 0 ? projectImages[0].image_url : "",
+            category: editingProject.category,
+            year: editingProject.year,
+            position: projects.length,
+          })
+          .select()
+          .single()
 
         if (error) {
           console.error("Error creating project:", error)
           alert("Failed to save project. Please try again.")
           return
         }
+
+        console.log("[v0] New project created, uploading images...")
+        if (projectImages.length > 0) {
+          for (let i = 0; i < projectImages.length; i++) {
+            await supabase.from("portfolio_images").insert({
+              project_id: data.id,
+              image_url: projectImages[i].image_url,
+              position: i,
+            })
+          }
+        }
       }
 
       await loadProjects()
       setShowForm(false)
       setEditingProject(null)
+      setProjectImages([])
       setImageFile(null)
       setImagePreview("")
     }
@@ -263,54 +301,69 @@ export default function AdminPage() {
   const handleCancel = () => {
     setShowForm(false)
     setEditingProject(null)
+    setProjectImages([])
     setImageFile(null)
     setImagePreview("")
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        alert("File size must be less than 10MB. Please choose a smaller image.")
-        return
-      }
+    const files = e.target.files
+    if (!files || files.length === 0) return
 
-      setImageFile(file)
-      const reader = new FileReader()
-      reader.onloadend = async () => {
-        const result = reader.result as string
-        setImagePreview(result)
-
-        console.log("[v0] Starting image upload...", file.name)
-
-        const formData = new FormData()
-        formData.append("file", file)
-
-        try {
-          const response = await fetch("/api/upload-image", {
-            method: "POST",
-            body: formData,
-          })
-
-          const data = await response.json()
-
-          if (response.ok) {
-            console.log("[v0] Image upload successful:", data.url)
-            setEditingProject((prev: any) => ({ ...prev, image: data.url }))
-
-            console.log("[v0] Starting AI image analysis...")
-            await analyzeImage(data.url)
-          } else {
-            console.error("[v0] Upload failed:", data.error)
-            alert(`Failed to upload image: ${data.error || "Please try again."}`)
-          }
-        } catch (error: any) {
-          console.error("[v0] Error uploading image:", error)
-          alert(`Error uploading image: ${error.message || "Please try again."}`)
-        }
-      }
-      reader.readAsDataURL(file)
+    if (files.length > 10) {
+      alert("You can upload a maximum of 10 images per project.")
+      return
     }
+
+    setUploadingImages(true)
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`File "${file.name}" is too large. Maximum size is 10MB.`)
+        continue
+      }
+
+      console.log("[v0] Uploading image:", file.name)
+
+      const formData = new FormData()
+      formData.append("file", file)
+
+      try {
+        const response = await fetch("/api/upload-image", {
+          method: "POST",
+          body: formData,
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          console.log("[v0] Image upload successful:", data.url)
+
+          const newImage = {
+            image_url: data.url,
+            position: projectImages.length,
+            project_id: editingProject?.id,
+            id: Date.now() + i, // Temporary ID for new images
+          }
+
+          setProjectImages((prev) => [...prev, newImage])
+
+          if (i === 0 && projectImages.length === 0) {
+            await analyzeImage(data.url)
+          }
+        } else {
+          console.error("[v0] Upload failed:", data.error)
+          alert(`Failed to upload "${file.name}": ${data.error || "Please try again."}`)
+        }
+      } catch (error: any) {
+        console.error("[v0] Error uploading image:", error)
+        alert(`Error uploading "${file.name}": ${error.message || "Please try again."}`)
+      }
+    }
+
+    setUploadingImages(false)
   }
 
   const analyzeImage = async (imageUrl: string) => {
@@ -324,24 +377,81 @@ export default function AdminPage() {
         body: JSON.stringify({ imageUrl }),
       })
 
+      const data = await response.json()
+
       if (response.ok) {
-        const analysis = await response.json()
-        console.log("[v0] AI analysis complete:", analysis)
+        console.log("[v0] AI analysis complete:", data)
 
         setEditingProject((prev: any) => ({
           ...prev,
-          title: analysis.title || prev.title,
-          description: analysis.description || prev.description,
+          title: data.title || prev.title,
+          description: data.description || prev.description,
         }))
 
         alert("✨ AI has generated a title and description! You can edit them before saving.")
+      } else if (data.fallback) {
+        // Use fallback if AI fails but fallback is provided
+        console.log("[v0] Using fallback analysis:", data.fallback)
+
+        setEditingProject((prev: any) => ({
+          ...prev,
+          title: data.fallback.title || prev.title,
+          description: data.fallback.description || prev.description,
+        }))
+
+        alert("⚠️ AI analysis unavailable. Using default description. Please customize before saving.")
       } else {
-        console.error("[v0] AI analysis failed:", await response.text())
+        console.error("[v0] AI analysis failed:", data)
+        alert("AI analysis is temporarily unavailable. Please add a title and description manually.")
       }
     } catch (error) {
       console.error("[v0] Error analyzing image:", error)
+      alert("AI analysis is temporarily unavailable. Please add a title and description manually.")
     } finally {
       setAnalyzingImage(false)
+    }
+  }
+
+  const handleRemoveImage = async (imageIndex: number) => {
+    const image = projectImages[imageIndex]
+
+    if (image.project_id && image.id) {
+      if (confirm("Are you sure you want to delete this image?")) {
+        const supabase = getSupabaseBrowserClient()
+        const { error } = await supabase.from("portfolio_images").delete().eq("id", image.id)
+
+        if (error) {
+          console.error("[v0] Error deleting image:", error)
+          alert("Failed to delete image")
+          return
+        }
+      } else {
+        return
+      }
+    }
+
+    setProjectImages((prev) => prev.filter((_, i) => i !== imageIndex))
+  }
+
+  const handleMoveImage = async (fromIndex: number, toIndex: number) => {
+    const newImages = [...projectImages]
+    const [movedImage] = newImages.splice(fromIndex, 1)
+    newImages.splice(toIndex, 0, movedImage)
+
+    // Update positions
+    newImages.forEach((img, idx) => {
+      img.position = idx
+    })
+
+    setProjectImages(newImages)
+
+    if (editingProject?.id && projectImages.find((p) => p.project_id)) {
+      const supabase = getSupabaseBrowserClient()
+      for (const img of newImages) {
+        if (img.project_id && img.id) {
+          await supabase.from("portfolio_images").update({ position: img.position }).eq("id", img.id)
+        }
+      }
     }
   }
 
@@ -537,10 +647,12 @@ export default function AdminPage() {
                     <h3 className="text-2xl font-bold text-white">
                       {projects.find((p) => p.id === editingProject.id) ? "Edit Project" : "Add New Project"}
                     </h3>
-                    {analyzingImage && (
+                    {(analyzingImage || uploadingImages) && (
                       <div className="flex items-center gap-2 text-primary">
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        <span className="text-sm font-medium">AI Analyzing Image...</span>
+                        <span className="text-sm font-medium">
+                          {analyzingImage ? "AI Analyzing..." : "Uploading Images..."}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -649,6 +761,82 @@ export default function AdminPage() {
                       </p>
                     </div>
                   </div>
+
+                  <div className="mt-6">
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Project Images (Upload multiple images)
+                    </label>
+                    <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="multiple-image-upload"
+                        disabled={uploadingImages}
+                      />
+                      <label
+                        htmlFor="multiple-image-upload"
+                        className="cursor-pointer flex flex-col items-center gap-2"
+                      >
+                        <Upload className="h-12 w-12 text-muted-foreground" />
+                        <span className="text-white font-medium">
+                          {uploadingImages ? "Uploading..." : "Click to upload images"}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          PNG, JPG, or WebP (max 10MB each, up to 10 images)
+                        </span>
+                      </label>
+                    </div>
+
+                    {projectImages.length > 0 && (
+                      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {projectImages.map((img, index) => (
+                          <div key={img.id || index} className="relative group">
+                            <img
+                              src={img.image_url || "/placeholder.svg"}
+                              alt={`Image ${index + 1}`}
+                              className="w-full h-32 object-cover rounded-lg border border-border"
+                            />
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
+                              {index > 0 && (
+                                <button
+                                  onClick={() => handleMoveImage(index, index - 1)}
+                                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                                  title="Move left"
+                                >
+                                  <ArrowUp className="h-4 w-4 text-white rotate-[-90deg]" />
+                                </button>
+                              )}
+                              {index < projectImages.length - 1 && (
+                                <button
+                                  onClick={() => handleMoveImage(index, index + 1)}
+                                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                                  title="Move right"
+                                >
+                                  <ArrowDown className="h-4 w-4 text-white rotate-[-90deg]" />
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleRemoveImage(index)}
+                                className="p-2 bg-red-500/80 hover:bg-red-600 rounded-lg transition-colors"
+                                title="Delete"
+                              >
+                                <Trash2 className="h-4 w-4 text-white" />
+                              </button>
+                            </div>
+                            {index === 0 && (
+                              <div className="absolute top-2 left-2 bg-primary text-black text-xs font-bold px-2 py-1 rounded">
+                                Cover
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex gap-4 mt-6">
                     <Button onClick={handleSave} className="bg-primary hover:bg-primary/90 text-black font-semibold">
                       <Save className="h-4 w-4 mr-2" />
