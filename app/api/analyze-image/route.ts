@@ -18,7 +18,7 @@ export async function POST(request: Request) {
           content: [
             {
               type: "text",
-              text: "You are analyzing a paver installation project photo for Skylight Paver Solutions, a professional paver company in Jacksonville, FL. Analyze this image and provide: 1) A professional project title (5-8 words), 2) A detailed description (20-30 words) highlighting the paver work, design, and quality. Format your response as JSON with 'title' and 'description' fields.",
+              text: 'Describe this paver project in 1-2 short sentences. Be direct and natural - mention what you see (pool deck, driveway, patio, walkway), the paver style/color if visible, and location details. Include keywords like \'paver installation\', \'Jacksonville\', or \'Florida\'. Keep it under 25 words total. Also suggest a simple 4-6 word title. Return as JSON: {"title": "...", "description": "..."}',
             },
             {
               type: "image",
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
 
     // Fallback if JSON parsing fails
     return Response.json({
-      title: "Professional Paver Installation",
-      description: "High-quality paver work showcasing expert craftsmanship and attention to detail.",
+      title: "Paver Installation Project",
+      description: "Custom paver work in Jacksonville, Florida.",
     })
   } catch (error: any) {
     console.error("[v0] Error analyzing image:", error)
@@ -51,8 +51,8 @@ export async function POST(request: Request) {
         error: "Failed to analyze image",
         details: error?.message || String(error),
         fallback: {
-          title: "Beautiful Paver Installation",
-          description: "Premium paver installation featuring quality craftsmanship and professional design.",
+          title: "Paver Installation",
+          description: "Quality paver work in Jacksonville, FL.",
         },
       },
       { status: 500 },
