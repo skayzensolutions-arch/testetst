@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import "./globals.css"
+import Script from "next/script"
 
 const _geist = Geist({ subsets: ["latin"], display: "swap" })
 const _geistMono = Geist_Mono({ subsets: ["latin"], display: "swap" })
@@ -235,39 +236,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17688076133"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17688076133');
-            `,
-          }}
-        />
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function gtag_report_conversion(url) {
-                var callback = function () {
-                  if (typeof(url) != 'undefined') {
-                    window.location = url;
-                  }
-                };
-                gtag('event', 'conversion', {
-                  'send_to': 'AW-17688076133/sU6ACMqGycwbEOW-qvJB',
-                  'value': 1.0,
-                  'currency': 'EUR',
-                  'event_callback': callback
-                });
-                return false;
-              }
-            `,
-          }}
-        />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -296,6 +264,34 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body className={`font-sans antialiased`}>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17688076133" strategy="afterInteractive" />
+        <Script id="google-ads-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17688076133');
+          `}
+        </Script>
+        <Script id="google-ads-conversion" strategy="afterInteractive">
+          {`
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                'send_to': 'AW-17688076133/sU6ACMqGycwbEOW-qvJB',
+                'value': 1.0,
+                'currency': 'EUR',
+                'event_callback': callback
+              });
+              return false;
+            }
+          `}
+        </Script>
+
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>
