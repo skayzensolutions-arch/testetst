@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Phone, Menu, X, Globe } from 'lucide-react'
+import { Phone, Menu, X, Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/lib/language-context"
 import type { Language } from "@/lib/translations"
@@ -30,9 +30,18 @@ export function Navigation() {
     setLanguage(code as Language)
   }
 
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-primary/10 transition-all duration-300" role="banner">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-primary/10 transition-all duration-300"
+        role="banner"
+      >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -111,7 +120,7 @@ export function Navigation() {
               </DropdownMenu>
 
               {/* Call Button - Desktop */}
-              <a href="tel:9044373853" className="hidden md:block">
+              <a href="tel:9044373853" className="hidden md:block" onClick={handlePhoneClick}>
                 <Button
                   size="lg"
                   className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 animate-pulse-glow"
@@ -172,7 +181,14 @@ export function Navigation() {
                 </a>
               ),
             )}
-            <a href="tel:9044373853" className="mt-4" onClick={() => setIsMenuOpen(false)}>
+            <a
+              href="tel:9044373853"
+              className="mt-4"
+              onClick={() => {
+                handlePhoneClick()
+                setIsMenuOpen(false)
+              }}
+            >
               <Button
                 size="lg"
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-lg hover:shadow-primary/30 transition-all duration-300"

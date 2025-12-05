@@ -1,8 +1,16 @@
-import { Phone, MapPin, CheckCircle } from 'lucide-react'
+"use client"
+
+import { Phone, MapPin, CheckCircle } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 
 export default function QuotePage() {
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   return (
     <>
       <Navigation />
@@ -27,6 +35,7 @@ export default function QuotePage() {
                       <a
                         href="tel:9044373853"
                         className="flex items-center gap-4 text-lg text-muted-foreground hover:text-primary transition-colors group"
+                        onClick={handlePhoneClick}
                       >
                         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                           <Phone className="h-6 w-6 text-primary" />
@@ -83,7 +92,7 @@ export default function QuotePage() {
                     </p>
                   </div>
 
-                  <a href="tel:9044373853" className="block">
+                  <a href="tel:9044373853" className="block" onClick={handlePhoneClick}>
                     <button
                       type="button"
                       className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow flex items-center justify-center gap-3"

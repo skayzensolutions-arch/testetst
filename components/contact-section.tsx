@@ -1,10 +1,16 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Phone, MapPin } from 'lucide-react'
+import { Phone, MapPin } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
 
 export function ContactSection() {
   const { t } = useLanguage()
+
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
 
   return (
     <section className="py-24 bg-black relative overflow-hidden" id="contact">
@@ -25,6 +31,7 @@ export function ContactSection() {
                   <a
                     href="tel:9044373853"
                     className="flex items-center gap-4 text-lg text-muted-foreground hover:text-primary transition-colors group"
+                    onClick={handlePhoneClick}
                   >
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <Phone className="h-6 w-6 text-primary" />
@@ -57,7 +64,7 @@ export function ContactSection() {
                 </p>
               </div>
 
-              <a href="tel:9044373853" className="block">
+              <a href="tel:9044373853" className="block" onClick={handlePhoneClick}>
                 <Button
                   size="lg"
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-xl py-8 font-semibold shadow-xl hover:shadow-primary/30 transition-all hover:scale-105 animate-pulse-glow inline-flex items-center justify-center gap-3"
@@ -68,9 +75,9 @@ export function ContactSection() {
               </a>
             </div>
 
-            <form 
-              action="https://formsubmit.co/lopes@skylightpaver.com" 
-              method="POST" 
+            <form
+              action="https://formsubmit.co/lopes@skylightpaver.com"
+              method="POST"
               className="space-y-6"
               onSubmit={(e) => {
                 console.log("[v0] Form submitting to FormSubmit.co")

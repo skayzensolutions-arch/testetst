@@ -1,9 +1,21 @@
+"use client"
+
 import Image from "next/image"
-import { Instagram, Phone, MapPin, Facebook, Mail } from 'lucide-react'
+import { Instagram, Phone, MapPin, Facebook, Mail } from "lucide-react"
 
 export function Footer() {
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   return (
-    <footer className="bg-black text-white py-12 border-t border-primary/20" role="contentinfo" aria-label="Site footer">
+    <footer
+      className="bg-black text-white py-12 border-t border-primary/20"
+      role="contentinfo"
+      aria-label="Site footer"
+    >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo and Company Info */}
@@ -28,17 +40,26 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/#services" className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline">
+                <a
+                  href="/#services"
+                  className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+                >
                   Services
                 </a>
               </li>
               <li>
-                <a href="/portfolio" className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline">
+                <a
+                  href="/portfolio"
+                  className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+                >
                   Portfolio
                 </a>
               </li>
               <li>
-                <a href="/#contact" className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline">
+                <a
+                  href="/#contact"
+                  className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+                >
                   Contact
                 </a>
               </li>
@@ -53,6 +74,7 @@ export function Footer() {
                 href="tel:9044373853"
                 className="flex items-center gap-2 text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
                 aria-label="Call us at 904-437-3853"
+                onClick={handlePhoneClick}
               >
                 <Phone className="h-4 w-4" />
                 (904) 437-3853
@@ -96,9 +118,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary/20 pt-8 text-center">
-          <p className="text-gray-300 mb-2">
-            Licensed & Insured | Satisfaction Guaranteed | Local Florida Experts
-          </p>
+          <p className="text-gray-300 mb-2">Licensed & Insured | Satisfaction Guaranteed | Local Florida Experts</p>
           <p className="text-gray-400 text-sm">
             © {new Date().getFullYear()} Skylight Paver Solutions LLC. All rights reserved. | Created by{" "}
             <a

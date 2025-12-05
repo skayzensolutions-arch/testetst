@@ -7,6 +7,12 @@ import { useEffect, useState } from "react"
 export function StickyMobileCTA() {
   const [isVisible, setIsVisible] = useState(false)
 
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       setIsVisible(window.scrollY > 200)
@@ -22,7 +28,7 @@ export function StickyMobileCTA() {
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <a href="tel:9044373853" className="block">
+      <a href="tel:9044373853" className="block" onClick={handlePhoneClick}>
         <Button
           size="lg"
           className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base py-5 shadow-xl animate-pulse-glow"

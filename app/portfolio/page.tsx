@@ -20,6 +20,12 @@ export default function PortfolioPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
 
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   useEffect(() => {
     const fetchProjects = async () => {
       const supabase = createBrowserClient(
@@ -136,7 +142,7 @@ export default function PortfolioPage() {
               Back to Home
             </Button>
           </Link>
-          <a href="tel:+19044373853">
+          <a href="tel:+19044373853" onClick={handlePhoneClick}>
             <Button className="bg-primary hover:bg-primary/90 text-black font-semibold transition-all duration-300 hover:shadow-[0_0_30px_rgba(244,196,48,0.5)]">
               (904) 437-3853
             </Button>
@@ -352,7 +358,7 @@ export default function PortfolioPage() {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
             Let's talk about transforming your outdoor space. Free estimates available.
           </p>
-          <a href="tel:+19044373853">
+          <a href="tel:+19044373853" onClick={handlePhoneClick}>
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-black font-semibold text-lg px-8 py-6 transition-all duration-300 hover:shadow-[0_0_40px_rgba(244,196,48,0.6)] hover:scale-105"

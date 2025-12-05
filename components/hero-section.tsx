@@ -14,6 +14,12 @@ export function HeroSection() {
     setIsVisible(true)
   }, [])
 
+  const handlePhoneClick = () => {
+    if (typeof window !== "undefined" && (window as any).gtag_report_conversion) {
+      ;(window as any).gtag_report_conversion("tel:9044373853")
+    }
+  }
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
@@ -59,7 +65,7 @@ export function HeroSection() {
               {t.getFreeEstimate}
             </Button>
           </a>
-          <a href="tel:9044373853" className="w-full sm:w-auto">
+          <a href="tel:9044373853" className="w-full sm:w-auto" onClick={handlePhoneClick}>
             <Button
               size="lg"
               variant="outline"
