@@ -43,7 +43,7 @@ export const translations = {
     // Why Choose Us
     whyChooseUsTitle: "Why Choose Us",
     whyChooseUsSubtitle: "Here's what sets us apart from other paver companies in Florida",
-    experiencedTitle: "Doing this since 2024",
+    experiencedTitle: "Doing this since 2018",
     experiencedDesc:
       "We're building our reputation project by project. We know what Florida properties need, and we're committed to quality work that lasts.",
     qualityTitle: "Quality Materials",
@@ -124,7 +124,7 @@ export const translations = {
     // Why Choose Us
     whyChooseUsTitle: "Por Qué Elegirnos",
     whyChooseUsSubtitle: "Esto es lo que nos distingue de otras compañías de pavimento en Florida",
-    experiencedTitle: "Haciendo esto desde 2024",
+    experiencedTitle: "Haciendo esto desde 2018",
     experiencedDesc:
       "Estamos construyendo nuestra reputación proyecto por proyecto. Sabemos lo que las propiedades de Florida necesitan y estamos comprometidos con un trabajo de calidad que dure.",
     qualityTitle: "Materiales de Calidad",
@@ -205,7 +205,7 @@ export const translations = {
     // Why Choose Us
     whyChooseUsTitle: "Por Que Nos Escolher",
     whyChooseUsSubtitle: "Aqui está o que nos diferencia de outras empresas de pavimentação na Flórida",
-    experiencedTitle: "Fazendo isso desde 2024",
+    experiencedTitle: "Fazendo isso desde 2018",
     experiencedDesc:
       "Estamos construindo nossa reputação projeto por projeto. Sabemos o que as propriedades da Flórida precisam e estamos comprometidos com um trabalho de qualidade que dure.",
     qualityTitle: "Materiais de Qualidade",
