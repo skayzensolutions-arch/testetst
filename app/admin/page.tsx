@@ -336,9 +336,17 @@ export default function AdminPage() {
           body: formData,
         })
 
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get("content-type")
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await response.text()
+          console.error("[v0] Non-JSON response:", text)
+          throw new Error("Server returned an invalid response. Please try again.")
+        }
+
         const data = await response.json()
 
-        if (response.ok) {
+        if (response.ok && data.url) {
           console.log("[v0] Image upload successful:", data.url)
 
           const newImage = {
