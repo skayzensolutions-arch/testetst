@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero-section"
 import { ServicesSection } from "@/components/services-section"
 import { WhyChooseUsSection } from "@/components/why-choose-us-section"
 import { GallerySection } from "@/components/gallery-section"
+import { ServiceAreasSection } from "@/components/service-areas-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { StickyMobileCTA } from "@/components/sticky-mobile-cta"
@@ -15,6 +16,7 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseUsSection />
       <GallerySection />
+      <ServiceAreasSection />
       <ContactSection />
       <Footer />
       <StickyMobileCTA />

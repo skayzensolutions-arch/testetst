@@ -9,9 +9,9 @@ export const translations = {
     call: "Call",
 
     // Hero
-    heroTitle: "The Way Outdoor Living Should Be",
+    heroTitle: "Paver Installation in Jacksonville, FL",
     heroSubtitle:
-      "Premium Paver Installations — Beautiful, Durable, Built to Last. Serving Jacksonville & Surrounding Florida Areas",
+      "We install beautiful and durable paver driveways, patios, walkways, pool decks, and outdoor kitchens for homeowners and businesses in Jacksonville and nearby areas.",
     getFreeEstimate: "Get Your Free Estimate",
     callUsNow: "Call Us Now",
 
@@ -89,9 +89,9 @@ export const translations = {
     call: "Llamar",
 
     // Hero
-    heroTitle: "La Forma en que Debería Ser la Vida al Aire Libre",
+    heroTitle: "Instalación de Pavimento en Jacksonville, FL",
     heroSubtitle:
-      "Instalaciones Premium de Pavimento — Hermosas, Durables, Construidas para Durar. Sirviendo a Jacksonville y Áreas Circundantes de Florida",
+      "Instalamos hermosas y duraderas entradas de auto, patios, senderos, terrazas de piscina y cocinas exteriores para propietarios y negocios en Jacksonville y áreas cercanas.",
     getFreeEstimate: "Obtén Tu Presupuesto Gratis",
     callUsNow: "Llámanos Ahora",
 
@@ -171,9 +171,9 @@ export const translations = {
     call: "Ligar",
 
     // Hero
-    heroTitle: "O Jeito que a Vida ao Ar Livre Deveria Ser",
+    heroTitle: "Instalação de Pavimentação em Jacksonville, FL",
     heroSubtitle:
-      "Instalações Premium de Pavimentação — Bonitas, Duráveis, Construídas para Durar. Servindo Jacksonville e Áreas Circundantes da Flórida",
+      "Instalamos belas e duráveis entradas de garagem, pátios, caminhos, decks de piscina e cozinhas externas para proprietários e empresas em Jacksonville e arredores.",
     getFreeEstimate: "Obtenha Seu Orçamento Grátis",
     callUsNow: "Ligue Agora",
 

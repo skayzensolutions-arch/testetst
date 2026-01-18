@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   title: {
-    default: "Paver Installation Jacksonville FL | Patios, Pool Decks, Driveways | Skylight Paver Solutions",
+    default: "Paver Installation Jacksonville FL | Driveways, Patios & Walkways",
     template: "%s | Paver Contractor Jacksonville FL",
   },
   description:
-    "Jacksonville's trusted paver contractor since 2018. We install beautiful patios, pool decks, driveways, firepits & outdoor kitchens. NOT skylight installation - we specialize in brick pavers & hardscaping. Licensed & insured. Free estimates: (904) 437-3853",
+    "Professional paver installation in Jacksonville FL. Driveways, patios, walkways, pool decks & outdoor kitchens. Serving Jacksonville, Orange Park, Ponte Vedra, St. Johns & Atlantic Beach. Free estimates: (904) 437-3853",
   keywords:
     "paver installation Jacksonville FL, patio pavers Jacksonville, pool deck pavers Jacksonville, driveway pavers Jacksonville, firepit installation Jacksonville, outdoor kitchen pavers Jacksonville, brick pavers Jacksonville FL, hardscaping Jacksonville, paver contractor near me, Jacksonville patio contractor, pool deck installation Jacksonville Beach, driveway paving Jacksonville, paver repair Jacksonville, St Augustine pavers, Ponte Vedra paver installation, Duval County hardscaping",
   authors: [{ name: "Skylight Paver Solutions", url: "https://skylightpaver.com" }],

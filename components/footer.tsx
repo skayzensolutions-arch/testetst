@@ -63,6 +63,14 @@ export function Footer() {
                   Contact
                 </a>
               </li>
+              <li>
+                <a
+                  href="/paver-installation-jacksonville-fl"
+                  className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+                >
+                  Paver Installation Jacksonville
+                </a>
+              </li>
             </ul>
           </div>
 
