@@ -1,7 +1,6 @@
 "use client"
 
 import { Shield, Award, DollarSign, MapPin } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/lib/language-context"
 
 const features = [
@@ -28,32 +27,10 @@ const features = [
 ]
 
 export function WhyChooseUsSection() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLDivElement>(null)
   const { t } = useLanguage()
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-            observer.disconnect()
-          }
-        })
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-black via-secondary to-black relative" id="why-us">
+    <section className="py-24 bg-gradient-to-b from-black via-secondary to-black relative" id="why-us">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
@@ -71,12 +48,9 @@ export function WhyChooseUsSection() {
             return (
               <div
                 key={index}
-                className={`bg-card/30 backdrop-blur-sm border border-border rounded-lg p-8 text-center hover:border-primary transition-all duration-500 hover:transform hover:scale-105 group ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="bg-card/30 backdrop-blur-sm border border-border rounded-lg p-8 text-center hover:border-primary transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 group"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors duration-300">
                   <Icon className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-white">{t[feature.titleKey as keyof typeof t]}</h3>

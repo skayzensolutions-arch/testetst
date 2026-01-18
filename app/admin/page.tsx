@@ -236,6 +236,7 @@ export default function AdminPage() {
       const supabase = getSupabaseBrowserClient()
 
       if (editingProject.id && projects.find((p) => p.id === editingProject.id)) {
+        // Update existing project
         const { error } = await supabase
           .from("portfolio_projects")
           .update({
@@ -253,6 +254,22 @@ export default function AdminPage() {
           console.error("[v0] Error updating project:", error)
           alert("Failed to save project. Please try again.")
           return
+        }
+
+        // Save any new images that don't have a database ID yet
+        const newImages = projectImages.filter(img => !img.project_id || img.id > 1000000000000)
+        console.log("[v0] Saving new images for existing project:", newImages.length)
+        
+        for (let i = 0; i < newImages.length; i++) {
+          const { error: imgError } = await supabase.from("portfolio_images").insert({
+            project_id: editingProject.id,
+            image_url: newImages[i].image_url,
+            position: projectImages.findIndex(p => p.image_url === newImages[i].image_url),
+          })
+          
+          if (imgError) {
+            console.error("[v0] Error saving image:", imgError)
+          }
         }
 
         console.log("[v0] Project updated successfully")
