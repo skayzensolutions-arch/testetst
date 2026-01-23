@@ -110,12 +110,31 @@ export function GallerySection() {
   }
 
   return (
-    <section ref={sectionRef} className="py-24 bg-black" id="gallery">
-      <div className="container mx-auto px-4">
+    <section ref={sectionRef} className="py-24 bg-black relative overflow-hidden" id="gallery">
+      {/* Stone texture background */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-patio.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-[0.08]"
+          style={{ filter: "grayscale(100%)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+      </div>
+      
+      {/* Accent lines */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">Our Work</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            See what we've built for homeowners across Florida
+          <p className="text-primary font-semibold uppercase tracking-wider mb-4">Portfolio</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
+            Our <span className="text-primary">Recent Projects</span>
+          </h2>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Browse through our portfolio of completed paver installations across Jacksonville and Northeast Florida
           </p>
         </div>
 

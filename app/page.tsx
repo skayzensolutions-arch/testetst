@@ -1,8 +1,9 @@
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
-import { ServicesSection } from "@/components/services-section"
+import { ServicesGridSection } from "@/components/services-grid-section"
 import { WhyChooseUsSection } from "@/components/why-choose-us-section"
 import { GallerySection } from "@/components/gallery-section"
+import { ReviewsSection } from "@/components/reviews-section"
 import { ServiceAreasSection } from "@/components/service-areas-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
@@ -13,9 +14,10 @@ export default function Home() {
     <main className="min-h-screen">
       <Navigation />
       <HeroSection />
-      <ServicesSection />
+      <ServicesGridSection />
       <WhyChooseUsSection />
       <GallerySection />
+      <ReviewsSection />
       <ServiceAreasSection />
       <ContactSection />
       <Footer />
