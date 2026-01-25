@@ -109,17 +109,17 @@ export function ServiceAreasSection() {
 
           {/* Right Side - Content */}
           <div className={`transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
-            <p className="text-primary font-semibold uppercase tracking-wider mb-4">Service Areas</p>
+            <p className="text-primary font-semibold uppercase tracking-wider mb-4">Paver Installation Service Areas</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Serving <span className="text-primary">Northeast Florida</span>
+              Top-Rated Paver Contractor in <span className="text-primary">Jacksonville FL</span>
             </h2>
             <p className="text-gray-400 text-lg mb-10 leading-relaxed">
-              From Jacksonville to St. Augustine, our expert team delivers premium paver installations to homeowners across the region.
+              Looking for professional paver installation in Jacksonville, Ponte Vedra, or St. Augustine? Our licensed team has completed 300+ projects across Northeast Florida, delivering premium driveways, patios, pool decks, and outdoor living spaces.
             </p>
 
             {/* Primary Areas */}
             <div className="mb-8">
-              <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Primary Service Areas</h3>
+              <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Paver Installation Near You</h3>
               <div className="flex flex-wrap gap-2">
                 {primaryAreas.map((area, index) => (
                   <span
@@ -127,7 +127,7 @@ export function ServiceAreasSection() {
                     className="inline-flex items-center gap-2 bg-primary/15 border border-primary/30 text-primary px-4 py-2 rounded-full text-sm font-medium"
                   >
                     <CheckCircle className="w-4 h-4" />
-                    {area}
+                    {area}, FL
                   </span>
                 ))}
               </div>
@@ -135,9 +135,9 @@ export function ServiceAreasSection() {
 
             {/* Additional Areas - Simple inline list */}
             <div className="mb-10">
-              <h3 className="text-gray-500 font-medium mb-3 text-sm">Also Serving</h3>
+              <h3 className="text-gray-500 font-medium mb-3 text-sm">Also Serving Duval & St. Johns County</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                {additionalAreas.join(" • ")}
+                {additionalAreas.join(" • ")} and all surrounding areas
               </p>
             </div>
 

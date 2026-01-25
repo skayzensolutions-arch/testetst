@@ -7,8 +7,9 @@ import { ArrowRight } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Paver Installation Services | Skylight Paver Solutions Jacksonville",
-  description: "Professional paver installation services in Jacksonville FL. Driveways, patios, pool decks, walkways, outdoor kitchens, fire pits, retaining walls, and paver repair.",
+  title: "Paver Services Jacksonville FL - Patios, Driveways & More",
+  description: "Professional paver installation in Jacksonville FL. Driveways, patios, pool decks, walkways, outdoor kitchens & fire pits. Free estimates: (904) 437-3853",
+  keywords: "paver services Jacksonville, driveway pavers Jacksonville FL, patio installation Jacksonville, pool deck pavers, outdoor kitchen pavers Jacksonville",
 }
 
 const services = [

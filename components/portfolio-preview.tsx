@@ -90,20 +90,29 @@ export function PortfolioPreview() {
 
   return (
     <section className="py-20 md:py-24 bg-black relative overflow-hidden">
-      {/* Dot pattern background */}
+      {/* Diagonal stripe pattern background */}
       <div 
-        className="absolute inset-0 opacity-[0.15]"
+        className="absolute inset-0 opacity-[0.06]"
         style={{
-          backgroundImage: "radial-gradient(circle at 1px 1px, rgba(244,196,48,0.4) 1px, transparent 0)",
-          backgroundSize: "24px 24px",
+          backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(244,196,48,0.3) 10px, rgba(244,196,48,0.3) 11px)",
+        }}
+      />
+      
+      {/* Subtle dot overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 2px 2px, rgba(244,196,48,0.4) 1px, transparent 0)",
+          backgroundSize: "32px 32px",
         }}
       />
       
       {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70" />
       
-      {/* Accent line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      {/* Accent lines */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}

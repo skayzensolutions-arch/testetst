@@ -7,8 +7,9 @@ import { Shield, Award, Users, MapPin } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "About Us | Skylight Paver Solutions Jacksonville FL",
-  description: "Learn about Skylight Paver Solutions - Jacksonville's trusted paver installation company. 6+ years experience, 300+ projects completed, 5-star rated.",
+  title: "About Us - Jacksonville Paver Experts Since 2018",
+  description: "Skylight Paver Solutions - Jacksonville's trusted paver contractor. 6+ years experience, 300+ projects, 5-star Google rated. Licensed & insured.",
+  keywords: "paver company Jacksonville, Jacksonville paver contractor, about Skylight Paver, paver installation company Florida",
 }
 
 const stats = [

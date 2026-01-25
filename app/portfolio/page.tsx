@@ -8,6 +8,8 @@ import { ArrowLeft, X, ChevronLeft, ChevronRight, Folder } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { createBrowserClient } from "@supabase/ssr"
 
+// Note: metadata must be in a separate layout or page.tsx without "use client"
+// For now, we set document title in useEffect for SEO
 const categories = ["All", "Pool Area", "Driveway", "Repair"]
 
 export default function PortfolioPage() {

@@ -5,8 +5,9 @@ import { ContactSection } from "@/components/contact-section"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Contact Us | Skylight Paver Solutions Jacksonville FL",
-  description: "Contact Skylight Paver Solutions for a free paver installation quote. Call (904) 437-3853 or fill out our form. Serving Jacksonville and Northeast Florida.",
+  title: "Contact Us - Free Paver Quote Jacksonville FL",
+  description: "Get a free paver installation quote in Jacksonville FL. Call (904) 437-3853 or fill out our form. Serving Jacksonville, Ponte Vedra, Orange Park & St. Augustine.",
+  keywords: "contact paver contractor Jacksonville, free paver quote Jacksonville FL, paver installation estimate, Jacksonville hardscape contractor",
 }
 
 export default function ContactPage() {

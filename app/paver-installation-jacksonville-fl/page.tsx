@@ -8,11 +8,11 @@ import Link from "next/link"
 import Image from "next/image"
 
 export const metadata: Metadata = {
-  title: "Paver Installation Jacksonville FL | Premium Pavers",
+  title: "#1 Paver Contractor Jacksonville FL | Free Estimates",
   description:
-    "Top paver installation company in Jacksonville FL. Durable driveways, patios, walkways & pool decks. Serving Orange Park, Ponte Vedra, St. Johns & Atlantic Beach. Free quotes available.",
+    "Top-rated paver installation in Jacksonville FL. Driveways, patios, pool decks & walkways. Serving Orange Park, Ponte Vedra, St. Johns, Atlantic Beach. Call (904) 437-3853",
   keywords:
-    "paver installation Jacksonville FL, Jacksonville paver contractor, driveway pavers Jacksonville, patio installation Jacksonville, pool deck pavers Jacksonville FL, walkway pavers Jacksonville, Orange Park pavers, Ponte Vedra paver installation, St Johns pavers, Atlantic Beach pavers",
+    "paver installation Jacksonville FL, paver contractor Jacksonville, driveway pavers Jacksonville FL, patio pavers Jacksonville, pool deck installation Jacksonville, walkway pavers Jacksonville, Orange Park pavers, Ponte Vedra paver company, St Johns paver installation, Atlantic Beach hardscaping, Duval County paver contractor, brick pavers Jacksonville",
   openGraph: {
     title: "Paver Installation Jacksonville FL | Premium Pavers",
     description:
