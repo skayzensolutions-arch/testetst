@@ -3,9 +3,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Eye } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getSupabaseBrowserClient } from "@/lib/supabase-client"
 
-const portfolioItems = [
+// Fallback items in case no featured projects are in the database
+const fallbackItems = [
   {
     image: "/images/gallery-patio.jpg",
     title: "Luxury Patio",
@@ -30,6 +32,61 @@ const portfolioItems = [
 
 export function PortfolioPreview() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [portfolioItems, setPortfolioItems] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadFeaturedProjects() {
+      const supabase = getSupabaseBrowserClient()
+      
+      // First try to get featured projects
+      const { data: featuredData, error: featuredError } = await supabase
+        .from("portfolio_projects")
+        .select("*")
+        .eq("featured", true)
+        .order("position", { ascending: true })
+        .limit(4)
+      
+      if (featuredError) {
+        console.error("Error loading featured projects:", featuredError)
+        setPortfolioItems(fallbackItems)
+        setLoading(false)
+        return
+      }
+      
+      // If we have featured projects, use them
+      if (featuredData && featuredData.length > 0) {
+        const items = featuredData.map(project => ({
+          image: project.image,
+          title: project.title,
+          location: project.location,
+        }))
+        setPortfolioItems(items)
+      } else {
+        // Otherwise, get the first 4 projects by position
+        const { data: allData, error: allError } = await supabase
+          .from("portfolio_projects")
+          .select("*")
+          .order("position", { ascending: true })
+          .limit(4)
+        
+        if (allError || !allData || allData.length === 0) {
+          setPortfolioItems(fallbackItems)
+        } else {
+          const items = allData.map(project => ({
+            image: project.image,
+            title: project.title,
+            location: project.location,
+          }))
+          setPortfolioItems(items)
+        }
+      }
+      
+      setLoading(false)
+    }
+    
+    loadFeaturedProjects()
+  }, [])
 
   return (
     <section className="py-20 md:py-24 bg-black relative overflow-hidden">
@@ -62,7 +119,12 @@ export function PortfolioPreview() {
 
         {/* Portfolio Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
-          {portfolioItems.map((item, index) => (
+          {loading ? (
+            // Loading skeleton
+            [...Array(4)].map((_, index) => (
+              <div key={index} className="aspect-[4/5] rounded-xl bg-card/50 animate-pulse" />
+            ))
+          ) : portfolioItems.map((item, index) => (
             <Link
               key={index}
               href="/portfolio"

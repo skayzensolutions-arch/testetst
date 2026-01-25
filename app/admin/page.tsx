@@ -17,6 +17,7 @@ import {
   Save,
   Sparkles,
   Loader2,
+  Star,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getSupabaseBrowserClient } from "@/lib/supabase-client"
@@ -195,6 +196,24 @@ export default function AdminPage() {
 
       await loadProjects()
     }
+  }
+
+  const handleToggleFeatured = async (project: any) => {
+    const supabase = getSupabaseBrowserClient()
+    const newFeatured = !project.featured
+    
+    const { error } = await supabase
+      .from("portfolio_projects")
+      .update({ featured: newFeatured })
+      .eq("id", project.id)
+    
+    if (error) {
+      console.error("Error updating featured status:", error)
+      alert("Failed to update featured status. Please try again.")
+      return
+    }
+    
+    await loadProjects()
   }
 
   const handleMoveUp = async (index: number) => {
@@ -897,6 +916,12 @@ export default function AdminPage() {
                       <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
                         #{index + 1}
                       </div>
+                      {project.featured && (
+                        <div className="absolute bottom-2 left-2 bg-primary text-black px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                          <Star className="h-3 w-3 fill-current" />
+                          Featured
+                        </div>
+                      )}
                     </div>
                     <div className="p-4">
                       <h3 className="text-lg font-bold text-white mb-1">{project.title}</h3>
@@ -924,6 +949,18 @@ export default function AdminPage() {
                           title="Move down"
                         >
                           <ArrowDown className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="flex gap-2 mb-2">
+                        <Button
+                          onClick={() => handleToggleFeatured(project)}
+                          size="sm"
+                          variant="outline"
+                          className={`flex-1 ${project.featured ? 'border-primary bg-primary/20 text-primary' : 'border-border hover:border-primary hover:text-primary'}`}
+                          title={project.featured ? "Remove from featured" : "Add to featured"}
+                        >
+                          <Star className={`h-4 w-4 mr-2 ${project.featured ? 'fill-primary' : ''}`} />
+                          {project.featured ? "Featured" : "Feature"}
                         </Button>
                       </div>
                       <div className="flex gap-2">
