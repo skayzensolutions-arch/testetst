@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     template: "%s | Skylight Paver Jacksonville",
   },
   description:
-    "Professional paver installation in Jacksonville FL. Driveways, patios, walkways, pool decks & outdoor kitchens. Serving Jacksonville, Orange Park, Ponte Vedra, St. Johns & Atlantic Beach. Free estimates: (904) 437-3853",
+    "Professional ground-level paver installation in Jacksonville FL. Driveway pavers, patio pavers, walkway pavers, pool deck pavers & outdoor kitchen hardscaping. Sand-set interlocking concrete pavers for residential properties. We do NOT install roof pavers or skylights. Serving Jacksonville, Orange Park, Ponte Vedra, St. Johns & Atlantic Beach. Free estimates: (904) 437-3853",
   keywords:
-    "paver installation Jacksonville FL, patio pavers Jacksonville, pool deck pavers Jacksonville, driveway pavers Jacksonville, firepit installation Jacksonville, outdoor kitchen pavers Jacksonville, brick pavers Jacksonville FL, hardscaping Jacksonville, paver contractor near me, Jacksonville patio contractor, pool deck installation Jacksonville Beach, driveway paving Jacksonville, paver repair Jacksonville, St Augustine pavers, Ponte Vedra paver installation, Duval County hardscaping",
+    "driveway paver installation Jacksonville FL, patio pavers Jacksonville, pool deck pavers Jacksonville, landscape pavers Jacksonville, firepit installation Jacksonville, outdoor kitchen pavers Jacksonville, interlocking concrete pavers Jacksonville FL, hardscaping Jacksonville, ground level pavers, residential paver contractor near me, Jacksonville patio contractor, pool deck paver installation Jacksonville Beach, driveway paving Jacksonville, paver repair Jacksonville, St Augustine pavers, Ponte Vedra paver installation, Duval County hardscaping, sand-set pavers Florida",
   authors: [{ name: "Skylight Paver Solutions", url: "https://skylightpaver.com" }],
   generator: "Next.js",
   applicationName: "Skylight Paver Solutions",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     siteName: "Skylight Paver Solutions",
     title: "Paver Installation Jacksonville FL | Skylight Paver",
     description:
-      "Jacksonville's trusted paver contractor. Expert patio pavers, pool deck installation, driveway pavers & fire pits. Licensed & insured. Free estimates: (904) 437-3853",
+      "Jacksonville's trusted ground-level paver contractor. Expert patio pavers, pool deck pavers, driveway pavers & fire pits. Residential hardscaping only - NO roof pavers or skylights. Licensed & insured. Free estimates: (904) 437-3853",
     images: [
       {
         url: "https://skylightpaver.com/og-image.jpg",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     creator: "@skylightpaver",
     title: "Paver Installation Jacksonville FL | Skylight Paver",
     description:
-      "Jacksonville paver contractor - patios, pool decks, driveways & fire pits. Licensed & insured. Free estimates: (904) 437-3853",
+      "Jacksonville ground-level paver contractor - patio pavers, pool deck pavers, driveway pavers & fire pits. Residential hardscaping (NO roof pavers/skylights). Licensed & insured. Free estimates: (904) 437-3853",
     images: ["https://skylightpaver.com/og-image.jpg"],
   },
   robots: {
@@ -204,7 +204,7 @@ export default function RootLayout({
         "@id": "https://skylightpaver.com/#service",
         name: "Skylight Paver Solutions - Paver Contractor Jacksonville",
         description:
-          "Expert PAVER installation and hardscaping in Jacksonville, FL. We install patios, pool decks, driveways, firepits & outdoor kitchens. NOT skylight installation - we specialize in brick pavers and outdoor living spaces.",
+          "Expert GROUND-LEVEL PAVER installation and residential hardscaping in Jacksonville, FL. We install sand-set interlocking concrete pavers for patios, pool decks, driveways, walkways, firepits & outdoor kitchens. IMPORTANT: Despite our name 'Skylight Paver', we do NOT install roof pavers, rooftop pedestal systems, skylights, or any roofing products. We specialize exclusively in traditional ground-level landscape pavers and outdoor living spaces.",
         provider: {
           "@id": "https://skylightpaver.com/#organization",
         },
@@ -218,7 +218,7 @@ export default function RootLayout({
               itemOffered: {
                 "@type": "Service",
                 name: "Driveway Paver Installation",
-                description: "Professional driveway paver installation in Jacksonville",
+                description: "Professional ground-level driveway paver installation using sand-set interlocking concrete pavers in Jacksonville",
               },
             },
             {
@@ -226,7 +226,7 @@ export default function RootLayout({
               itemOffered: {
                 "@type": "Service",
                 name: "Patio Paver Installation",
-                description: "Custom patio paver design and installation",
+                description: "Custom patio paver design and installation - traditional ground-level hardscaping",
               },
             },
             {
@@ -234,15 +234,15 @@ export default function RootLayout({
               itemOffered: {
                 "@type": "Service",
                 name: "Pool Deck Pavers",
-                description: "Beautiful pool deck paver installation",
+                description: "Beautiful pool deck paver installation - ground-level landscape pavers around pools",
               },
             },
             {
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "Paver Repair & Restoration",
-                description: "Expert paver repair and restoration services in Jacksonville",
+                name: "Landscape Paver Repair & Restoration",
+                description: "Expert ground-level paver repair and restoration services in Jacksonville",
               },
             },
             {
@@ -250,7 +250,7 @@ export default function RootLayout({
               itemOffered: {
                 "@type": "Service",
                 name: "Firepit Installation",
-                description: "Custom firepit and fire feature installation with pavers in Jacksonville",
+                description: "Custom firepit and fire feature installation with landscape pavers in Jacksonville",
               },
             },
             {
@@ -258,7 +258,7 @@ export default function RootLayout({
               itemOffered: {
                 "@type": "Service",
                 name: "Outdoor Kitchen Pavers",
-                description: "Outdoor kitchen paver installation and hardscaping in Jacksonville FL",
+                description: "Outdoor kitchen paver installation and residential hardscaping in Jacksonville FL",
               },
             },
           ],

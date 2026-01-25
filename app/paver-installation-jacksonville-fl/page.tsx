@@ -8,15 +8,15 @@ import Link from "next/link"
 import Image from "next/image"
 
 export const metadata: Metadata = {
-  title: "#1 Paver Contractor Jacksonville FL | Free Estimates",
+  title: "#1 Ground-Level Paver Contractor Jacksonville FL | Free Estimates",
   description:
-    "Top-rated paver installation in Jacksonville FL. Driveways, patios, pool decks & walkways. Serving Orange Park, Ponte Vedra, St. Johns, Atlantic Beach. Call (904) 437-3853",
+    "Top-rated ground-level paver installation in Jacksonville FL. Driveway pavers, patio pavers, pool deck pavers & walkway pavers. Traditional sand-set interlocking concrete pavers for residential properties. NO roof pavers or skylights. Serving Orange Park, Ponte Vedra, St. Johns, Atlantic Beach. Call (904) 437-3853",
   keywords:
-    "paver installation Jacksonville FL, paver contractor Jacksonville, driveway pavers Jacksonville FL, patio pavers Jacksonville, pool deck installation Jacksonville, walkway pavers Jacksonville, Orange Park pavers, Ponte Vedra paver company, St Johns paver installation, Atlantic Beach hardscaping, Duval County paver contractor, brick pavers Jacksonville",
+    "driveway paver installation Jacksonville FL, patio paver contractor Jacksonville, landscape pavers Jacksonville FL, pool deck pavers Jacksonville, walkway paver installation Jacksonville, ground level pavers, Orange Park driveway pavers, Ponte Vedra patio pavers, St Johns paver installation, Atlantic Beach hardscaping, Duval County residential paver contractor, interlocking concrete pavers Jacksonville, sand-set pavers Florida",
   openGraph: {
-    title: "Paver Installation Jacksonville FL | Premium Pavers",
+    title: "Ground-Level Paver Installation Jacksonville FL | Driveway & Patio Pavers",
     description:
-      "Top paver installation company in Jacksonville FL. Durable driveways, patios, walkways & pool decks. Free quotes available.",
+      "Top residential paver installation company in Jacksonville FL. Durable driveway pavers, patio pavers, walkway pavers & pool deck pavers. NO roof pavers or skylights. Free quotes available.",
     url: "https://skylightpaver.com/paver-installation-jacksonville-fl",
     type: "website",
   },
@@ -29,31 +29,31 @@ const services = [
   {
     title: "Driveway Paver Installation",
     description:
-      "Your driveway is the first thing people see when they visit your Jacksonville home. We install beautiful, durable paver driveways that boost curb appeal and last for decades. Choose from classic brick pavers, modern interlocking designs, or natural stone options. Our driveways are built to handle Florida's heat, rain, and heavy vehicles without cracking or shifting.",
+      "Your driveway is the first thing people see when they visit your Jacksonville home. We install beautiful, durable driveway pavers that boost curb appeal and last for decades. Choose from classic brick pavers, modern interlocking concrete pavers, or natural stone options. Our ground-level driveway pavers are sand-set and built to handle Florida's heat, rain, and heavy vehicles without cracking or shifting.",
     benefits: ["Increases home value", "Lasts 25+ years", "Low maintenance", "Multiple design options"],
   },
   {
     title: "Patio Paver Installation",
     description:
-      "Create the perfect outdoor living space for your Jacksonville home. Our custom patio installations transform backyards into beautiful gathering spots for family and friends. We design patios that complement your home's style while providing a durable surface for outdoor furniture, grills, and entertaining.",
+      "Create the perfect outdoor living space for your Jacksonville home with ground-level patio pavers. Our custom patio paver installations transform backyards into beautiful gathering spots for family and friends. We design patio pavers that complement your home's style while providing a durable surface for outdoor furniture, grills, and entertaining.",
     benefits: ["Expands living space", "Custom designs", "Weather resistant", "Easy to clean"],
   },
   {
-    title: "Walkway & Pathway Pavers",
+    title: "Walkway & Landscape Pavers",
     description:
-      "Safe, attractive walkways connect your outdoor spaces beautifully. We design and install pathways that guide guests from your driveway to your front door, or through your garden and backyard. Our walkways are built with proper drainage to prevent puddles and stay safe during Florida's rainy season.",
+      "Safe, attractive walkway pavers connect your outdoor spaces beautifully. We design and install ground-level landscape pavers that guide guests from your driveway to your front door, or through your garden and backyard. Our walkway pavers are built with proper drainage to prevent puddles and stay safe during Florida's rainy season.",
     benefits: ["Improved safety", "Better drainage", "Curb appeal", "Durable construction"],
   },
   {
     title: "Pool Deck Pavers",
     description:
-      "Nothing beats relaxing by the pool on a hot Jacksonville day. Our pool deck pavers are specially selected to stay cool underfoot and provide slip-resistant surfaces around your pool. We handle all the drainage and grading to keep water flowing away from your pool and home.",
+      "Nothing beats relaxing by the pool on a hot Jacksonville day. Our pool deck pavers are specially selected to stay cool underfoot and provide slip-resistant surfaces around your pool. These ground-level landscape pavers are installed with proper drainage and grading to keep water flowing away from your pool and home.",
     benefits: ["Cool to the touch", "Slip-resistant", "Proper drainage", "Beautiful finishes"],
   },
   {
-    title: "Outdoor Kitchen Pavers",
+    title: "Outdoor Kitchen Hardscaping",
     description:
-      "Turn your backyard into the ultimate entertainment space with a custom outdoor kitchen. We build solid paver foundations that support grills, counters, pizza ovens, and outdoor bars. Perfect for Jacksonville's year-round outdoor living weather.",
+      "Turn your backyard into the ultimate entertainment space with a custom outdoor kitchen. We build solid ground-level paver foundations that support grills, counters, pizza ovens, and outdoor bars. Perfect for Jacksonville's year-round outdoor living weather.",
     benefits: ["Solid foundation", "Heat resistant", "Custom layouts", "Adds home value"],
   },
 ]
@@ -81,7 +81,7 @@ export default function PaverInstallationJacksonvillePage() {
         <div className="absolute inset-0 opacity-20">
           <Image
             src="/images/driveway-service.jpg"
-            alt="Paver installation Jacksonville FL"
+            alt="Ground-level driveway paver installation Jacksonville FL - residential hardscaping"
             fill
             className="object-cover"
             priority
@@ -89,11 +89,10 @@ export default function PaverInstallationJacksonvillePage() {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 text-center">
-            Paver Installation Jacksonville FL
+            Ground-Level Paver Installation Jacksonville FL
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-center mb-8">
-            Jacksonville's trusted paver contractor since 2018. We install premium driveways, patios, walkways, pool
-            decks, and outdoor kitchens for homeowners and businesses throughout Northeast Florida.
+            Jacksonville's trusted residential paver contractor since 2018. We install premium driveway pavers, patio pavers, walkway pavers, pool deck pavers, and outdoor kitchen hardscaping for homeowners throughout Northeast Florida. Traditional sand-set interlocking concrete pavers only - no roof pavers or skylights.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/quote">
@@ -124,27 +123,27 @@ export default function PaverInstallationJacksonvillePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Professional Paver Installation in Jacksonville, Florida
+              Professional Ground-Level Paver Installation in Jacksonville, Florida
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                When it comes to transforming your outdoor spaces, Skylight Paver Solutions is Jacksonville's go-to
-                paver installation company. Based right here in Northeast Florida, we understand the unique challenges
+                When it comes to transforming your outdoor living spaces, Skylight Paver Solutions is Jacksonville's go-to
+                residential paver installation company. Despite our name, we specialize exclusively in traditional ground-level landscape pavers - we do NOT install roof pavers, rooftop pedestal systems, or skylights. Based right here in Northeast Florida, we understand the unique challenges
                 that Jacksonville's climate presents — from intense summer heat to heavy afternoon rains. That's why we
-                use only premium materials and proven installation techniques that stand up to Florida weather year
+                use only premium sand-set interlocking concrete pavers and proven installation techniques that stand up to Florida weather year
                 after year.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Whether you're looking to replace a worn-out concrete driveway, create a stunning backyard patio, or
-                install a cool pool deck for those hot Jacksonville summers, our experienced team delivers quality
-                craftsmanship on every project. We serve homeowners and businesses throughout Jacksonville, Orange Park,
+                Whether you're looking to replace a worn-out concrete driveway with beautiful driveway pavers, create a stunning backyard with patio pavers, or
+                install cool pool deck pavers for those hot Jacksonville summers, our experienced team delivers quality
+                craftsmanship on every project. We serve homeowners throughout Jacksonville, Orange Park,
                 Ponte Vedra, St. Johns, Atlantic Beach, and surrounding areas.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Every project starts with a free consultation where we discuss your vision, assess your property, and
                 provide a detailed quote with no surprises. We're fully licensed and insured, and we stand behind our
                 work with comprehensive warranties. From the first phone call to the final walkthrough, you'll
-                experience the Skylight difference.
+                experience the Skylight Paver difference in residential hardscaping.
               </p>
             </div>
           </div>
@@ -154,9 +153,9 @@ export default function PaverInstallationJacksonvillePage() {
       {/* Services Section */}
       <section className="py-16 bg-secondary/50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">Our Paver Services</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">Our Ground-Level Paver Services</h2>
           <p className="text-muted-foreground text-lg text-center mb-12 max-w-2xl mx-auto">
-            We offer a full range of paver installation services to transform your Jacksonville property
+            We offer a full range of residential paver installation services to transform your Jacksonville property - driveway pavers, patio pavers, pool deck pavers, and landscape hardscaping
           </p>
 
           <div className="space-y-12 max-w-5xl mx-auto">

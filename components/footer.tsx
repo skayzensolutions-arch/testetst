@@ -30,8 +30,7 @@ export function Footer() {
               quality={85}
             />
             <p className="text-muted-foreground leading-relaxed">
-              Expert paver solutions for driveways, patios, pool areas, and more. Serving Jacksonville & surrounding
-              Florida areas.
+              Expert ground-level paver solutions for driveways, patios, pool decks, and landscape hardscaping. We install sand-set interlocking concrete pavers for residential properties. Serving Jacksonville & surrounding Florida areas. (We do not offer roof pavers or skylight services.)
             </p>
           </div>
 
@@ -141,7 +140,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary/20 pt-8 text-center">
-          <p className="text-gray-300 mb-2">Licensed & Insured | Satisfaction Guaranteed | Local Florida Experts</p>
+          <p className="text-gray-300 mb-2">Licensed & Insured | Satisfaction Guaranteed | Local Florida Residential Hardscaping Experts | Ground-Level Pavers Only</p>
           <p className="text-gray-400 text-sm">
             © {new Date().getFullYear()} Skylight Paver Solutions LLC. All rights reserved. | Created by{" "}
             <a
