@@ -7,9 +7,9 @@ import { Shield, Award, Users, MapPin } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "About Us - Jacksonville Paver Experts Since 2018",
-  description: "Skylight Paver Solutions - Jacksonville's trusted paver contractor. 6+ years experience, 300+ projects, 5-star Google rated. Licensed & insured.",
-  keywords: "paver company Jacksonville, Jacksonville paver contractor, about Skylight Paver, paver installation company Florida",
+  title: "About Us - Jacksonville Ground-Level Paver Experts Since 2018",
+  description: "Skylight Paver Solutions - Jacksonville's trusted residential hardscaping contractor. We specialize in driveway pavers, patio pavers, pool deck pavers & landscape pavers. 6+ years experience, 300+ projects, 5-star Google rated. We do NOT offer roof pavers or skylight services. Licensed & insured.",
+  keywords: "paver company Jacksonville, Jacksonville paver contractor, about Skylight Paver, driveway paver installation Florida, patio paver company, landscape pavers Jacksonville, residential hardscaping",
 }
 
 const stats = [
@@ -33,7 +33,7 @@ const credentials = [
   {
     icon: Users,
     title: "Expert Team",
-    description: "Our skilled craftsmen have years of experience in paver installation.",
+    description: "Our skilled craftsmen have years of experience in ground-level driveway, patio, and pool deck paver installation.",
   },
   {
     icon: MapPin,
@@ -56,7 +56,7 @@ export default function AboutPage() {
               About <span className="text-primary">Skylight Paver</span>
             </h1>
             <p className="text-gray-400 text-lg">
-              Jacksonville's trusted paver installation experts dedicated to transforming outdoor spaces.
+              Jacksonville's trusted ground-level paver installation experts dedicated to transforming outdoor living spaces with driveway pavers, patio pavers, pool deck pavers, and landscape hardscaping.
             </p>
           </div>
         </div>
@@ -78,13 +78,13 @@ export default function AboutPage() {
               <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
               <div className="space-y-4 text-gray-400">
                 <p>
-                  Founded in 2018, Skylight Paver Solutions was born from a passion for creating beautiful outdoor living spaces that stand the test of time.
+                  Founded in 2018, Skylight Paver Solutions was born from a passion for creating beautiful outdoor living spaces that stand the test of time. We specialize in residential hardscaping for driveways, pools, and patios (we do not offer roof deck or skylight services).
                 </p>
                 <p>
-                  What started as a small team with big dreams has grown into Jacksonville's premier paver installation company, serving homeowners and businesses across Northeast Florida.
+                  What started as a small team with big dreams has grown into Jacksonville's premier ground-level paver installation company, serving homeowners across Northeast Florida. We install traditional sand-set interlocking concrete pavers - the kind you walk on in your yard, not on rooftops.
                 </p>
                 <p>
-                  We take pride in our attention to detail, quality craftsmanship, and commitment to customer satisfaction. Every project we complete is a testament to our dedication to excellence.
+                  We take pride in our attention to detail, quality craftsmanship, and commitment to customer satisfaction. Every driveway paver, patio paver, and pool deck paver project we complete is a testament to our dedication to excellence in landscape hardscaping.
                 </p>
               </div>
             </div>

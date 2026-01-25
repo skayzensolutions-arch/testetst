@@ -26,7 +26,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-patio.jpg"
-          alt="Beautiful paver patio installation Jacksonville Florida"
+          alt="Beautiful ground-level patio paver installation Jacksonville Florida - residential hardscaping"
           fill
           className="object-cover"
           style={{
@@ -62,7 +62,7 @@ export function HeroSection() {
                   <Star key={i} className="w-4 h-4 text-primary fill-primary" />
                 ))}
               </div>
-              <span className="text-white font-medium text-sm">Jacksonville's Top-Rated Paver Contractor</span>
+              <span className="text-white font-medium text-sm">Jacksonville's Top-Rated Residential Paver Contractor</span>
             </div>
             
             <h1
@@ -70,9 +70,9 @@ export function HeroSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <span className="text-primary">Premium Paver</span>
+              <span className="text-primary">Premium Driveway &</span>
               <br />
-              Installation
+              Patio Paver Installation
             </h1>
             
             <p

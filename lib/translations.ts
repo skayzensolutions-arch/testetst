@@ -9,15 +9,15 @@ export const translations = {
     call: "Call",
 
     // Hero
-    heroTitle: "Paver Installation in Jacksonville, FL",
+    heroTitle: "Ground-Level Paver Installation in Jacksonville, FL",
     heroSubtitle:
-      "We install beautiful and durable paver driveways, patios, walkways, pool decks, and outdoor kitchens for homeowners and businesses in Jacksonville and nearby areas.",
+      "We install beautiful and durable driveway pavers, patio pavers, walkway pavers, pool deck pavers, and outdoor kitchen hardscaping for homeowners in Jacksonville and nearby areas. Residential ground-level pavers only - no roof pavers or skylights.",
     getFreeEstimate: "Get Your Free Estimate",
     callUsNow: "Call Us Now",
 
     // Services
-    servicesTitle: "Expert Services",
-    servicesSubtitle: "We specialize in high-quality paver installations across Jacksonville and surrounding areas",
+    servicesTitle: "Expert Ground-Level Paver Services",
+    servicesSubtitle: "We specialize in high-quality residential driveway pavers, patio pavers, and landscape paver installations across Jacksonville and surrounding areas",
     getQuote: "Get A Quote",
     viewPortfolio: "View Full Portfolio",
 
@@ -30,15 +30,15 @@ export const translations = {
 
     // Service Descriptions
     drivewaysDesc:
-      "We install beautiful, durable driveways that boost your curb appeal and last for decades. Choose from classic brick pavers, modern concrete designs, or natural stone.",
+      "We install beautiful, durable driveway pavers that boost your curb appeal and last for decades. Traditional sand-set interlocking concrete pavers - choose from classic brick pavers, modern concrete designs, or natural stone.",
     patiosDesc:
-      "Create the perfect outdoor living space for family gatherings and entertaining. Custom designs built to match your home's style and your lifestyle needs.",
+      "Create the perfect outdoor living space with ground-level patio pavers for family gatherings and entertaining. Custom designs built to match your home's style and your lifestyle needs.",
     poolDecksDesc:
-      "Non-slip, heat-resistant pavers that stay cool underfoot and look amazing around your pool. We handle the drainage and grading to keep water flowing away from your home.",
+      "Non-slip, heat-resistant pool deck pavers that stay cool underfoot and look amazing around your pool. Ground-level landscape pavers with proper drainage and grading.",
     walkwaysDesc:
-      "Safe, attractive pathways that connect your spaces beautifully. We design walkways that complement your landscape and hold up to Florida weather.",
+      "Safe, attractive walkway pavers that connect your spaces beautifully. We design ground-level landscape pavers that complement your yard and hold up to Florida weather.",
     outdoorKitchensDesc:
-      "Turn your backyard into an entertainment hub with a custom outdoor kitchen. We build solid foundations that support grills, counters, and pizza ovens.",
+      "Turn your backyard into an entertainment hub with a custom outdoor kitchen. We build solid paver foundations that support grills, counters, and pizza ovens.",
 
     // Why Choose Us
     whyChooseUsTitle: "Why Choose Us",
@@ -89,9 +89,9 @@ export const translations = {
     call: "Llamar",
 
     // Hero
-    heroTitle: "Instalación de Pavimento en Jacksonville, FL",
+    heroTitle: "Instalación de Pavimento a Nivel del Suelo en Jacksonville, FL",
     heroSubtitle:
-      "Instalamos hermosas y duraderas entradas de auto, patios, senderos, terrazas de piscina y cocinas exteriores para propietarios y negocios en Jacksonville y áreas cercanas.",
+      "Instalamos hermosos y duraderos adoquines para entradas de auto, patios, senderos, terrazas de piscina y cocinas exteriores para propietarios en Jacksonville y áreas cercanas. Solo pavimento residencial a nivel del suelo - no instalamos pavimento de techo ni claraboyas.",
     getFreeEstimate: "Obtén Tu Presupuesto Gratis",
     callUsNow: "Llámanos Ahora",
 
@@ -171,9 +171,9 @@ export const translations = {
     call: "Ligar",
 
     // Hero
-    heroTitle: "Instalação de Pavimentação em Jacksonville, FL",
+    heroTitle: "Instalação de Pavimentação ao Nível do Solo em Jacksonville, FL",
     heroSubtitle:
-      "Instalamos belas e duráveis entradas de garagem, pátios, caminhos, decks de piscina e cozinhas externas para proprietários e empresas em Jacksonville e arredores.",
+      "Instalamos belos e duráveis pavimentos para entradas de garagem, pátios, caminhos, decks de piscina e cozinhas externas para proprietários em Jacksonville e arredores. Apenas pavimentação residencial ao nível do solo - não instalamos pavimento de telhado ou claraboias.",
     getFreeEstimate: "Obtenha Seu Orçamento Grátis",
     callUsNow: "Ligue Agora",
 
