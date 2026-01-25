@@ -6,6 +6,15 @@ import Link from "next/link"
 export function ReviewsSection() {
   return (
     <section id="reviews" className="py-24 bg-gradient-to-b from-black via-secondary/50 to-black relative overflow-hidden">
+      {/* Dot pattern background */}
+      <div 
+        className="absolute inset-0 opacity-[0.1]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, rgba(244,196,48,0.5) 1px, transparent 0)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+      
       {/* Top accent line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       

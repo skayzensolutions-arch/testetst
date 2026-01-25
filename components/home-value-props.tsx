@@ -28,8 +28,20 @@ const valueProps = [
 
 export function HomeValueProps() {
   return (
-    <section className="py-16 md:py-20 bg-black">
-      <div className="container mx-auto px-4">
+    <section className="py-16 md:py-20 bg-black relative overflow-hidden">
+      {/* Dot pattern background */}
+      <div 
+        className="absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, rgba(244,196,48,0.5) 1px, transparent 0)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
