@@ -40,7 +40,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="/#services"
+                  href="/services"
                   className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
                 >
                   Services
@@ -56,7 +56,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="/#contact"
+                  href="/contact"
                   className="text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
                 >
                   Contact
