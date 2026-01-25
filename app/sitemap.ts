@@ -45,47 +45,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
         `${baseUrl}/images/hero-patio.jpg`,
       ],
     },
-  ]
-
-  // Service anchor links (for better internal linking signals)
-  const serviceAnchors: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/#services`,
+      url: `${baseUrl}/services`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+      images: [
+        `${baseUrl}/images/gallery-patio.jpg`,
+        `${baseUrl}/images/driveway-service.jpg`,
+        `${baseUrl}/images/firepit-service.jpg`,
+      ],
+    },
+    {
+      url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/#gallery`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/#reviews`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/#contact`,
+      url: `${baseUrl}/contact`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/#why-us`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/#service-areas`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.9,
     },
   ]
 
-  return [...mainPages, ...serviceAnchors]
+  return mainPages
 }
