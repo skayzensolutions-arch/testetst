@@ -32,8 +32,8 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   title: {
-    default: "Paver Installation Jacksonville FL | Driveways, Patios & Walkways",
-    template: "%s | Paver Contractor Jacksonville FL",
+    default: "Paver Installation Jacksonville FL | Skylight Paver",
+    template: "%s | Skylight Paver Jacksonville",
   },
   description:
     "Professional paver installation in Jacksonville FL. Driveways, patios, walkways, pool decks & outdoor kitchens. Serving Jacksonville, Orange Park, Ponte Vedra, St. Johns & Atlantic Beach. Free estimates: (904) 437-3853",
@@ -56,10 +56,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://skylightpaver.com",
-    siteName: "Skylight Paver Solutions - Paver Contractor",
-    title: "Paver Installation Jacksonville FL | Patios, Pool Decks, Driveways, Firepits",
+    siteName: "Skylight Paver Solutions",
+    title: "Paver Installation Jacksonville FL | Skylight Paver",
     description:
-      "Jacksonville's trusted paver contractor. Expert patio pavers, pool deck installation, driveway pavers & firepits. NOT skylights - we do hardscaping! Licensed & insured. Free estimates: (904) 437-3853",
+      "Jacksonville's trusted paver contractor. Expert patio pavers, pool deck installation, driveway pavers & fire pits. Licensed & insured. Free estimates: (904) 437-3853",
     images: [
       {
         url: "https://skylightpaver.com/og-image.jpg",
@@ -75,9 +75,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@skylightpaver",
     creator: "@skylightpaver",
-    title: "Paver Installation Jacksonville FL | Patios, Pool Decks, Driveways",
+    title: "Paver Installation Jacksonville FL | Skylight Paver",
     description:
-      "Jacksonville paver contractor - patios, pool decks, driveways & firepits. NOT skylights - we specialize in hardscaping! Free estimates: (904) 437-3853",
+      "Jacksonville paver contractor - patios, pool decks, driveways & fire pits. Licensed & insured. Free estimates: (904) 437-3853",
     images: ["https://skylightpaver.com/og-image.jpg"],
   },
   robots: {
@@ -139,18 +139,47 @@ export default function RootLayout({
           {
             "@type": "City",
             name: "Jacksonville Beach",
+            containedIn: { "@type": "State", name: "Florida" },
           },
           {
             "@type": "City",
             name: "St. Augustine",
+            containedIn: { "@type": "State", name: "Florida" },
           },
           {
             "@type": "City",
             name: "Ponte Vedra",
+            containedIn: { "@type": "State", name: "Florida" },
+          },
+          {
+            "@type": "City",
+            name: "Orange Park",
+            containedIn: { "@type": "State", name: "Florida" },
+          },
+          {
+            "@type": "City",
+            name: "Atlantic Beach",
+            containedIn: { "@type": "State", name: "Florida" },
+          },
+          {
+            "@type": "City",
+            name: "Neptune Beach",
+            containedIn: { "@type": "State", name: "Florida" },
+          },
+          {
+            "@type": "City",
+            name: "Fleming Island",
+            containedIn: { "@type": "State", name: "Florida" },
           },
           {
             "@type": "AdministrativeArea",
             name: "Duval County",
+            containedIn: { "@type": "State", name: "Florida" },
+          },
+          {
+            "@type": "AdministrativeArea",
+            name: "St. Johns County",
+            containedIn: { "@type": "State", name: "Florida" },
           },
         ],
         priceRange: "$$",

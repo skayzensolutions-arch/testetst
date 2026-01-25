@@ -8,23 +8,23 @@ import { Phone, Menu, X, ChevronDown, Mail, MapPin, Instagram, Facebook } from "
 import { useLanguage } from "@/lib/language-context"
 
 const services = [
-  { name: "Patio Installation", href: "/#services" },
-  { name: "Driveway Pavers", href: "/#services" },
-  { name: "Pool Decks", href: "/#services" },
-  { name: "Outdoor Kitchens", href: "/#services" },
-  { name: "Walkways", href: "/#services" },
-  { name: "Fire Pits", href: "/#services" },
-  { name: "Retaining Walls", href: "/#services" },
-  { name: "Paver Repair", href: "/#services" },
+  { name: "Patio Installation", href: "/services" },
+  { name: "Driveway Pavers", href: "/services" },
+  { name: "Pool Decks", href: "/services" },
+  { name: "Outdoor Kitchens", href: "/services" },
+  { name: "Walkways", href: "/services" },
+  { name: "Fire Pits", href: "/services" },
+  { name: "Retaining Walls", href: "/services" },
+  { name: "Paver Repair", href: "/services" },
 ]
 
 const navLinks = [
   { name: "Home", href: "/", key: "home" },
-  { name: "About", href: "/#why-us", key: "about" },
-  { name: "Services", href: "/#services", key: "services", hasDropdown: true },
+  { name: "About", href: "/about", key: "about" },
+  { name: "Services", href: "/services", key: "services", hasDropdown: true },
   { name: "Portfolio", href: "/portfolio", key: "portfolio" },
   { name: "Reviews", href: "/#reviews", key: "reviews" },
-  { name: "Contact", href: "/#contact", key: "contact" },
+  { name: "Contact", href: "/contact", key: "contact" },
 ]
 
 export function Navigation() {
