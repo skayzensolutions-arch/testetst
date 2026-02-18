@@ -15,12 +15,25 @@ export function HeroSection() {
     setIsVisible(true)
   }, [])
 
+  const VIDEO_START_TIME = 5 // Skip the first 5 seconds
+
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
+    // Start playback at 5s mark
+    video.currentTime = VIDEO_START_TIME
+
     const handleCanPlay = () => setVideoLoaded(true)
     video.addEventListener("canplaythrough", handleCanPlay)
+
+    // When video loops, reset to 5s instead of 0s
+    const handleTimeUpdate = () => {
+      if (video.currentTime < VIDEO_START_TIME) {
+        video.currentTime = VIDEO_START_TIME
+      }
+    }
+    video.addEventListener("timeupdate", handleTimeUpdate)
 
     // Attempt to play - handles autoplay policies gracefully
     video.play().catch(() => {
@@ -29,6 +42,7 @@ export function HeroSection() {
 
     return () => {
       video.removeEventListener("canplaythrough", handleCanPlay)
+      video.removeEventListener("timeupdate", handleTimeUpdate)
     }
   }, [])
 
@@ -56,7 +70,7 @@ export function HeroSection() {
           // @ts-expect-error -- fetchPriority is valid on video in modern browsers
           fetchPriority="high"
         >
-          <source src="/videos/hero-background.mp4" type="video/mp4" />
+          <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Design%20sem%20nome%287%29-DlWHbkbFs2zunOP24Xn0f0Pl803qVM.mp4" type="video/mp4" />
         </video>
         {/* Fallback image shown while video loads */}
         <div
