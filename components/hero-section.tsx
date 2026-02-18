@@ -51,8 +51,10 @@ export function HeroSection() {
           preload="auto"
           poster="/images/hero-patio.jpg"
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
-          style={{ filter: "brightness(0.55)" }}
+          style={{ filter: "brightness(0.55)", imageRendering: "auto", willChange: "opacity" }}
           aria-hidden="true"
+          // @ts-expect-error -- fetchPriority is valid on video in modern browsers
+          fetchPriority="high"
         >
           <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
