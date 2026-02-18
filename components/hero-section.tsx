@@ -1,17 +1,35 @@
 "use client"
 
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Phone, Star, Shield, Award } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useLanguage } from "@/lib/language-context"
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const { t } = useLanguage()
 
   useEffect(() => {
     setIsVisible(true)
+  }, [])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handleCanPlay = () => setVideoLoaded(true)
+    video.addEventListener("canplaythrough", handleCanPlay)
+
+    // Attempt to play - handles autoplay policies gracefully
+    video.play().catch(() => {
+      // Autoplay blocked — video will still show poster frame
+    })
+
+    return () => {
+      video.removeEventListener("canplaythrough", handleCanPlay)
+    }
   }, [])
 
   const handlePhoneClick = () => {
@@ -22,17 +40,29 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-32 md:pt-40 lg:pt-44">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/hero-patio.jpg"
-          alt="Beautiful ground-level patio paver installation Jacksonville Florida - residential hardscaping"
-          fill
-          className="object-cover"
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/images/hero-patio.jpg"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
+          style={{ filter: "brightness(0.35)" }}
+          aria-hidden="true"
+        >
+          <source src="/videos/hero-background.mp4" type="video/mp4" />
+        </video>
+        {/* Fallback image shown while video loads */}
+        <div
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${videoLoaded ? "opacity-0" : "opacity-100"}`}
           style={{
+            backgroundImage: "url('/images/hero-patio.jpg')",
             filter: "brightness(0.3)",
           }}
-          priority
         />
         {/* Multiple gradient overlays for depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30" />
