@@ -151,7 +151,6 @@ export function Navigation() {
                 height={133}
                 className={`w-auto transition-all duration-500 ${isScrolled ? "h-14 md:h-16" : "h-16 md:h-20 lg:h-24"}`}
                 priority={true}
-                quality={95}
               />
               {/* Subtle glow effect on hover */}
               <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 rounded-lg transition-all duration-300 -m-2" />
