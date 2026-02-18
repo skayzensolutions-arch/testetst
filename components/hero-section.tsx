@@ -51,7 +51,7 @@ export function HeroSection() {
           preload="auto"
           poster="/images/hero-patio.jpg"
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
-          style={{ filter: "brightness(0.35)" }}
+          style={{ filter: "brightness(0.55)" }}
           aria-hidden="true"
         >
           <source src="/videos/hero-background.mp4" type="video/mp4" />
@@ -61,24 +61,14 @@ export function HeroSection() {
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${videoLoaded ? "opacity-0" : "opacity-100"}`}
           style={{
             backgroundImage: "url('/images/hero-patio.jpg')",
-            filter: "brightness(0.3)",
+            filter: "brightness(0.5)",
           }}
         />
-        {/* Multiple gradient overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
+        {/* Subtle gradient overlays for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
         
-        {/* Subtle diagonal lines texture */}
-        <div 
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "repeating-linear-gradient(45deg, #f4c430 0, #f4c430 1px, transparent 0, transparent 50%)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-        
-        {/* Animated gradient accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent animate-shimmer" />
+
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-12">
