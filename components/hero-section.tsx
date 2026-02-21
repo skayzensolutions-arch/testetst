@@ -2,25 +2,15 @@
 
 import { Button } from "@/components/ui/button"
 import { Phone, Star, Shield, Award } from "lucide-react"
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState } from "react"
 import { useLanguage } from "@/lib/language-context"
-
-const VIDEO_START_TIME = 6
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const { t } = useLanguage()
 
   useEffect(() => {
     setIsVisible(true)
-  }, [])
-
-  const handleTimeUpdate = useCallback(() => {
-    const video = videoRef.current
-    if (video && video.currentTime < VIDEO_START_TIME) {
-      video.currentTime = VIDEO_START_TIME
-    }
   }, [])
 
   const handlePhoneClick = () => {
@@ -34,20 +24,17 @@ export function HeroSection() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 bg-black">
         <video
-          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          onTimeUpdate={handleTimeUpdate}
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
-            imageRendering: "auto",
             willChange: "transform",
           }}
         >
-          <source src={`/videos/hero-bg.mp4#t=${VIDEO_START_TIME}`} type="video/mp4" />
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Gradient overlays for text readability */}
