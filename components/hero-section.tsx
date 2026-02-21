@@ -19,30 +19,43 @@ export function HeroSection() {
     const video = videoRef.current
     if (!video) return
 
-    const startVideo = () => {
-      video.currentTime = 5
-      video.play()
-        .then(() => setVideoLoaded(true))
-        .catch(() => setVideoLoaded(true))
+    const tryPlay = async () => {
+      try {
+        console.log("[v0] Video readyState:", video.readyState, "currentTime:", video.currentTime)
+        video.currentTime = 5
+        await video.play()
+        console.log("[v0] Video playing successfully")
+        setVideoLoaded(true)
+      } catch (err) {
+        console.log("[v0] Video play failed:", err)
+        // Even if play fails, show the video frame
+        setVideoLoaded(true)
+      }
     }
 
-    if (video.readyState >= 1) {
-      startVideo()
+    const onCanPlay = () => {
+      console.log("[v0] Video canplay event fired, readyState:", video.readyState)
+      tryPlay()
+    }
+
+    // Use canplay instead of loadedmetadata - ensures enough data to start playing
+    if (video.readyState >= 3) {
+      tryPlay()
     } else {
-      video.addEventListener("loadedmetadata", startVideo, { once: true })
+      video.addEventListener("canplay", onCanPlay, { once: true })
     }
 
-    // Also handle the timeupdate to loop back to 5s
-    const handleTimeUpdate = () => {
+    // When the video loops back to 0, skip to 5s again
+    const handleSeeking = () => {
       if (video.currentTime < 5) {
         video.currentTime = 5
       }
     }
-    video.addEventListener("timeupdate", handleTimeUpdate)
+    video.addEventListener("seeking", handleSeeking)
 
     return () => {
-      video.removeEventListener("loadedmetadata", startVideo)
-      video.removeEventListener("timeupdate", handleTimeUpdate)
+      video.removeEventListener("canplay", onCanPlay)
+      video.removeEventListener("seeking", handleSeeking)
     }
   }, [])
 
@@ -65,7 +78,7 @@ export function HeroSection() {
           autoPlay
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
           style={{ filter: "brightness(0.35)" }}
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/V%C3%ADdeo%20WhatsApp%202025-11-25%20%C3%A0s%2017.59.59_f17c8db3-uBSLVUIGBPgEDv6QCCtCbElRTLz54y.mp4"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/V%C3%ADdeo%20WhatsApp%202025-11-25%20%C3%A0s%2017.59.59_f17c8db3-uBSLVUIGBPgEDv6QCCtCbElRTLz54y.mp4#t=5"
         />
 
         {/* Fallback dark background while video loads */}
