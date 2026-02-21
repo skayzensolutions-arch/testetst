@@ -5,7 +5,7 @@ import { Phone, Star, Shield, Award } from "lucide-react"
 import { useEffect, useState, useRef, useCallback } from "react"
 import { useLanguage } from "@/lib/language-context"
 
-const VIDEO_START_TIME = 5
+const VIDEO_START_TIME = 8
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -41,14 +41,18 @@ export function HeroSection() {
           playsInline
           onTimeUpdate={handleTimeUpdate}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "brightness(0.28)" }}
+          style={{
+            filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
+            imageRendering: "auto",
+            willChange: "transform",
+          }}
         >
           <source src={`/videos/hero-bg.mp4#t=${VIDEO_START_TIME}`} type="video/mp4" />
         </video>
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20" />
+        {/* Gradient overlays for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8 pt-36 md:pt-44 pb-20 md:pb-28">
