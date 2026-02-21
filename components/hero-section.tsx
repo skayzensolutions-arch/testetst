@@ -5,7 +5,7 @@ import { Phone, Star, Shield, Award } from "lucide-react"
 import { useEffect, useState, useRef, useCallback } from "react"
 import { useLanguage } from "@/lib/language-context"
 
-const VIDEO_START_TIME = 8
+const VIDEO_START_TIME = 10
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
