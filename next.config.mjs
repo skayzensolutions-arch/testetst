@@ -8,7 +8,6 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    qualities: [75, 85, 95],
   },
   // Ensure consistent URLs without trailing slashes
   trailingSlash: false,

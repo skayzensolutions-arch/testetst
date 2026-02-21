@@ -27,7 +27,6 @@ export function Footer() {
               height={67}
               className="h-12 w-auto mb-4"
               priority={false}
-              quality={85}
             />
             <p className="text-muted-foreground leading-relaxed">
               Expert ground-level paver solutions for driveways, patios, pool decks, and landscape hardscaping. We install sand-set interlocking concrete pavers for residential properties. Serving Jacksonville & surrounding Florida areas. (We do not offer roof pavers or skylight services.)
