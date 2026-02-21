@@ -1,17 +1,40 @@
 "use client"
 
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Phone, Star, Shield, Award } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useLanguage } from "@/lib/language-context"
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const { t } = useLanguage()
 
   useEffect(() => {
     setIsVisible(true)
+  }, [])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handleLoadedMetadata = () => {
+      video.currentTime = 5
+    }
+
+    const handleSeeked = () => {
+      setVideoLoaded(true)
+      video.play().catch(() => {})
+    }
+
+    video.addEventListener("loadedmetadata", handleLoadedMetadata)
+    video.addEventListener("seeked", handleSeeked, { once: true })
+
+    return () => {
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata)
+      video.removeEventListener("seeked", handleSeeked)
+    }
   }, [])
 
   const handlePhoneClick = () => {
@@ -22,21 +45,26 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-32 md:pt-40 lg:pt-44">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/hero-patio.jpg"
-          alt="Beautiful ground-level patio paver installation Jacksonville Florida - residential hardscaping"
-          fill
-          className="object-cover"
-          style={{
-            filter: "brightness(0.3)",
-          }}
-          priority
-        />
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
+          style={{ filter: "brightness(0.35)" }}
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+
+        {/* Fallback dark background while video loads */}
+        <div className={`absolute inset-0 bg-black transition-opacity duration-1000 ${videoLoaded ? "opacity-0" : "opacity-100"}`} />
+
         {/* Multiple gradient overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40" />
         
         {/* Subtle diagonal lines texture */}
         <div 
