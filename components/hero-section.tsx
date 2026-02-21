@@ -19,21 +19,30 @@ export function HeroSection() {
     const video = videoRef.current
     if (!video) return
 
-    const handleLoadedMetadata = () => {
+    const startVideo = () => {
       video.currentTime = 5
+      video.play()
+        .then(() => setVideoLoaded(true))
+        .catch(() => setVideoLoaded(true))
     }
 
-    const handleSeeked = () => {
-      setVideoLoaded(true)
-      video.play().catch(() => {})
+    if (video.readyState >= 1) {
+      startVideo()
+    } else {
+      video.addEventListener("loadedmetadata", startVideo, { once: true })
     }
 
-    video.addEventListener("loadedmetadata", handleLoadedMetadata)
-    video.addEventListener("seeked", handleSeeked, { once: true })
+    // Also handle the timeupdate to loop back to 5s
+    const handleTimeUpdate = () => {
+      if (video.currentTime < 5) {
+        video.currentTime = 5
+      }
+    }
+    video.addEventListener("timeupdate", handleTimeUpdate)
 
     return () => {
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata)
-      video.removeEventListener("seeked", handleSeeked)
+      video.removeEventListener("loadedmetadata", startVideo)
+      video.removeEventListener("timeupdate", handleTimeUpdate)
     }
   }, [])
 
@@ -53,11 +62,11 @@ export function HeroSection() {
           loop
           playsInline
           preload="auto"
+          autoPlay
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? "opacity-100" : "opacity-0"}`}
           style={{ filter: "brightness(0.35)" }}
-        >
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/V%C3%ADdeo%20WhatsApp%202025-11-25%20%C3%A0s%2017.59.59_f17c8db3-uBSLVUIGBPgEDv6QCCtCbElRTLz54y.mp4"
+        />
 
         {/* Fallback dark background while video loads */}
         <div className={`absolute inset-0 bg-black transition-opacity duration-1000 ${videoLoaded ? "opacity-0" : "opacity-100"}`} />
