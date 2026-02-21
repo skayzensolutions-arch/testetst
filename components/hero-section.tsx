@@ -2,25 +2,15 @@
 
 import { Button } from "@/components/ui/button"
 import { Phone, Star, Shield, Award } from "lucide-react"
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState } from "react"
 import { useLanguage } from "@/lib/language-context"
-
-const VIDEO_START_TIME = 5
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const { t } = useLanguage()
 
   useEffect(() => {
     setIsVisible(true)
-  }, [])
-
-  const handleTimeUpdate = useCallback(() => {
-    const video = videoRef.current
-    if (video && video.currentTime < VIDEO_START_TIME) {
-      video.currentTime = VIDEO_START_TIME
-    }
   }, [])
 
   const handlePhoneClick = () => {
@@ -34,21 +24,22 @@ export function HeroSection() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 bg-black">
         <video
-          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          onTimeUpdate={handleTimeUpdate}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "brightness(0.28)" }}
+          style={{
+            filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
+            willChange: "transform",
+          }}
         >
-          <source src={`/videos/hero-bg.mp4#t=${VIDEO_START_TIME}`} type="video/mp4" />
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20" />
+        {/* Gradient overlays for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8 pt-36 md:pt-44 pb-20 md:pb-28">
