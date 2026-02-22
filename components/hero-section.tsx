@@ -21,29 +21,16 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background YouTube Video */}
-      <div className="absolute inset-0 z-0 bg-black overflow-hidden">
-        <div
-          className="absolute inset-0"
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/images/hero-patio.jpg"
+          alt="Beautiful paver patio installation"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            /* Scale the iframe up to eliminate black bars and cover the entire section */
-            transform: "scale(1.5)",
-            transformOrigin: "center center",
-            pointerEvents: "none",
+            filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
           }}
-        >
-          <iframe
-            src="https://www.youtube.com/embed/KC9MSMAqyZU?autoplay=1&mute=1&loop=1&playlist=KC9MSMAqyZU&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&vq=hd1080&disablekb=1&fs=0&iv_load_policy=3"
-            title="Hero background video"
-            allow="autoplay; encrypted-media"
-            allowFullScreen={false}
-            className="absolute inset-0 w-full h-full border-0"
-            style={{
-              filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
-            }}
-          />
-        </div>
-
+        />
         {/* Gradient overlays for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
