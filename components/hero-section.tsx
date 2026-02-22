@@ -31,6 +31,14 @@ export function HeroSection() {
             filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
           }}
         />
+        {/* Diagonal stripe pattern overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(244,196,48,0.3) 10px, rgba(244,196,48,0.3) 11px)",
+          }}
+        />
         {/* Gradient overlays for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
