@@ -21,38 +21,37 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background photo with diagonal stripes overlay */}
+      {/* Background photo with blur + yellow lines overlay */}
       <div className="absolute inset-0 z-0 bg-black overflow-hidden">
-        {/* Hero background photo */}
+        {/* Hero background photo - blurred */}
         <img
           src="/images/hero-bg.jpg"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "brightness(0.45) contrast(1.1) saturate(1.1)" }}
+          className="absolute inset-0 w-full h-full object-cover scale-110"
+          style={{ filter: "brightness(0.35) contrast(1.1) saturate(1.1) blur(6px)" }}
         />
 
-        {/* Diagonal stripe pattern overlay */}
+        {/* Bold yellow diagonal lines */}
         <div
-          className="absolute inset-0 opacity-[0.12]"
+          className="absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(244,196,48,0.3) 10px, rgba(244,196,48,0.3) 11px)",
+              "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(244,196,48,0.6) 40px, rgba(244,196,48,0.6) 42px)",
           }}
         />
 
-        {/* Subtle dot overlay */}
+        {/* Secondary thinner yellow lines offset */}
         <div
           className="absolute inset-0 opacity-[0.08]"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(244,196,48,0.4) 1px, transparent 0)",
-            backgroundSize: "32px 32px",
+              "repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(244,196,48,0.4) 60px, rgba(244,196,48,0.4) 61px)",
           }}
         />
 
-        {/* Gradient overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+        {/* Gradient overlays for depth and readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8 pt-36 md:pt-44 pb-20 md:pb-28">
