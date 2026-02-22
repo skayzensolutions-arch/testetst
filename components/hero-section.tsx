@@ -21,32 +21,30 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background YouTube Video */}
+      {/* Background with diagonal stripes pattern */}
       <div className="absolute inset-0 z-0 bg-black overflow-hidden">
+        {/* Diagonal stripe pattern */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-[0.07]"
           style={{
-            /* Scale the iframe up to eliminate black bars and cover the entire section */
-            transform: "scale(1.5)",
-            transformOrigin: "center center",
-            pointerEvents: "none",
+            backgroundImage:
+              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(244,196,48,0.3) 10px, rgba(244,196,48,0.3) 11px)",
           }}
-        >
-          <iframe
-            src="https://www.youtube.com/embed/KC9MSMAqyZU?autoplay=1&mute=1&loop=1&playlist=KC9MSMAqyZU&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&vq=hd1080&disablekb=1&fs=0&iv_load_policy=3"
-            title="Hero background video"
-            allow="autoplay; encrypted-media"
-            allowFullScreen={false}
-            className="absolute inset-0 w-full h-full border-0"
-            style={{
-              filter: "brightness(0.45) contrast(1.1) saturate(1.15)",
-            }}
-          />
-        </div>
+        />
 
-        {/* Gradient overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+        {/* Subtle dot overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 2px 2px, rgba(244,196,48,0.4) 1px, transparent 0)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+
+        {/* Gradient overlays for depth */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-8 pt-36 md:pt-44 pb-20 md:pb-28">
