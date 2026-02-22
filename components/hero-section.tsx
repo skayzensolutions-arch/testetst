@@ -22,7 +22,7 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <img
           src="/images/hero-patio.jpg"
           alt="Beautiful paver patio installation"
@@ -83,26 +83,20 @@ export function HeroSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <Button
-                size="lg"
-                asChild
-                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 text-base px-8 py-6 font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
+              <a
+                href="tel:9044373853"
+                onClick={handlePhoneClick}
+                className="inline-flex items-center justify-center w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 text-base px-8 py-4 font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] rounded-md"
               >
-                <a href="tel:9044373853" onClick={handlePhoneClick}>
-                  <Phone className="mr-2 h-5 w-5" />
-                  (904) 437-3853
-                </a>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                asChild
-                className="w-full sm:w-auto bg-white/5 text-white border border-white/20 hover:bg-white/10 hover:border-white/40 text-base px-8 py-6 font-medium backdrop-blur-sm transition-all hover:scale-[1.02]"
+                <Phone className="mr-2 h-5 w-5" />
+                (904) 437-3853
+              </a>
+              <a
+                href="#services"
+                className="inline-flex items-center justify-center w-full sm:w-auto bg-white/5 text-white border border-white/20 hover:bg-white/10 hover:border-white/40 text-base px-8 py-4 font-medium backdrop-blur-sm transition-all hover:scale-[1.02] rounded-md"
               >
-                <a href="#services">
-                  View Our Services
-                </a>
-              </Button>
+                View Our Services
+              </a>
             </div>
 
             {/* Trust Badges */}
