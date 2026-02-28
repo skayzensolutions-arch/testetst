@@ -549,7 +549,7 @@ export default function AdminPage() {
         <div className="w-full max-w-md">
           <div className="flex justify-center mb-8">
             <div className="relative w-64 h-20">
-              <Image src="/logo.png" alt="Skylight Paver Solutions" fill className="object-contain" />
+              <Image src="/logo.png" alt="Skylight Paver Solutions" fill className="object-contain" priority />
             </div>
           </div>
 
