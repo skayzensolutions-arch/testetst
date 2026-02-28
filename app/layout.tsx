@@ -309,12 +309,13 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body className={`font-sans antialiased`}>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17688076133" strategy="afterInteractive" />
-        <Script id="google-ads-init" strategy="afterInteractive">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-JGX72Z7PQE" strategy="afterInteractive" />
+        <Script id="google-analytics-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+            gtag('config', 'G-JGX72Z7PQE');
             gtag('config', 'AW-17688076133');
           `}
         </Script>
