@@ -310,31 +310,36 @@ export default function RootLayout({
       </head>
       <body className={`font-sans antialiased`}>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-JGX72Z7PQE" strategy="afterInteractive" />
-        <Script id="google-analytics-init" strategy="afterInteractive">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17688076133" strategy="afterInteractive" />
+        <Script id="google-tag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-JGX72Z7PQE');
-            gtag('config', 'AW-17688076133');
+            window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+            window.gtag('js', new Date());
+            window.gtag('config', 'G-JGX72Z7PQE');
+            window.gtag('config', 'AW-17688076133');
           `}
         </Script>
         <Script id="google-ads-conversion" strategy="afterInteractive">
           {`
-            function gtag_report_conversion(url) {
+            window.gtag_report_conversion = function(url) {
               var callback = function () {
-                if (typeof(url) != 'undefined') {
-                  window.location = url;
+                if (typeof url !== 'undefined') {
+                  window.location.href = url;
                 }
               };
-              gtag('event', 'conversion', {
+              if (typeof window.gtag !== 'function') {
+                callback();
+                return false;
+              }
+              window.gtag('event', 'conversion', {
                 'send_to': 'AW-17688076133/sU6ACMqGycwbEOW-qvJB',
                 'value': 1.0,
-                'currency': 'EUR',
+                'currency': 'USD',
                 'event_callback': callback
               });
               return false;
-            }
+            };
           `}
         </Script>
 
