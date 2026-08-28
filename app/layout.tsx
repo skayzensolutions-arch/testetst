@@ -300,15 +300,6 @@ export default function RootLayout({
         <meta name="ICBM" content="30.3322, -81.6557" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/png" href="/favicon-144x144.png" sizes="144x144" />
-        <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
-        <link rel="apple-touch-icon" href="/favicon-192x192.png" sizes="192x192" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-      </head>
-      <body className={`font-sans antialiased`}>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-JGX72Z7PQE" strategy="afterInteractive" />
         <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17688076133" strategy="afterInteractive" />
         <Script id="google-tag-init" strategy="afterInteractive">
@@ -343,6 +334,15 @@ export default function RootLayout({
           `}
         </Script>
 
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="/favicon-144x144.png" sizes="144x144" />
+        <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/favicon-192x192.png" sizes="192x192" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </head>
+      <body className={`font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>
